@@ -144,6 +144,16 @@ function App() {
         event => !(event.category === category && event.action.includes(item))
       );
       patientToUpdate.lastUpdate = new Date();
+      
+      // Special handling for allergies removal
+      if (section === 'history' && item.includes('Allergies')) {
+        const allergyParts = item.split(':');
+        if (allergyParts.length > 1) {
+          const allergy = allergyParts[1];
+          patientToUpdate.allergies = patientToUpdate.allergies.filter(a => a !== allergy);
+        }
+      }
+      
       setPatients(updatedPatients);
       
     } else {
@@ -187,6 +197,19 @@ function App() {
       const patientToUpdate = updatedPatients[activePatient];
       patientToUpdate.timeline.push(createTimelineEvent(category, section, item));
       patientToUpdate.lastUpdate = new Date();
+      
+      // Special handling for allergies - update patient allergies
+      if (section === 'history' && item.includes('Allergies')) {
+        // Extract allergy from the item (e.g., "Allergies:PCN" -> "PCN")
+        const allergyParts = item.split(':');
+        if (allergyParts.length > 1) {
+          const allergy = allergyParts[1];
+          if (!patientToUpdate.allergies.includes(allergy)) {
+            patientToUpdate.allergies = [...patientToUpdate.allergies, allergy];
+          }
+        }
+      }
+      
       setPatients(updatedPatients);
       
       // Process related items

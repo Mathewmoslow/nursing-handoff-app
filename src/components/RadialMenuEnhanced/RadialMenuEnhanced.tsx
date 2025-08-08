@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { LucideIcon, Sparkles, Edit3 } from 'lucide-react';
+import { LucideIcon, Sparkles, Edit3, StickyNote } from 'lucide-react';
 import { relationshipMap } from '../../constants/relationships';
 import './RadialMenuEnhanced.css';
 
@@ -17,7 +17,7 @@ interface RadialMenuEnhancedProps {
   onSelect: (item: string, withNote?: boolean) => void;
   position: { x: number; y: number };
   color: string;
-  onRequestNote?: (item: string) => void;
+  onRequestNote?: (category: string, section: string, item: string) => void;
 }
 
 export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
@@ -229,10 +229,32 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
                   setSelectedPrimaryItems(prev => [...prev, option]);
                 }
                 // Always call onSelect to toggle the global state
-                onSelect(option);
+                onSelect(`${centerItem.label}:${option}`);
               }}
             >
               {option}
+              {isSelected && onRequestNote && (
+                <button
+                  className="radial-note-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // Find the full key for this selection
+                    const fullKey = Object.keys(selectedItems).find(k => k.endsWith(optionKey));
+                    if (fullKey && onRequestNote) {
+                      const parts = fullKey.split('-');
+                      if (parts.length >= 3) {
+                        const cat = parts[0];
+                        const sec = parts[1];
+                        const itemName = parts.slice(2).join('-');
+                        onRequestNote(cat, sec, itemName);
+                      }
+                    }
+                  }}
+                  title="Add note"
+                >
+                  <StickyNote size={12} />
+                </button>
+              )}
             </button>
           );
         })}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Sparkles, Edit3 } from 'lucide-react';
+import { X, Sparkles, Edit3, StickyNote } from 'lucide-react';
 import { CategoryItem } from '../../types';
 import './SBARButton.css';
 
@@ -81,10 +81,21 @@ export const SBARButton: React.FC<SBARButtonProps> = ({
         {isRelated && (
           <Sparkles size={12} className="sparkle-icon" />
         )}
-        {hasNote && isSelected && (
-          <Edit3 size={12} className="note-icon" />
-        )}
       </button>
+      {isSelected && (
+        <button
+          className="sbar-note-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            if (onRightClick) {
+              onRightClick(e);
+            }
+          }}
+          title={hasNote ? "Edit note" : "Add note"}
+        >
+          <StickyNote size={14} />
+        </button>
+      )}
       {isRelated && onDismiss && (
         <button
           className="dismiss-button"

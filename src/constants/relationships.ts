@@ -2,20 +2,20 @@
 
 export const relationshipMap: Record<string, Record<string, number>> = {
   // Assessment items -> Related suggestions with confidence scores
-  'x4': { 'Independent': 0.8, 'Up Ad Lib': 0.7 },
-  'x3': { 'Fall Risk': 0.7, 'Assist x1': 0.6, 'Reorientation': 0.7, 'Behavior': 0.6 },
-  'x2': { 'Fall Risk': 0.8, 'Assist x1': 0.8, 'Sitter': 0.6, 'Reorientation': 0.8, 'Behavior': 0.7 },
-  'x1': { 'Fall Risk': 0.9, 'Assist x2': 0.8, 'Sitter': 0.7, 'Bed Alarm': 0.8, 'Behavior': 0.8 },
-  'Confused': { 'Fall Risk': 0.9, 'Sitter': 0.8, 'Bed Alarm': 0.8, 'Reorientation': 0.7, 'Safety': 0.9, 'Behavior': 0.9 },
-  'Sedated': { 'RASS Score': 0.9, 'Reversal Agents': 0.7, 'Respiratory Monitoring': 0.8, 'Q1H Neuro': 0.8, 'Pain Scale': 0.7 },
-  'Comatose': { 'GCS': 0.9, 'Pupils': 0.9, 'ICU': 0.8, 'Family Meeting': 0.7 },
+  'x4': { 'Independent': 0.8, 'Up Ad Lib': 0.7, 'DC Planning': 0.6, 'PT Eval': 0.5 },
+  'x3': { 'Fall Risk': 0.7, 'Assist x1': 0.6, 'Reorientation': 0.7, 'Behavior': 0.6, 'Bed Alarm': 0.6, 'Call Light': 0.7 },
+  'x2': { 'Fall Risk': 0.8, 'Assist x1': 0.8, 'Sitter': 0.6, 'Reorientation': 0.8, 'Behavior': 0.7, 'Bed Alarm': 0.8, 'Safety': 0.7 },
+  'x1': { 'Fall Risk': 0.9, 'Assist x2': 0.8, 'Sitter': 0.7, 'Bed Alarm': 0.8, 'Behavior': 0.8, 'Restraints': 0.5, 'Family': 0.6 },
+  'Confused': { 'Fall Risk': 0.9, 'Sitter': 0.8, 'Bed Alarm': 0.8, 'Reorientation': 0.7, 'Safety': 0.9, 'Behavior': 0.9, 'UTI': 0.6, 'Drug Screen': 0.5 },
+  'Sedated': { 'RASS Score': 0.9, 'Reversal Agents': 0.7, 'Respiratory Monitoring': 0.8, 'Q1H Neuro': 0.8, 'Pain Scale': 0.7, 'Narcan': 0.6, 'ABG': 0.5 },
+  'Comatose': { 'GCS': 0.9, 'Pupils': 0.9, 'ICU': 0.8, 'Family Meeting': 0.7, 'Neuro Consult': 0.8, 'EEG': 0.6, 'Goals of Care': 0.7 },
   
   // Pupils
-  'PERRL': { 'Neuro WNL': 0.7 },
-  'Sluggish': { 'Neuro Checks': 0.8, 'CT Head': 0.6, 'Call MD': 0.7 },
-  'Fixed': { 'Call MD': 0.9, 'CT Head': 0.9, 'Neuro Consult': 0.9, 'ICU': 0.8 },
-  'Dilated': { 'Narcan': 0.7, 'Drug Screen': 0.7, 'Call MD': 0.8 },
-  'Pinpoint': { 'Narcan': 0.9, 'Call MD': 0.8, 'Respiratory Rate': 0.9 },
+  'PERRL': { 'Neuro WNL': 0.7, 'Continue Current Plan': 0.6 },
+  'Sluggish': { 'Neuro Checks': 0.8, 'CT Head': 0.6, 'Call MD': 0.7, 'Glucose Check': 0.6, 'Med Review': 0.5 },
+  'Fixed': { 'Call MD': 0.9, 'CT Head': 0.9, 'Neuro Consult': 0.9, 'ICU': 0.8, 'Code Status': 0.7, 'Family': 0.8 },
+  'Dilated': { 'Narcan': 0.7, 'Drug Screen': 0.7, 'Call MD': 0.8, 'Atropine': 0.5, 'Cocaine': 0.6 },
+  'Pinpoint': { 'Narcan': 0.9, 'Call MD': 0.8, 'Respiratory Rate': 0.9, 'Opioid OD': 0.8, 'ABG': 0.7 },
   
   // Cardiac rhythms
   'SR': { 'Stable': 0.8 },

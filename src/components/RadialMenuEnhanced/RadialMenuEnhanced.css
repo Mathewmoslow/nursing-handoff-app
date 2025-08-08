@@ -155,6 +155,33 @@
   border: 2px solid white;
 }
 
+/* Note button within radial items */
+.radial-note-btn {
+  padding: 2px 4px;
+  background: rgba(251, 191, 36, 0.2);
+  border: 1px solid #fbbf24;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+}
+
+.radial-note-btn:hover {
+  background: #fbbf24;
+  transform: scale(1.1);
+}
+
+.radial-note-btn svg {
+  color: #92400e;
+}
+
+.radial-note-btn:hover svg {
+  color: white;
+}
+
 .radial-item.suggestion {
   background: #fffbeb;
   color: #92400e;
