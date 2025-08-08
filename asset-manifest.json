@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/nursing-handoff-app/static/css/main.a4ab67dd.css",
+    "main.js": "/nursing-handoff-app/static/js/main.8b2f4f1e.js",
+    "index.html": "/nursing-handoff-app/index.html",
+    "main.a4ab67dd.css.map": "/nursing-handoff-app/static/css/main.a4ab67dd.css.map",
+    "main.8b2f4f1e.js.map": "/nursing-handoff-app/static/js/main.8b2f4f1e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a4ab67dd.css",
+    "static/js/main.8b2f4f1e.js"
+  ]
+}
