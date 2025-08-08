@@ -173,6 +173,51 @@
   border-color: #1f2937;
 }
 
+/* Note button for SBAR buttons */
+.sbar-note-btn {
+  position: absolute;
+  top: 50%;
+  right: -30px;
+  transform: translateY(-50%);
+  padding: 4px;
+  background: rgba(251, 191, 36, 0.2);
+  border: 1px solid #fbbf24;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  z-index: 3;
+}
+
+.sbar-button-wrapper:hover .sbar-note-btn,
+.sbar-button.selected ~ .sbar-note-btn {
+  opacity: 1;
+}
+
+.sbar-note-btn:hover {
+  background: #fbbf24;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.sbar-note-btn svg {
+  color: #92400e;
+}
+
+.sbar-note-btn:hover svg {
+  color: white;
+}
+
+.sbar-button.has-note ~ .sbar-note-btn {
+  background: #fbbf24;
+}
+
+.sbar-button.has-note ~ .sbar-note-btn svg {
+  color: white;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .sbar-button {
