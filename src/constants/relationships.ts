@@ -121,7 +121,62 @@ export const relationshipMap: Record<string, Record<string, number>> = {
   'Morphine': { 'Respiratory Monitoring': 0.8, 'Constipation': 0.7 },
   'Dilaudid': { 'Respiratory Monitoring': 0.9, 'Narcan Available': 0.7 },
   'PCA': { 'Pain Assessment Q4H': 0.9, 'Teaching': 0.8 },
-  'Fentanyl': { 'Respiratory Monitoring': 0.9, 'Sedation Scale': 0.8 }
+  'Fentanyl': { 'Respiratory Monitoring': 0.9, 'Sedation Scale': 0.8 },
+  
+  // Admission Route relationships
+  'ED': { 'Triage Level': 0.8, 'EMS': 0.6, 'Acute': 0.9, 'Workup Pending': 0.7, 'Critical': 0.6 },
+  'Direct Admit': { 'Known Patient': 0.8, 'PCP Referral': 0.9, 'Stable': 0.7, 'Scheduled': 0.8 },
+  'Transfer Floor': { 'Step Down': 0.7, 'Stable': 0.8, 'Discharge Planning': 0.6, 'PT/OT': 0.7 },
+  'Transfer Hospital': { 'Higher Level Care': 0.9, 'Specialty Service': 0.8, 'Critical': 0.7, 'Insurance': 0.6 },
+  'OR/PACU': { 'Post-Op': 0.9, 'Pain Control': 0.9, 'Surgical': 0.9, 'NPO': 0.8, 'Anesthesia': 0.8 },
+  'Clinic': { 'Outpatient': 0.7, 'Follow-up': 0.8, 'Non-urgent': 0.8, 'Scheduled': 0.9 },
+  'Self/Walk-in': { 'Stable': 0.7, 'Alert': 0.8, 'Independent': 0.8, 'Low Acuity': 0.7 },
+  'EMS': { 'Acute': 0.9, 'Critical': 0.7, 'Trauma': 0.6, 'Unable to Transport': 0.8, 'ED': 0.9 },
+  'Police': { 'Psych': 0.8, 'Legal Hold': 0.9, 'Safety': 0.9, 'Security': 0.8, 'Restraints': 0.6 },
+  'With Spouse': { 'Support System': 0.9, 'History Available': 0.8, 'Discharge Planning': 0.7 },
+  'With Family': { 'Support System': 0.9, 'History Available': 0.8, 'Family Meeting': 0.6 },
+  'With Friend': { 'Support System': 0.7, 'Contact Info': 0.8 },
+  'Alone': { 'Social Work': 0.7, 'Safety Assessment': 0.8, 'Discharge Planning': 0.8 },
+  'From SNF': { 'Baseline Status': 0.9, 'Return to Facility': 0.8, 'Med Rec': 0.9, 'DNR': 0.6 },
+  'From Rehab': { 'PT/OT': 0.9, 'Baseline Function': 0.8, 'Discharge Planning': 0.7 },
+  'From Home': { 'Home Safety': 0.7, 'Home Health': 0.6, 'Family Support': 0.7 },
+  'From Group Home': { 'Cognitive Status': 0.8, 'Guardian': 0.7, 'Behavioral': 0.6, 'Medication Compliance': 0.8 },
+  
+  // Bidirectional relationships - Symptoms <-> Interventions
+  'Chest Pain': { 'EKG': 0.9, 'Troponin': 0.9, 'Aspirin': 0.8, 'Nitroglycerin': 0.7, 'Morphine': 0.6, 'Cards Consult': 0.8 },
+  'SOB': { 'O2': 0.9, 'CXR': 0.8, 'ABG': 0.7, 'Nebulizer': 0.7, 'Diuretics': 0.6, 'BiPAP': 0.6 },
+  'Fever': { 'Blood Cultures': 0.9, 'UA': 0.8, 'CXR': 0.7, 'Antibiotics': 0.8, 'Tylenol': 0.9, 'Cooling': 0.7 },
+  'Hypotension': { 'Fluids': 0.9, 'Trendelenburg': 0.7, 'Pressors': 0.8, 'Call MD': 0.9, 'ICU': 0.6 },
+  'Altered MS': { 'Glucose Check': 0.9, 'CT Head': 0.8, 'UA': 0.7, 'Drug Screen': 0.6, 'Narcan': 0.5, 'Neuro Consult': 0.7 },
+  'Abdominal Pain': { 'NPO': 0.8, 'CT Abdomen': 0.8, 'CBC': 0.9, 'Lipase': 0.7, 'Surgery Consult': 0.6 },
+  
+  // Bidirectional - Conditions <-> Treatments
+  'Sepsis': { 'Blood Cultures': 1.0, 'Antibiotics': 1.0, 'Fluids': 0.9, 'Lactate': 0.9, 'Pressors': 0.7, 'ICU': 0.8 },
+  'CHF': { 'Diuretics': 0.9, 'Daily Weights': 0.9, 'I&O': 0.9, 'Low Sodium': 0.8, 'Fluid Restriction': 0.8, 'Echo': 0.7 },
+  'COPD': { 'Bronchodilators': 0.9, 'Steroids': 0.8, 'O2': 0.9, 'BiPAP': 0.7, 'RT': 0.9, 'ABG': 0.8 },
+  'Pneumonia': { 'Antibiotics': 0.9, 'CXR': 0.9, 'O2': 0.8, 'Nebulizer': 0.7, 'IS': 0.8, 'Ambulation': 0.7 },
+  'UTI': { 'UA': 1.0, 'Urine Culture': 0.9, 'Antibiotics': 0.9, 'Fluids': 0.7, 'Foley': 0.5 },
+  'GI Bleed': { 'NPO': 0.9, 'Type & Cross': 0.9, 'H&H Q6': 0.9, 'PPI': 0.9, 'GI Consult': 0.9, 'Transfusion': 0.7 },
+  'Stroke': { 'CT Head': 1.0, 'Neuro Checks': 1.0, 'tPA': 0.7, 'Aspirin': 0.8, 'Dysphagia Screen': 0.9, 'PT/OT': 0.9 },
+  'AKI': { 'Fluids': 0.8, 'Foley': 0.8, 'Daily BMP': 0.9, 'Renal Diet': 0.8, 'Avoid NSAIDs': 0.9, 'Nephro Consult': 0.7 },
+  'DKA': { 'Insulin Drip': 1.0, 'Fluids': 0.9, 'K Replacement': 0.9, 'Q1H Glucose': 1.0, 'Anion Gap': 0.9, 'ICU': 0.8 },
+  'PE': { 'Heparin': 0.9, 'CTA Chest': 0.9, 'O2': 0.9, 'Bedrest': 0.8, 'IVC Filter': 0.5, 'Echo': 0.6 },
+  
+  // IV Location relationships
+  'RAC': { 'Right Arm': 0.9, 'PIV': 0.9, 'Saline Lock': 0.7 },
+  'LAC': { 'Left Arm': 0.9, 'PIV': 0.9, 'Saline Lock': 0.7 },
+  'R Forearm': { 'Right Arm': 0.9, 'PIV': 0.9, 'Good Access': 0.8 },
+  'L Forearm': { 'Left Arm': 0.9, 'PIV': 0.9, 'Good Access': 0.8 },
+  'R Hand': { 'Right Arm': 0.9, 'PIV': 0.8, 'Difficult Access': 0.6 },
+  'L Hand': { 'Left Arm': 0.9, 'PIV': 0.8, 'Difficult Access': 0.6 },
+  'RFJ': { 'Central Line': 0.9, 'Femoral': 0.9, 'Emergency Access': 0.8 },
+  'LFJ': { 'Central Line': 0.9, 'Femoral': 0.9, 'Emergency Access': 0.8 },
+  'RIJ': { 'Central Line': 0.9, 'Internal Jugular': 0.9, 'CVP Monitoring': 0.7 },
+  'LIJ': { 'Central Line': 0.9, 'Internal Jugular': 0.9, 'CVP Monitoring': 0.7 },
+  'R Subclavian': { 'Central Line': 0.9, 'Subclavian': 0.9, 'Long-term Access': 0.8 },
+  'L Subclavian': { 'Central Line': 0.9, 'Subclavian': 0.9, 'Long-term Access': 0.8 },
+  'PICC R': { 'PICC Line': 0.9, 'Right Arm': 0.9, 'Home Infusion': 0.8, 'Long-term Antibiotics': 0.7 },
+  'PICC L': { 'PICC Line': 0.9, 'Left Arm': 0.9, 'Home Infusion': 0.8, 'Long-term Antibiotics': 0.7 }
 };
 
 // Secondary relationships (items that trigger when main item is selected)
