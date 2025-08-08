@@ -1,0 +1,390 @@
+.labs-modal-content {
+  background: white;
+  border-radius: var(--radius-2xl);
+  max-width: 800px;
+  width: 100%;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-xl);
+}
+
+.dark .labs-modal-content {
+  background: var(--color-gray-800);
+  color: var(--color-gray-100);
+}
+
+.lab-section {
+  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-lg);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-xl);
+}
+
+.dark .lab-section {
+  background: var(--color-gray-900);
+}
+
+.lab-section h3 {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+  color: var(--color-gray-800);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.dark .lab-section h3 {
+  color: var(--color-gray-100);
+}
+
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.input-group label {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--color-gray-700);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.dark .input-group label {
+  color: var(--color-gray-300);
+}
+
+.normal-range {
+  font-size: var(--font-xs);
+  font-weight: 400;
+  color: var(--color-gray-500);
+  margin-left: var(--spacing-xs);
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: var(--spacing-sm);
+  padding-right: 40px;
+  border: 1.5px solid var(--color-gray-300);
+  border-radius: var(--radius-md);
+  font-size: var(--font-md);
+  font-weight: 500;
+  transition: all var(--transition-base);
+}
+
+.dark .input-wrapper input {
+  background: var(--color-gray-700);
+  border-color: var(--color-gray-600);
+  color: var(--color-gray-100);
+}
+
+.input-wrapper input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.input-wrapper input.has-value {
+  background: #eff6ff;
+  border-color: var(--color-primary);
+}
+
+.dark .input-wrapper input.has-value {
+  background: var(--color-gray-600);
+}
+
+.input-wrapper input.abnormal {
+  background: #fee2e2 !important;
+  border-color: var(--color-danger) !important;
+  color: #991b1b;
+  font-weight: 600;
+}
+
+.dark .input-wrapper input.abnormal {
+  background: rgba(239, 68, 68, 0.2) !important;
+  color: #fca5a5;
+}
+
+.unit {
+  position: absolute;
+  right: var(--spacing-sm);
+  font-size: var(--font-xs);
+  color: var(--color-gray-500);
+  pointer-events: none;
+}
+
+.abnormal-indicator {
+  position: absolute;
+  right: 24px;
+  color: var(--color-danger);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Specific grid layouts for different sections */
+.lab-section[data-section="cbc"] .input-grid {
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+}
+
+.lab-section[data-section="chemistry"] .input-grid {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .labs-modal-content {
+    max-height: 100vh;
+    border-radius: 0;
+  }
+  
+  .input-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .input-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* New styles for number keypad layout */
+.labs-modal-content {
+  max-width: 1000px;
+}
+
+.modal-body {
+  display: flex;
+  gap: var(--spacing-lg);
+  height: 100%;
+}
+
+.labs-grid-container {
+  flex: 1;
+  display: flex;
+  gap: var(--spacing-md);
+  overflow-x: auto;
+}
+
+.lab-section-column {
+  min-width: 150px;
+}
+
+.lab-section-column h4 {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-gray-700);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dark .lab-section-column h4 {
+  color: var(--color-gray-300);
+}
+
+.lab-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.lab-item {
+  padding: var(--spacing-sm);
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.dark .lab-item {
+  background: var(--color-gray-700);
+  border-color: var(--color-gray-600);
+}
+
+.lab-item:hover {
+  background: var(--color-gray-100);
+  border-color: var(--color-gray-300);
+}
+
+.dark .lab-item:hover {
+  background: var(--color-gray-600);
+}
+
+.lab-item.active {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.lab-item.abnormal {
+  background: #fee2e2;
+  border-color: var(--color-danger);
+}
+
+.dark .lab-item.abnormal {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.lab-label {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.lab-value-container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lab-value {
+  font-size: var(--font-md);
+  font-weight: 700;
+}
+
+.lab-unit {
+  font-size: var(--font-xs);
+  opacity: 0.7;
+}
+
+.lab-normal {
+  font-size: var(--font-xs);
+  opacity: 0.6;
+  display: block;
+  margin-top: 2px;
+}
+
+.abnormal-icon {
+  color: var(--color-danger);
+  margin-left: auto;
+}
+
+/* Number keypad styles */
+.number-keypad {
+  width: 280px;
+  background: var(--color-gray-50);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+}
+
+.dark .number-keypad {
+  background: var(--color-gray-900);
+}
+
+.keypad-display {
+  background: white;
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  text-align: right;
+}
+
+.dark .keypad-display {
+  background: var(--color-gray-800);
+  border-color: var(--color-gray-700);
+}
+
+.keypad-label {
+  display: block;
+  font-size: var(--font-xs);
+  color: var(--color-gray-500);
+  margin-bottom: 4px;
+}
+
+.keypad-value {
+  display: block;
+  font-size: var(--font-2xl);
+  font-weight: 700;
+  color: var(--color-gray-900);
+}
+
+.dark .keypad-value {
+  color: var(--color-gray-100);
+}
+
+.keypad-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-sm);
+}
+
+.keypad-buttons button {
+  height: 48px;
+  border: 1px solid var(--color-gray-300);
+  background: white;
+  border-radius: var(--radius-md);
+  font-size: var(--font-lg);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.dark .keypad-buttons button {
+  background: var(--color-gray-800);
+  border-color: var(--color-gray-700);
+  color: var(--color-gray-100);
+}
+
+.keypad-buttons button:hover {
+  background: var(--color-gray-100);
+  transform: translateY(-1px);
+}
+
+.dark .keypad-buttons button:hover {
+  background: var(--color-gray-700);
+}
+
+.keypad-buttons button:active {
+  transform: translateY(0);
+}
+
+.keypad-zero {
+  grid-column: span 2;
+}
+
+.keypad-enter {
+  grid-column: span 2;
+  background: var(--color-primary) !important;
+  color: white !important;
+  border-color: var(--color-primary) !important;
+}
+
+.keypad-enter:hover {
+  background: #2563eb !important;
+}
+
+.keypad-backspace, .keypad-clear {
+  background: var(--color-gray-200) !important;
+}
+
+.dark .keypad-backspace, .dark .keypad-clear {
+  background: var(--color-gray-700) !important;
+}

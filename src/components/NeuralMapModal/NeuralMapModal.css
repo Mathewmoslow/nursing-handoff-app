@@ -1,0 +1,84 @@
+/* src/components/NeuralMapModal/NeuralMapModal.css */
+
+.neural-map-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: var(--spacing-xl);
+}
+
+.neural-map-modal {
+  background: white;
+  border-radius: var(--radius-xl);
+  width: 90%;
+  max-width: 1200px;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  animation: modalSlideIn var(--transition-base);
+}
+
+.dark .neural-map-modal {
+  background: var(--color-gray-800);
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.neural-map-modal .modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.dark .neural-map-modal .modal-header {
+  border-color: var(--color-gray-700);
+}
+
+.neural-map-modal .modal-header h2 {
+  margin: 0;
+  font-size: var(--font-xl);
+  font-weight: 600;
+}
+
+.neural-map-modal .close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.neural-map-modal .close-btn:hover {
+  background: var(--color-gray-100);
+}
+
+.dark .neural-map-modal .close-btn:hover {
+  background: var(--color-gray-700);
+}
+
+.neural-map-modal .modal-content {
+  flex: 1;
+  overflow: hidden;
+  padding: var(--spacing-lg);
+}

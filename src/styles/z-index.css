@@ -1,0 +1,62 @@
+/* Centralized z-index management */
+:root {
+  /* Base layers */
+  --z-base: 1;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-fixed: 30;
+  
+  /* Overlay layers */
+  --z-overlay-backdrop: 100;
+  --z-overlay-content: 101;
+  
+  /* Modal layers */
+  --z-modal-backdrop: 200;
+  --z-modal-content: 201;
+  
+  /* Radial menu layers */
+  --z-radial-backdrop: 300;
+  --z-radial-overlay: 301;
+  --z-radial-center: 302;
+  --z-radial-items: 303;
+  
+  /* Toast/notification layers */
+  --z-toast: 400;
+  
+  /* Critical/error layers */
+  --z-error: 500;
+}
+
+/* Apply to existing components */
+.dropdown,
+.compact-dropdown {
+  z-index: var(--z-dropdown);
+}
+
+.modal-overlay {
+  z-index: var(--z-modal-backdrop);
+}
+
+.modal-content {
+  z-index: var(--z-modal-content);
+}
+
+.radial-menu-backdrop {
+  z-index: var(--z-radial-backdrop);
+}
+
+.radial-menu-enhanced-overlay {
+  z-index: var(--z-radial-overlay);
+}
+
+.radial-center-enhanced {
+  z-index: var(--z-radial-center);
+}
+
+.radial-item {
+  z-index: var(--z-radial-items);
+}
+
+.error-boundary {
+  z-index: var(--z-error);
+}

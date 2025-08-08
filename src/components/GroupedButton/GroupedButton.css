@@ -1,0 +1,168 @@
+/* src/components/GroupedButton/GroupedButton.css */
+
+.grouped-button-wrapper {
+  position: relative;
+  width: 100%;
+  /* Ensure wrapper has higher z-index when dropdown is open */
+  z-index: auto;
+}
+
+.grouped-button-wrapper:has(.subitems-dropdown) {
+  z-index: 1000;
+}
+
+.grouped-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: white;
+  border: 1.5px solid var(--color-gray-300);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-sm);
+  font-weight: 500;
+  color: var(--color-gray-700);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  width: 100%;
+  text-align: left;
+  position: relative;
+}
+
+.dark .grouped-button {
+  background: var(--color-gray-800);
+  border-color: var(--color-gray-600);
+  color: var(--color-gray-300);
+}
+
+.grouped-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.grouped-button.selected {
+  color: white;
+  font-weight: 600;
+}
+
+.grouped-button.related {
+  border-style: dashed;
+}
+
+.grouped-button.dimmed {
+  opacity: 0.4;
+}
+
+.expand-icon {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.selected-count {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  margin-left: 6px;
+}
+
+.subitems-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: white;
+  border: 2px solid;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  z-index: 9999; /* Increased z-index */
+  padding: var(--spacing-xs);
+  max-height: 200px;
+  overflow-y: auto;
+  /* Ensure dropdown is visible */
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+.dark .subitems-dropdown {
+  background: var(--color-gray-800);
+}
+
+.subitem-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  width: 100%;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: transparent;
+  border: 1px solid;
+  border-radius: var(--radius-md);
+  font-size: var(--font-sm);
+  color: var(--color-gray-700);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-bottom: var(--spacing-xs);
+  text-align: left;
+}
+
+.dark .subitem-button {
+  color: var(--color-gray-300);
+}
+
+.subitem-button:last-child {
+  margin-bottom: 0;
+}
+
+.subitem-button:hover {
+  background: var(--color-gray-100);
+  transform: translateX(2px);
+}
+
+.dark .subitem-button:hover {
+  background: var(--color-gray-700);
+}
+
+.subitem-button.selected {
+  font-weight: 600;
+}
+
+.item-text {
+  flex: 1;
+}
+
+.priority-indicator {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.priority-indicator.critical {
+  background: var(--color-danger);
+  color: white;
+}
+
+.priority-indicator.high {
+  background: var(--color-warning);
+  color: white;
+}
+
+.priority-indicator.medium {
+  background: var(--color-info);
+  color: white;
+}
+
+.priority-indicator.low {
+  background: var(--color-gray-300);
+  color: var(--color-gray-700);
+}
+
+/* Debug styles - remove these after testing */
+.subitems-dropdown {
+  border: 2px solid red !important; /* Temporary - to see if dropdown appears */
+}

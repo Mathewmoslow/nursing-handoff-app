@@ -1,0 +1,132 @@
+.ai-insights-panel {
+  background: white;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  margin-bottom: var(--spacing-lg);
+  border: 2px solid var(--color-info);
+}
+
+.dark .ai-insights-panel {
+  background: var(--color-gray-800);
+  border-color: var(--color-info);
+}
+
+.ai-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: linear-gradient(135deg, var(--color-info) 0%, #0891b2 100%);
+  color: white;
+}
+
+.ai-header h3 {
+  flex: 1;
+  margin: 0;
+  font-size: var(--font-md);
+}
+
+.confidence-badge {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-xs);
+}
+
+.ai-loading {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xl);
+  justify-content: center;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-gray-300);
+  border-top-color: var(--color-info);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.ai-error {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--color-danger);
+  color: white;
+}
+
+.ai-content {
+  padding: var(--spacing-md);
+}
+
+.insight-section {
+  margin-bottom: var(--spacing-lg);
+}
+
+.insight-section:last-child {
+  margin-bottom: 0;
+}
+
+.insight-section h4 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--font-sm);
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-gray-700);
+}
+
+.dark .insight-section h4 {
+  color: var(--color-gray-300);
+}
+
+.insight-section.risk h4 {
+  color: var(--color-danger);
+}
+
+.insight-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.insight-section li {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-xs);
+  font-size: var(--font-sm);
+  display: flex;
+  align-items: start;
+}
+
+.dark .insight-section li {
+  background: var(--color-gray-700);
+}
+
+.insight-section li:before {
+  content: '•';
+  margin-right: var(--spacing-xs);
+  color: var(--color-info);
+}
+
+.insight-section.risk li:before {
+  color: var(--color-danger);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ai-insights-panel {
+    margin: var(--spacing-sm);
+  }
+}

@@ -1,0 +1,88 @@
+/* src/components/NotesSection/NotesSection.css */
+
+.notes-section {
+  background: white;
+  border: 2px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  transition: all var(--transition-base);
+}
+
+.dark .notes-section {
+  background: var(--color-gray-800);
+  border-color: var(--color-gray-700);
+}
+
+.notes-section.expanded {
+  flex: 2;
+}
+
+.notes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-gray-50);
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.dark .notes-header {
+  background: var(--color-gray-700);
+  border-color: var(--color-gray-600);
+}
+
+.notes-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.notes-title h3 {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  margin: 0;
+}
+
+.expand-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.expand-btn:hover {
+  background: var(--color-gray-200);
+}
+
+.dark .expand-btn:hover {
+  background: var(--color-gray-600);
+}
+
+.notes-textarea {
+  flex: 1;
+  padding: var(--spacing-md);
+  border: none;
+  resize: none;
+  font-family: inherit;
+  font-size: var(--font-sm);
+  line-height: 1.5;
+  background: transparent;
+}
+
+.notes-textarea:focus {
+  outline: none;
+}
+
+.dark .notes-textarea {
+  color: var(--color-gray-100);
+}
+
+.notes-textarea::placeholder {
+  color: var(--color-gray-400);
+}

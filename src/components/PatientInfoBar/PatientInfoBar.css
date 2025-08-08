@@ -1,0 +1,246 @@
+/* src/components/PatientInfoBar/PatientInfoBar.css */
+
+.patient-info-bar {
+  background: white;
+  border: 2px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+  min-height: 50px;
+  flex-shrink: 0;
+}
+
+/* Mobile adjustments */
+@media (max-width: 567px) {
+  .patient-info-bar {
+    padding: 8px;
+    gap: 8px;
+    min-height: 40px;
+    font-size: 12px;
+  }
+  
+  .info-section {
+    gap: 8px;
+  }
+  
+  .allergies-section {
+    padding-left: 8px;
+  }
+}
+
+@media (max-width: 375px) {
+  .patient-info-bar {
+    padding: 6px;
+    gap: 6px;
+    min-height: 36px;
+    font-size: 11px;
+  }
+}
+
+.dark .patient-info-bar {
+  background: var(--color-gray-800);
+  border-color: var(--color-gray-700);
+}
+
+.info-section {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  flex: 1;
+}
+
+.patient-details {
+  flex: 2;
+}
+
+.allergies-section {
+  flex: 1.5;
+  border-left: 1px solid var(--color-gray-200);
+  padding-left: var(--spacing-lg);
+}
+
+.dark .allergies-section {
+  border-color: var(--color-gray-700);
+}
+
+.info-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.info-label {
+  font-size: var(--font-sm);
+  color: var(--color-gray-500);
+  font-weight: 500;
+}
+
+.info-value {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--color-gray-900);
+}
+
+.dark .info-value {
+  color: var(--color-gray-100);
+}
+
+.code-status .code-value {
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--color-success);
+  color: white;
+  font-size: var(--font-sm);
+}
+
+.code-status .code-value.dnr {
+  background: var(--color-danger);
+}
+
+.allergies .allergy-icon {
+  color: var(--color-warning);
+}
+
+.allergy-value {
+  font-weight: 600;
+}
+
+.allergy-value.nkda {
+  color: var(--color-success);
+}
+
+.allergy-value.has-allergies {
+  color: var(--color-danger);
+}
+
+.edit-input,
+.edit-select {
+  font-weight: 600;
+  padding: var(--spacing-xs) var(--spacing-sm);
+}
+
+.edit-input.small {
+  width: 60px;
+}
+
+.allergy-btn {
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+.allergy-btn.nkda {
+  background: var(--color-success);
+  color: white;
+}
+
+.allergy-btn.add {
+  background: var(--color-gray-100);
+  border: 1px dashed var(--color-gray-400);
+}
+
+.dark .allergy-btn.add {
+  background: var(--color-gray-700);
+  border-color: var(--color-gray-500);
+}
+
+.info-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+.action-btn.edit {
+  background: var(--color-gray-100);
+}
+
+.action-btn.save {
+  background: var(--color-success);
+  color: white;
+}
+
+.action-btn.cancel {
+  background: var(--color-gray-200);
+}
+
+.dark .action-btn.edit {
+  background: var(--color-gray-700);
+}
+
+.allergies-modal {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  min-width: 400px;
+  box-shadow: var(--shadow-lg);
+}
+
+.dark .allergies-modal {
+  background: var(--color-gray-800);
+}
+
+.allergies-modal h3 {
+  margin: 0 0 var(--spacing-lg) 0;
+}
+
+.allergy-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+}
+
+.allergy-option {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.allergy-option:hover {
+  background: var(--color-gray-100);
+}
+
+.allergy-option.selected {
+  background: var(--color-warning);
+  color: white;
+  border-color: var(--color-warning);
+}
+
+.other-allergy-input {
+  grid-column: span 3;
+  margin-top: var(--spacing-sm);
+}
+
+.modal-close {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--color-primary);
+  color: white;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+}
+
+.allergies-input-wrapper {
+  flex: 1;
+  min-width: 0;
+}

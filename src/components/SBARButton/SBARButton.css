@@ -1,0 +1,158 @@
+.sbar-button-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.sbar-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: white;
+  border: 1.5px solid var(--color-gray-300);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-sm);
+  font-weight: 500;
+  color: var(--color-gray-700);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  width: 100%;
+  text-align: left;
+}
+
+.dark .sbar-button {
+  background: var(--color-gray-800);
+  border-color: var(--color-gray-600);
+  color: var(--color-gray-300);
+}
+
+.sbar-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.sbar-button.selected {
+  color: white;
+  font-weight: 600;
+}
+
+.sbar-button.selected svg {
+  color: white;
+}
+
+.sbar-button.related {
+  border-style: dashed;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0);
+  }
+}
+
+.sbar-button.dimmed {
+  opacity: 0.4;
+}
+
+.sbar-button.dimmed:hover {
+  opacity: 0.7;
+}
+
+.sbar-button.critical {
+  border-color: var(--color-danger);
+}
+
+.sbar-button.critical.related {
+  animation: criticalPulse 1s ease-in-out infinite;
+}
+
+@keyframes criticalPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+  }
+}
+
+.sbar-button.high {
+  border-width: 2px;
+}
+
+.sbar-button svg {
+  flex-shrink: 0;
+}
+
+.sbar-button span {
+  flex: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.sparkle-icon {
+  color: var(--color-warning);
+  flex-shrink: 0;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+    opacity: 1;
+  }
+}
+
+.dismiss-button {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  background: var(--color-danger);
+  border: 1.5px solid white;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  z-index: 2;
+}
+
+.dark .dismiss-button {
+  border-color: var(--color-gray-800);
+}
+
+.sbar-button-wrapper:hover .dismiss-button {
+  opacity: 1;
+}
+
+.dismiss-button:hover {
+  background: #dc2626;
+  transform: scale(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sbar-button {
+    padding: 6px 10px;
+    font-size: var(--font-xs);
+  }
+  
+  .sbar-button svg {
+    width: 14px;
+    height: 14px;
+  }
+}

@@ -1,0 +1,204 @@
+.circular-keypad-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-modal-backdrop);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+}
+
+/* Simple keypad styles */
+.simple-keypad {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  width: 280px;
+  padding: 16px;
+  animation: slideIn 0.2s ease-out;
+}
+
+.dark .simple-keypad {
+  background: var(--color-gray-800);
+}
+
+/* Header */
+.keypad-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.keypad-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-gray-900);
+}
+
+.dark .keypad-header h3 {
+  color: var(--color-gray-100);
+}
+
+.close-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #f3f4f6;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  color: #6b7280;
+  transition: all 0.2s;
+}
+
+.dark .close-btn {
+  background: var(--color-gray-700);
+  color: var(--color-gray-400);
+}
+
+.close-btn:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+/* Display */
+.keypad-display {
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.dark .keypad-display {
+  background: var(--color-gray-900);
+  border-color: var(--color-gray-700);
+}
+
+.keypad-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dark .keypad-value {
+  color: var(--color-gray-100);
+}
+
+.keypad-range {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+/* Number grid */
+.keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.keypad-btn {
+  height: 48px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dark .keypad-btn {
+  background: var(--color-gray-700);
+  border-color: var(--color-gray-600);
+  color: var(--color-gray-100);
+}
+
+.keypad-btn:hover {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+  transform: scale(1.05);
+}
+
+.keypad-btn:active {
+  transform: scale(0.95);
+}
+
+.keypad-btn.delete {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.dark .keypad-btn.delete {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+}
+
+.keypad-btn.delete:hover {
+  background: #dc2626;
+  color: white;
+}
+
+/* Action buttons */
+.keypad-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.action-btn {
+  height: 44px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.action-btn.clear {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+
+.action-btn.clear:hover {
+  background: #4338ca;
+  color: white;
+}
+
+.action-btn.submit {
+  background: #10b981;
+  color: white;
+}
+
+.action-btn.submit:hover {
+  background: #059669;
+}
+
+
+/* Animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,111 @@
+.error-boundary {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 10000;
+}
+
+.error-content {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  max-width: 500px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.dark .error-content {
+  background: var(--color-gray-800);
+  color: white;
+}
+
+.error-icon {
+  color: #ef4444;
+  margin-bottom: 20px;
+}
+
+.error-content h2 {
+  margin: 0 0 12px 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.error-content p {
+  margin: 0 0 24px 0;
+  color: #6b7280;
+}
+
+.dark .error-content p {
+  color: #9ca3af;
+}
+
+.error-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.error-button {
+  padding: 8px 24px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #3b82f6;
+  color: white;
+}
+
+.error-button:hover {
+  background: #2563eb;
+}
+
+.error-button.secondary {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.dark .error-button.secondary {
+  background: #374151;
+  color: white;
+}
+
+.error-button.secondary:hover {
+  background: #d1d5db;
+}
+
+.dark .error-button.secondary:hover {
+  background: #4b5563;
+}
+
+.error-details {
+  margin-top: 24px;
+  text-align: left;
+  background: #f3f4f6;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.dark .error-details {
+  background: #1f2937;
+}
+
+.error-details summary {
+  cursor: pointer;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.error-details pre {
+  margin: 8px 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: monospace;
+}

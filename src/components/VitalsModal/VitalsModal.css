@@ -1,0 +1,217 @@
+.vitals-modal-content {
+  background: white;
+  border-radius: var(--radius-2xl);
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-xl);
+}
+
+.dark .vitals-modal-content {
+  background: var(--color-gray-800);
+  color: var(--color-gray-100);
+}
+
+.modal-header h2 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.vitals-section {
+  padding: var(--spacing-xl);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--spacing-xl);
+}
+
+.dark .vitals-section {
+  background: var(--color-gray-900);
+}
+
+.vitals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.vital-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.vital-input-group label {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--color-gray-700);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.dark .vital-input-group label {
+  color: var(--color-gray-300);
+}
+
+.normal-range {
+  font-size: var(--font-xs);
+  font-weight: 400;
+  color: var(--color-gray-500);
+  margin-left: var(--spacing-xs);
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: var(--spacing-md);
+  padding-right: 50px;
+  border: 2px solid var(--color-gray-300);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-lg);
+  font-weight: 600;
+  transition: all var(--transition-base);
+  text-align: center;
+}
+
+.dark .input-wrapper input {
+  background: var(--color-gray-700);
+  border-color: var(--color-gray-600);
+  color: var(--color-gray-100);
+}
+
+.input-wrapper input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.input-wrapper input.has-value {
+  background: #eff6ff;
+  border-color: var(--color-primary);
+}
+
+.dark .input-wrapper input.has-value {
+  background: var(--color-gray-600);
+}
+
+.input-wrapper input.abnormal {
+  background: #fee2e2 !important;
+  border-color: var(--color-danger) !important;
+  color: #991b1b;
+  font-weight: 700;
+  animation: abnormalPulse 2s infinite;
+}
+
+@keyframes abnormalPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0);
+  }
+}
+
+.dark .input-wrapper input.abnormal {
+  background: rgba(239, 68, 68, 0.2) !important;
+  color: #fca5a5;
+}
+
+.unit {
+  position: absolute;
+  right: var(--spacing-md);
+  font-size: var(--font-sm);
+  color: var(--color-gray-500);
+  pointer-events: none;
+}
+
+.abnormal-indicator {
+  position: absolute;
+  right: 32px;
+  color: var(--color-danger);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+}
+
+.notes-section {
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--color-gray-200);
+}
+
+.dark .notes-section {
+  border-color: var(--color-gray-700);
+}
+
+.notes-section h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--font-lg);
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-gray-800);
+}
+
+.dark .notes-section h3 {
+  color: var(--color-gray-100);
+}
+
+.notes-input {
+  width: 100%;
+  padding: var(--spacing-md);
+  border: 1.5px solid var(--color-gray-300);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-md);
+  font-family: inherit;
+  resize: vertical;
+  transition: all var(--transition-base);
+}
+
+.dark .notes-input {
+  background: var(--color-gray-700);
+  border-color: var(--color-gray-600);
+  color: var(--color-gray-100);
+}
+
+.notes-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .vitals-modal-content {
+    max-height: 100vh;
+    border-radius: 0;
+  }
+  
+  .vitals-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Make vitals more prominent */
+.vital-input-group[data-vital="BP"] input,
+.vital-input-group[data-vital="HR"] input,
+.vital-input-group[data-vital="O2 Sat"] input {
+  font-size: var(--font-xl);
+}

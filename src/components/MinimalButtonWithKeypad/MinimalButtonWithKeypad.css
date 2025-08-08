@@ -1,0 +1,65 @@
+.minimal-button-keypad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 12px;
+  background: var(--color-gray-50);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 80px;
+  flex: 1;
+  position: relative;
+}
+
+.dark .minimal-button-keypad {
+  background: var(--color-gray-700);
+}
+
+.minimal-button-keypad:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.minimal-button-keypad.has-value {
+  background: white;
+}
+
+.dark .minimal-button-keypad.has-value {
+  background: var(--color-gray-800);
+}
+
+.minimal-button-keypad.abnormal {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.value-display {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-gray-900);
+  margin-top: 2px;
+}
+
+.dark .value-display {
+  color: var(--color-gray-100);
+}
+
+.value-display.abnormal {
+  color: #dc2626;
+}
+
+.dark .value-display.abnormal {
+  color: #fca5a5;
+}

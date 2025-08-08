@@ -1,0 +1,114 @@
+/* src/components/SuggestionsBar/SuggestionsBar.css */
+
+.suggestions-bar {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 50px;
+  animation: slideDown 0.3s ease-out;
+}
+
+.suggestions-bar.empty {
+  display: none;
+}
+
+.dark .suggestions-bar {
+  background: linear-gradient(135deg, #78350f 0%, #92400e 100%);
+  border-color: var(--color-warning);
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.suggestions-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-sm);
+  font-weight: 500;
+  color: var(--color-gray-700);
+}
+
+.dark .suggestions-header {
+  color: var(--color-gray-200);
+}
+
+.suggestions-header svg {
+  color: var(--color-warning);
+}
+
+.suggestions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.suggestion-chip {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: white;
+  border: 1px solid var(--color-warning);
+  border-radius: var(--radius-full);
+  font-size: var(--font-sm);
+  font-weight: 500;
+  color: var(--color-gray-700);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  user-select: none;
+}
+
+.dark .suggestion-chip {
+  background: var(--color-gray-800);
+  color: var(--color-gray-200);
+}
+
+.suggestion-chip:hover {
+  background: var(--color-warning);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.suggestion-text {
+  flex: 1;
+}
+
+.suggestion-score {
+  font-size: var(--font-xs);
+  opacity: 0.7;
+  font-weight: 600;
+}
+
+.dismiss-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  margin-left: var(--spacing-xs);
+  transition: all var(--transition-fast);
+}
+
+.dismiss-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-chip:hover .dismiss-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}

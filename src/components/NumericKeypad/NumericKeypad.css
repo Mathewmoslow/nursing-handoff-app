@@ -1,0 +1,168 @@
+/* src/components/NumericKeypad/NumericKeypad.css */
+
+.numeric-keypad {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-lg);
+  width: 300px;
+  outline: none;
+}
+
+.dark .numeric-keypad {
+  background: var(--color-gray-800);
+}
+
+.keypad-display {
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  text-align: right;
+}
+
+.dark .keypad-display {
+  background: var(--color-gray-900);
+  border-color: var(--color-gray-700);
+}
+
+.keypad-label {
+  display: block;
+  font-size: var(--font-xs);
+  color: var(--color-gray-500);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.keypad-value {
+  display: block;
+  font-size: var(--font-2xl);
+  font-weight: 700;
+  color: var(--color-gray-900);
+  min-height: 36px;
+}
+
+.dark .keypad-value {
+  color: var(--color-gray-100);
+}
+
+.keypad-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-sm);
+}
+
+.keypad-btn {
+  height: 48px;
+  border: 1px solid var(--color-gray-300);
+  background: white;
+  border-radius: var(--radius-md);
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: var(--color-gray-900);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dark .keypad-btn {
+  background: var(--color-gray-700);
+  border-color: var(--color-gray-600);
+  color: var(--color-gray-100);
+}
+
+.keypad-btn:hover {
+  background: var(--color-gray-100);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.dark .keypad-btn:hover {
+  background: var(--color-gray-600);
+}
+
+.keypad-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.keypad-btn.zero {
+  grid-column: span 2;
+}
+
+.keypad-btn.enter {
+  grid-column: span 2;
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+  font-weight: 700;
+}
+
+.keypad-btn.enter:hover {
+  background: #2563eb;
+}
+
+.keypad-btn.backspace,
+.keypad-btn.clear {
+  background: var(--color-gray-200);
+  color: var(--color-gray-700);
+}
+
+.dark .keypad-btn.backspace,
+.dark .keypad-btn.clear {
+  background: var(--color-gray-600);
+  color: var(--color-gray-300);
+}
+
+.keypad-btn.decimal {
+  font-weight: 700;
+}
+
+.keypad-close {
+  width: 100%;
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background: var(--color-gray-200);
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  color: var(--color-gray-700);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.dark .keypad-close {
+  background: var(--color-gray-700);
+  color: var(--color-gray-300);
+}
+
+.keypad-close:hover {
+  background: var(--color-gray-300);
+}
+
+.dark .keypad-close:hover {
+  background: var(--color-gray-600);
+}
+
+/* When used in a modal */
+.modal-content .numeric-keypad {
+  width: 100%;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* Touch-friendly for tablets */
+@media (pointer: coarse) {
+  .keypad-btn {
+    height: 60px;
+    font-size: var(--font-xl);
+  }
+  
+  .numeric-keypad {
+    width: 350px;
+  }
+}

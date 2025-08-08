@@ -1,0 +1,102 @@
+.minimal-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 4px;
+  background: var(--color-gray-50);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 44px;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.dark .minimal-button {
+  background: var(--color-gray-700);
+}
+
+.minimal-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.minimal-button.selected {
+  background: white;
+}
+
+.dark .minimal-button.selected {
+  background: var(--color-gray-800);
+}
+
+.button-label {
+  font-size: 10px;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.1;
+  color: var(--color-gray-700);
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* Mobile adjustments */
+@media (max-width: 567px) {
+  .minimal-button {
+    padding: 2px;
+    gap: 1px;
+    min-height: 30px;
+    border-radius: 6px;
+  }
+  
+  .button-label {
+    font-size: 9px;
+  }
+  
+  .selection-indicator {
+    width: 16px;
+    height: 16px;
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 375px) {
+  .button-label {
+    font-size: 8px;
+  }
+}
+
+.dark .button-label {
+  color: var(--color-gray-300);
+}
+
+.minimal-button.selected .button-label {
+  color: var(--color-gray-900);
+  font-weight: 600;
+}
+
+.dark .minimal-button.selected .button-label {
+  color: var(--color-gray-100);
+}
+
+.selection-indicator {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  background: var(--color-primary);
+  color: white;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

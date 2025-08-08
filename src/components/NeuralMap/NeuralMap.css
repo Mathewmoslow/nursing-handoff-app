@@ -1,0 +1,301 @@
+.neural-map {
+  flex: 1;
+  background: white;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dark .neural-map {
+  background: var(--color-gray-800);
+}
+
+.map-header {
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.dark .map-header {
+  border-color: var(--color-gray-700);
+}
+
+.map-header h2 {
+  font-size: var(--font-xl);
+  font-weight: 700;
+  margin: 0 0 var(--spacing-md) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.map-legend {
+  display: flex;
+  gap: var(--spacing-xl);
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--font-sm);
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.legend-dot.primary {
+  background: var(--color-primary);
+}
+
+.legend-dot.suggested {
+  background: var(--color-warning);
+}
+
+.legend-dot.stat {
+  background: var(--color-danger);
+}
+
+.legend-line {
+  width: 24px;
+  height: 2px;
+  background: var(--color-gray-300);
+}
+
+.empty-map {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  color: var(--color-gray-400);
+}
+
+.empty-map svg {
+  opacity: 0.3;
+}
+
+.empty-map h3 {
+  font-size: var(--font-xl);
+  font-weight: 600;
+  margin: 0;
+}
+
+.empty-map p {
+  font-size: var(--font-md);
+  margin: 0;
+}
+
+.neural-network {
+  flex: 1;
+  position: relative;
+  overflow: auto;
+  padding: var(--spacing-xl);
+}
+
+.connections-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.neural-nodes {
+  position: relative;
+  min-height: 500px;
+  width: 600px;
+  margin: 0 auto;
+}
+
+.node-cluster {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+  position: absolute;
+}
+
+.primary-node {
+  background: var(--node-color);
+  color: white;
+  padding: var(--spacing-md) var(--spacing-xl);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: var(--font-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 2;
+  animation: nodeAppear 0.3s ease-out;
+}
+
+@keyframes nodeAppear {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.node-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.node-category {
+  font-size: var(--font-xs);
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.node-item {
+  font-size: var(--font-md);
+}
+
+.related-nodes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  max-width: 300px;
+  justify-content: center;
+}
+
+.suggested-node {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2px dashed var(--color-warning);
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: var(--radius-full);
+  font-size: var(--font-sm);
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  transition: all var(--transition-base);
+  animation: suggestAppear 0.5s ease-out;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+@keyframes suggestAppear {
+  from {
+    transform: scale(0.8) translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.dark .suggested-node {
+  background: linear-gradient(135deg, #451a03 0%, #78350f 100%);
+}
+
+.suggested-node:hover {
+  border-style: solid;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+
+.suggested-node.stat {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  border-color: var(--color-danger);
+  animation: urgentPulse 1s infinite;
+}
+
+@keyframes urgentPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.sparkle-icon {
+  color: var(--color-warning);
+  margin-left: 4px;
+  animation: sparkle 1s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+  }
+}
+
+.dismiss-node {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 18px;
+  height: 18px;
+  background: var(--color-danger);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.suggested-node:hover .dismiss-node {
+  opacity: 1;
+}
+
+.dismiss-node:hover {
+  background: #dc2626;
+  transform: scale(1.1);
+}
+
+/* Connection lines styling would go here when implementing D3.js */
+.connection-line {
+  stroke: var(--color-gray-300);
+  stroke-width: 2;
+  fill: none;
+  opacity: 0.6;
+}
+
+.connection-line.active {
+  stroke: var(--color-warning);
+  stroke-width: 3;
+  opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .neural-nodes {
+    gap: var(--spacing-xl);
+  }
+  
+  .node-cluster {
+    gap: var(--spacing-md);
+  }
+  
+  .related-nodes {
+    max-width: 250px;
+  }
+}

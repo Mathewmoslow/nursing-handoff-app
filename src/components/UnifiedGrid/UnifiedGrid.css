@@ -1,0 +1,266 @@
+/* src/components/UnifiedGrid/UnifiedGrid.css */
+
+.unified-grid {
+  display: grid;
+  gap: 8px;
+  padding: 8px;
+  height: calc(100vh - 120px);
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.grid-item {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* Desktop - 1440px and up */
+@media (min-width: 1440px) {
+  .unified-grid {
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: minmax(180px, 1fr);
+    gap: 12px;
+    padding: 12px;
+  }
+  
+  .grid-item-admission,
+  .grid-item-neuro,
+  .grid-item-cardiac,
+  .grid-item-resp,
+  .grid-item-gi,
+  .grid-item-gu,
+  .grid-item-skin {
+    grid-column: span 1;
+    aspect-ratio: 1;
+  }
+  
+  .grid-item-vitals {
+    grid-column: span 3;
+    min-height: 200px;
+  }
+  
+  .grid-item-labs {
+    grid-column: span 3;
+    min-height: 200px;
+  }
+  
+  .grid-item-notes {
+    grid-column: span 2;
+    min-height: 180px;
+  }
+}
+
+/* Laptop - 1024px to 1439px */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .unified-grid {
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(160px, 1fr);
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  .grid-item-admission,
+  .grid-item-neuro,
+  .grid-item-cardiac,
+  .grid-item-resp,
+  .grid-item-gi,
+  .grid-item-gu,
+  .grid-item-skin {
+    grid-column: span 1;
+    aspect-ratio: 1;
+  }
+  
+  .grid-item-vitals,
+  .grid-item-labs {
+    grid-column: span 2;
+    min-height: 180px;
+  }
+  
+  .grid-item-notes {
+    grid-column: span 4;
+    min-height: 150px;
+  }
+}
+
+/* Tablet Portrait - 768px to 1023px (iPad) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .unified-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(140px, 1fr);
+    gap: 8px;
+    padding: 8px;
+    height: calc(100vh - 100px);
+  }
+  
+  .grid-item-admission,
+  .grid-item-neuro,
+  .grid-item-cardiac,
+  .grid-item-resp,
+  .grid-item-gi,
+  .grid-item-gu,
+  .grid-item-skin {
+    grid-column: span 1;
+    aspect-ratio: 1;
+    max-height: 180px;
+  }
+  
+  .grid-item-vitals {
+    grid-column: span 3;
+    min-height: 160px;
+    max-height: 200px;
+  }
+  
+  .grid-item-labs {
+    grid-column: span 3;
+    min-height: 160px;
+    max-height: 200px;
+  }
+  
+  .grid-item-notes {
+    grid-column: span 3;
+    min-height: 120px;
+    max-height: 150px;
+  }
+}
+
+/* Mobile Landscape - 568px to 767px */
+@media (min-width: 568px) and (max-width: 767px) and (orientation: landscape) {
+  .unified-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(100px, 1fr);
+    gap: 6px;
+    padding: 6px;
+    height: calc(100vh - 80px);
+  }
+  
+  .grid-item-admission,
+  .grid-item-neuro,
+  .grid-item-cardiac,
+  .grid-item-resp,
+  .grid-item-gi,
+  .grid-item-gu,
+  .grid-item-skin {
+    grid-column: span 1;
+    aspect-ratio: 1;
+    max-height: 120px;
+  }
+  
+  .grid-item-vitals,
+  .grid-item-labs {
+    grid-column: span 3;
+    min-height: 100px;
+    max-height: 120px;
+  }
+  
+  .grid-item-notes {
+    grid-column: span 3;
+    min-height: 80px;
+    max-height: 100px;
+  }
+}
+
+/* Mobile Portrait - iPhone (below 568px) */
+@media (max-width: 567px) {
+  .unified-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: auto;
+    gap: 6px;
+    padding: 6px;
+    height: calc(100vh - 100px);
+    overflow-y: scroll;
+  }
+  
+  .grid-item-admission,
+  .grid-item-neuro,
+  .grid-item-cardiac,
+  .grid-item-resp,
+  .grid-item-gi,
+  .grid-item-gu,
+  .grid-item-skin {
+    grid-column: span 1;
+    height: 120px;
+    min-height: 120px;
+    max-height: 120px;
+  }
+  
+  .grid-item-vitals,
+  .grid-item-labs,
+  .grid-item-notes {
+    grid-column: span 2;
+    height: 140px;
+    min-height: 140px;
+    max-height: 140px;
+  }
+}
+
+/* iPhone SE and smaller */
+@media (max-width: 375px) {
+  .unified-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: auto;
+    gap: 4px;
+    padding: 4px;
+  }
+  
+  .grid-item-admission,
+  .grid-item-neuro,
+  .grid-item-cardiac,
+  .grid-item-resp,
+  .grid-item-gi,
+  .grid-item-gu,
+  .grid-item-skin {
+    height: 100px;
+    min-height: 100px;
+    max-height: 100px;
+  }
+  
+  .grid-item-vitals,
+  .grid-item-labs,
+  .grid-item-notes {
+    height: 120px;
+    min-height: 120px;
+    max-height: 120px;
+  }
+}
+
+/* Ensure content fits properly */
+.unified-grid .assessment-box {
+  width: 100%;
+  height: 100%;
+}
+
+/* Fix for iOS Safari */
+@supports (-webkit-touch-callout: none) {
+  .unified-grid {
+    height: calc(100vh - 120px);
+    height: calc(100vh - 120px - env(safe-area-inset-bottom));
+  }
+}
+
+/* Prevent overlap on all devices */
+.grid-item {
+  position: relative;
+  z-index: 1;
+}
+
+/* Scrollbar styling */
+.unified-grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.unified-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.unified-grid::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+/* Dark mode scrollbar */
+.dark .unified-grid::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}

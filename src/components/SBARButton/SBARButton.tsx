@@ -1,0 +1,85 @@
+import React from 'react';
+import { X, Sparkles } from 'lucide-react';
+import { CategoryItem } from '../../types';
+import './SBARButton.css';
+
+interface SBARButtonProps {
+  itemKey: string;
+  itemData: CategoryItem;
+  isSelected: boolean;
+  isRelated: boolean;
+  isDimmed: boolean;
+  categoryColor: string;
+  onClick: () => void;
+  onDismiss?: (e: React.MouseEvent) => void;
+  priority?: string;
+  tooltip?: string;
+}
+
+export const SBARButton: React.FC<SBARButtonProps> = ({
+  itemKey,
+  itemData,
+  isSelected,
+  isRelated,
+  isDimmed,
+  categoryColor,
+  onClick,
+  onDismiss,
+  priority,
+  tooltip
+}) => {
+  const Icon = itemData.icon;
+  
+  const getClassName = () => {
+    const classes = ['sbar-button'];
+    if (isSelected) classes.push('selected');
+    if (isRelated) classes.push('related');
+    if (isDimmed) classes.push('dimmed');
+    if (priority === 'critical') classes.push('critical');
+    if (priority === 'high') classes.push('high');
+    return classes.join(' ');
+  };
+  
+  const getStyles = () => {
+    if (isSelected) {
+      return {
+        backgroundColor: categoryColor,
+        borderColor: categoryColor,
+        color: 'white'
+      };
+    }
+    if (isRelated) {
+      return {
+        borderColor: categoryColor,
+        backgroundColor: `${categoryColor}10`
+      };
+    }
+    return {};
+  };
+  
+  return (
+    <div className="sbar-button-wrapper">
+      <button
+        className={getClassName()}
+        style={getStyles()}
+        onClick={onClick}
+        title={tooltip}
+      >
+        {Icon && <Icon size={16} />}
+        <span>{itemKey}</span>
+        {isRelated && (
+          <Sparkles size={12} className="sparkle-icon" />
+        )}
+      </button>
+      {isRelated && onDismiss && (
+        <button
+          className="dismiss-button"
+          onClick={onDismiss}
+          aria-label="Dismiss suggestion"
+        >
+          <X size={12} />
+        </button>
+      )}
+    </div>
+  );
+};

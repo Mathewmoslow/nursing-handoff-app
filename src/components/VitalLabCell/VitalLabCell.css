@@ -1,0 +1,49 @@
+/* src/components/VitalLabCell/VitalLabCell.css */
+
+.vital-lab-cell {
+  width: 100%;
+  height: 100%;
+  padding: 4px;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--color-gray-600);
+}
+
+.vital-lab-cell:hover {
+  background: var(--color-primary-50);
+  color: var(--color-primary);
+}
+
+.vital-lab-cell:focus {
+  outline: none;
+  background: var(--color-primary-50);
+}
+
+.vital-lab-cell.has-value {
+  color: var(--color-gray-900);
+  font-weight: 600;
+}
+
+.dark .vital-lab-cell {
+  color: var(--color-gray-400);
+}
+
+.dark .vital-lab-cell.has-value {
+  color: var(--color-gray-100);
+}
+
+.dark .vital-lab-cell:hover {
+  background: var(--color-gray-700);
+}
+
+/* Mobile adjustments */
+@media (max-width: 567px) {
+  .vital-lab-cell {
+    font-size: 9px;
+    padding: 2px;
+  }
+}

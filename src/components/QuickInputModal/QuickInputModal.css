@@ -1,0 +1,125 @@
+/* src/components/QuickInputModal/QuickInputModal.css */
+
+.quick-input-modal {
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 90%;
+  max-width: 400px;
+  animation: slideIn var(--transition-fast);
+}
+
+.dark .quick-input-modal {
+  background: var(--color-gray-800);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.dark .modal-header {
+  border-color: var(--color-gray-700);
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: var(--font-lg);
+  font-weight: 600;
+}
+
+.close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.close-btn:hover {
+  background: var(--color-gray-100);
+}
+
+.dark .close-btn:hover {
+  background: var(--color-gray-700);
+}
+
+.modal-form {
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.modal-input {
+  font-size: var(--font-lg);
+  padding: var(--spacing-md);
+  border: 2px solid var(--color-gray-300);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.modal-input:focus {
+  border-color: var(--color-primary);
+}
+
+.modal-actions {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.cancel-btn,
+.submit-btn {
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+.cancel-btn {
+  background: var(--color-gray-200);
+}
+
+.cancel-btn:hover {
+  background: var(--color-gray-300);
+}
+
+.dark .cancel-btn {
+  background: var(--color-gray-700);
+}
+
+.dark .cancel-btn:hover {
+  background: var(--color-gray-600);
+}
+
+.submit-btn {
+  background: var(--color-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+}
+
+.submit-btn:hover {
+  background: var(--color-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}

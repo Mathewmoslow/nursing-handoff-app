@@ -1,0 +1,246 @@
+/* src/components/VitalsLabsGrid/VitalsLabsGrid.css */
+
+.vitals-labs-grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 400px) minmax(300px, 400px);
+  gap: 12px;
+  height: 250px;
+  width: fit-content;
+}
+
+.grid-section {
+  flex: 1;
+  background: white;
+  border: 2px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.dark .grid-section {
+  background: var(--color-gray-800);
+  border-color: var(--color-gray-700);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-gray-50);
+  border-bottom: 1px solid var(--color-gray-200);
+  position: relative;
+}
+
+.swap-btn {
+  margin-left: auto;
+  padding: 4px;
+  background: none;
+  border: none;
+  color: var(--color-gray-600);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.swap-btn:hover {
+  background: var(--color-gray-200);
+  color: var(--color-gray-900);
+}
+
+.dark .section-header {
+  background: var(--color-gray-700);
+  border-color: var(--color-gray-600);
+}
+
+.section-header h3 {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  margin: 0;
+}
+
+.grid-table {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.grid-header {
+  display: flex;
+  background: var(--color-gray-100);
+  border-bottom: 1px solid var(--color-gray-200);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.dark .grid-header {
+  background: var(--color-gray-700);
+  border-color: var(--color-gray-600);
+}
+
+.time-column {
+  width: 50px;
+  padding: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+  border-right: 1px solid var(--color-gray-200);
+}
+
+.dark .time-column {
+  border-color: var(--color-gray-600);
+}
+
+.vital-column,
+.lab-column {
+  flex: 1;
+  padding: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+  border-right: 1px solid var(--color-gray-100);
+  min-width: 35px;
+}
+
+.dark .vital-column,
+.dark .lab-column {
+  border-color: var(--color-gray-700);
+}
+
+.grid-body {
+  flex: 1;
+}
+
+.grid-row {
+  display: flex;
+  border-bottom: 1px solid var(--color-gray-100);
+}
+
+.dark .grid-row {
+  border-color: var(--color-gray-700);
+}
+
+.grid-row:hover {
+  background: var(--color-gray-50);
+}
+
+.dark .grid-row:hover {
+  background: var(--color-gray-700);
+}
+
+.time-cell {
+  width: 60px;
+  padding: var(--spacing-xs);
+  font-size: var(--font-xs);
+  font-weight: 500;
+  text-align: center;
+  border-right: 1px solid var(--color-gray-200);
+  background: var(--color-gray-50);
+}
+
+.dark .time-cell {
+  border-color: var(--color-gray-600);
+  background: var(--color-gray-700);
+}
+
+.vital-cell,
+.lab-cell {
+  flex: 1;
+  padding: var(--spacing-xs);
+  font-size: var(--font-xs);
+  text-align: center;
+  border-right: 1px solid var(--color-gray-100);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dark .vital-cell,
+.dark .lab-cell {
+  border-color: var(--color-gray-700);
+}
+
+.vital-cell:hover,
+.lab-cell:hover {
+  background: var(--color-primary);
+  color: white;
+}
+
+.vital-cell.abnormal,
+.lab-cell.abnormal {
+  background: var(--color-danger);
+  color: white;
+  font-weight: 600;
+}
+
+.vital-cell svg,
+.lab-cell svg {
+  opacity: 0.3;
+}
+
+/* Vitals/Labs buttons styling */
+.vitals-labs-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  height: 100%;
+  padding: 20px;
+}
+
+.vitals-labs-btn {
+  width: 100%;
+  height: 100%;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  background: white;
+  border: 2px solid var(--color-gray-300);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-lg);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.dark .vitals-labs-btn {
+  background: var(--color-gray-800);
+  border-color: var(--color-gray-600);
+}
+
+.vitals-labs-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.vitals-labs-btn svg {
+  width: 32px;
+  height: 32px;
+}
+
+.vitals-labs-btn.vitals {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.vitals-labs-btn.labs {
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+@media (max-width: 768px) {
+  .vitals-labs-grid {
+    flex-direction: column;
+  }
+  
+  .grid-section {
+    min-height: 200px;
+  }
+}

@@ -1,0 +1,194 @@
+/* src/components/PrintView/PrintView.css */
+
+.print-view {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  z-index: 3000;
+  padding: 20px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: black;
+}
+
+.print-header {
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid black;
+  padding-bottom: 10px;
+}
+
+.print-header h1 {
+  font-size: 18px;
+  margin: 0 0 5px 0;
+}
+
+.print-date {
+  font-size: 11px;
+  color: #666;
+}
+
+.print-patient-info {
+  margin-bottom: 20px;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.info-row {
+  display: flex;
+  margin-bottom: 5px;
+  gap: 10px;
+}
+
+.info-row:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.value {
+  margin-right: 20px;
+}
+
+.value.code-status {
+  padding: 2px 6px;
+  background: #f0f0f0;
+  border: 1px solid #999;
+  font-weight: bold;
+}
+
+.value.allergies {
+  color: #d00;
+  font-weight: bold;
+}
+
+.print-sections {
+  margin-bottom: 20px;
+}
+
+.print-category {
+  margin-bottom: 15px;
+  page-break-inside: avoid;
+}
+
+.print-category h3 {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  padding: 3px 5px;
+  background: #f0f0f0;
+  border: 1px solid #999;
+}
+
+.print-section {
+  margin-left: 10px;
+  margin-bottom: 5px;
+}
+
+.print-section h4 {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 2px;
+  display: inline;
+}
+
+.print-section p {
+  display: inline;
+  margin-left: 5px;
+}
+
+.print-vitals,
+.print-labs {
+  margin-bottom: 20px;
+  page-break-inside: avoid;
+}
+
+.print-vitals h3,
+.print-labs h3 {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  padding: 3px 5px;
+  background: #f0f0f0;
+  border: 1px solid #999;
+}
+
+.vitals-grid,
+.labs-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #999;
+}
+
+.vital-item,
+.lab-item {
+  display: flex;
+  align-items: center;
+}
+
+.vital-label,
+.lab-label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.print-notes {
+  margin-bottom: 20px;
+  page-break-inside: avoid;
+}
+
+.print-notes h3 {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  padding: 3px 5px;
+  background: #f0f0f0;
+  border: 1px solid #999;
+}
+
+.print-notes p {
+  padding: 10px;
+  border: 1px solid #999;
+  white-space: pre-wrap;
+}
+
+.print-footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #999;
+}
+
+.signature-line {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.signature-line span {
+  font-size: 11px;
+}
+
+/* Print-specific styles */
+@media print {
+  .print-view {
+    position: static;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .print-header {
+    margin-top: 0;
+  }
+  
+  /* Hide everything else when printing */
+  body > *:not(.print-view) {
+    display: none !important;
+  }
+}

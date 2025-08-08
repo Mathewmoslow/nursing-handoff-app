@@ -1,0 +1,170 @@
+/* src/components/VitalsSection/VitalsSection.css */
+
+.vitals-section {
+  background: white;
+  border: 2px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.dark .vitals-section {
+  background: var(--color-gray-800);
+  border-color: var(--color-gray-700);
+}
+
+.vitals-section .section-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-gray-50);
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.dark .vitals-section .section-header {
+  background: var(--color-gray-700);
+  border-color: var(--color-gray-600);
+}
+
+.vitals-section h3 {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.vitals-grid-horizontal {
+  flex: 1;
+  overflow: auto;
+  padding: 0;
+}
+
+.vitals-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-xs);
+}
+
+.vitals-table thead {
+  position: sticky;
+  top: 0;
+  background: var(--color-gray-50);
+  z-index: 1;
+}
+
+.dark .vitals-table thead {
+  background: var(--color-gray-700);
+}
+
+.vitals-table th {
+  padding: 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 11px;
+  border-bottom: 2px solid var(--color-gray-200);
+  border-right: 1px solid var(--color-gray-200);
+}
+
+.dark .vitals-table th {
+  border-color: var(--color-gray-600);
+}
+
+.time-header {
+  text-align: left !important;
+  min-width: 60px;
+  background: var(--color-gray-100);
+}
+
+.dark .time-header {
+  background: var(--color-gray-800);
+}
+
+.vital-header {
+  min-width: 50px;
+}
+
+.vitals-table tbody tr {
+  border-bottom: 1px solid var(--color-gray-100);
+}
+
+.dark .vitals-table tbody tr {
+  border-color: var(--color-gray-700);
+}
+
+.vitals-table tbody tr:hover {
+  background: var(--color-gray-50);
+}
+
+.dark .vitals-table tbody tr:hover {
+  background: var(--color-gray-700);
+}
+
+.time-cell {
+  padding: 6px 8px;
+  font-weight: 500;
+  font-size: 10px;
+  background: var(--color-gray-50);
+  border-right: 2px solid var(--color-gray-200);
+}
+
+.dark .time-cell {
+  background: var(--color-gray-700);
+  border-color: var(--color-gray-600);
+}
+
+.vital-cell {
+  padding: 2px;
+  border-right: 1px solid var(--color-gray-100);
+}
+
+.dark .vital-cell {
+  border-color: var(--color-gray-700);
+}
+
+.vital-input {
+  width: 100%;
+  padding: 4px;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 11px;
+}
+
+.vital-input:focus {
+  outline: none;
+  background: var(--color-primary-50);
+}
+
+.dark .vital-input {
+  color: var(--color-gray-100);
+}
+
+.dark .vital-input:focus {
+  background: var(--color-gray-600);
+}
+
+/* Mobile adjustments */
+@media (max-width: 567px) {
+  .vitals-table th,
+  .vital-input {
+    font-size: 9px;
+  }
+  
+  .time-cell {
+    font-size: 9px;
+    padding: 4px;
+  }
+  
+  .vital-header {
+    min-width: 35px;
+  }
+  
+  .time-header {
+    min-width: 45px;
+  }
+}

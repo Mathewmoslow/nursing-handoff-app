@@ -1,0 +1,70 @@
+/* src/components/AssessmentBox/AssessmentBox.css */
+
+.assessment-box {
+  border: 2px solid;
+  border-radius: var(--radius-lg);
+  overflow: visible;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-fast);
+  width: 100%;
+  height: 100%;
+}
+
+.assessment-box:hover {
+  border-color: var(--color-gray-300);
+}
+
+.box-header {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.box-header h3 {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.box-content {
+  padding: var(--spacing-xs);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  flex: 1;
+  align-content: start;
+  overflow: hidden;
+}
+
+/* Mobile adjustments */
+@media (max-width: 567px) {
+  .box-header {
+    padding: 4px 8px;
+  }
+  
+  .box-header h3 {
+    font-size: 10px;
+  }
+  
+  .box-content {
+    padding: 4px;
+    gap: 2px;
+  }
+}
+
+@media (max-width: 375px) {
+  .box-content {
+    padding: 2px;
+    gap: 2px;
+  }
+  
+  .box-header h3 {
+    font-size: 9px;
+  }
+}
