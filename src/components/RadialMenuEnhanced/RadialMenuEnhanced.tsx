@@ -35,6 +35,7 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
   const menuRef = useRef<HTMLDivElement>(null);
   const [selectedPrimaryItems, setSelectedPrimaryItems] = useState<string[]>([]);
   const [dynamicSuggestions, setDynamicSuggestions] = useState<string[]>([]);
+  const [adjustedPosition, setAdjustedPosition] = useState({ x: position.x, y: position.y });
   
   // Initialize selected items from props
   useEffect(() => {
@@ -86,6 +87,34 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
   const suggestionRadius = 220; // Much farther out to prevent overlap
   const Icon = centerItem.icon;
 
+  // Adjust position to keep menu within viewport
+  useEffect(() => {
+    const menuSize = 500; // Size of the radial menu
+    const padding = 20; // Padding from viewport edges
+    
+    let newX = position.x;
+    let newY = position.y;
+    
+    // Check right boundary
+    if (newX + menuSize/2 > window.innerWidth - padding) {
+      newX = window.innerWidth - menuSize/2 - padding;
+    }
+    // Check left boundary
+    if (newX - menuSize/2 < padding) {
+      newX = menuSize/2 + padding;
+    }
+    // Check bottom boundary
+    if (newY + menuSize/2 > window.innerHeight - padding) {
+      newY = window.innerHeight - menuSize/2 - padding;
+    }
+    // Check top boundary
+    if (newY - menuSize/2 < padding) {
+      newY = menuSize/2 + padding;
+    }
+    
+    setAdjustedPosition({ x: newX, y: newY });
+  }, [position.x, position.y]);
+
   useEffect(() => {
     if (!isOpen) return;
 
@@ -130,7 +159,7 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
       }} />
       <div 
         className="radial-menu-enhanced-overlay"
-        style={{ left: position.x, top: position.y }}
+        style={{ left: adjustedPosition.x, top: adjustedPosition.y }}
       >
         <div className="radial-menu-enhanced" ref={menuRef}>
         {/* Connection lines */}

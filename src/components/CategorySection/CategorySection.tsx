@@ -16,6 +16,7 @@ interface CategorySectionProps {
   onDismissSuggestion: (key: string, e: React.MouseEvent) => void;
   isDimmed: (category: string, section: string, item: string) => boolean;
   differentialPatterns?: Record<string, any>;
+  onRequestNote?: (category: string, section: string, item: string) => void;
 }
 
 export const CategorySection: React.FC<CategorySectionProps> = ({
@@ -27,7 +28,8 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
   onItemSelect,
   onDismissSuggestion,
   isDimmed,
-  differentialPatterns
+  differentialPatterns,
+  onRequestNote
 }) => {
   const Icon = category.icon;
   
@@ -91,6 +93,8 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
                     categoryColor={category.color}
                     onClick={() => onItemSelect(categoryKey, sectionKey, itemKey)}
                     onDismiss={isRelated ? (e) => onDismissSuggestion(key, e) : undefined}
+                    onRightClick={onRequestNote ? () => onRequestNote(categoryKey, sectionKey, itemKey) : undefined}
+                    hasNote={selectedItems[key]?.note ? true : false}
                     priority={itemData.priority}
                     tooltip={differentialPatterns?.[itemKey] ? 
                       `Differential: ${Object.keys(differentialPatterns[itemKey])
