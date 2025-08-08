@@ -12,10 +12,11 @@ interface FormLayoutProps {
   relatedItems: Record<string, RelatedItem>;
   dismissedSuggestions: Record<string, boolean>;
   darkMode: boolean;
-  onItemSelect: (category: string, section: string, item: string) => void;
+  onItemSelect: (category: string, section: string, item: string, requestNote?: boolean) => void;
   onDismissSuggestion: (key: string, e: React.MouseEvent) => void;
   onPatientUpdate: (patient: Patient) => void;
   onClearSelections: () => void;
+  onRequestNote?: (category: string, section: string, item: string) => void;
 }
 
 export const FormLayout: React.FC<FormLayoutProps> = ({

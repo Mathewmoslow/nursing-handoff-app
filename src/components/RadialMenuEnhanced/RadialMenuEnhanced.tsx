@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { LucideIcon, Sparkles } from 'lucide-react';
+import { LucideIcon, Sparkles, Edit3 } from 'lucide-react';
 import { relationshipMap } from '../../constants/relationships';
 import './RadialMenuEnhanced.css';
 
@@ -14,9 +14,10 @@ interface RadialMenuEnhancedProps {
   selectedItems: Record<string, any>;
   isOpen: boolean;
   onClose: () => void;
-  onSelect: (item: string) => void;
+  onSelect: (item: string, withNote?: boolean) => void;
   position: { x: number; y: number };
   color: string;
+  onRequestNote?: (item: string) => void;
 }
 
 export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
@@ -28,7 +29,8 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
   onClose,
   onSelect,
   position,
-  color
+  color,
+  onRequestNote
 }) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const [selectedPrimaryItems, setSelectedPrimaryItems] = useState<string[]>([]);

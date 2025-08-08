@@ -1,6 +1,6 @@
 // src/components/PatientTabs/PatientTabs.tsx
 import React from 'react';
-import { Plus, X, Moon, Sun, Network, Printer, Download, Trash2 } from 'lucide-react';
+import { Plus, X, Moon, Sun, Network, Printer, Download, Trash2, Palette } from 'lucide-react';
 import { Patient } from '../../types';
 import './PatientTabs.css';
 
@@ -16,6 +16,7 @@ interface PatientTabsProps {
   onPrint: () => void;
   onExport: () => void;
   onClearStorage?: () => void;
+  onShowButtonStudio?: () => void;
 }
 
 export const PatientTabs: React.FC<PatientTabsProps> = ({
@@ -29,7 +30,8 @@ export const PatientTabs: React.FC<PatientTabsProps> = ({
   onShowNeuralMap,
   onPrint,
   onExport,
-  onClearStorage
+  onClearStorage,
+  onShowButtonStudio
 }) => {
   return (
     <div className="patient-tabs-container">
@@ -89,6 +91,15 @@ export const PatientTabs: React.FC<PatientTabsProps> = ({
         >
           {darkMode ? <Sun size={16} /> : <Moon size={16} />}
         </button>
+        {onShowButtonStudio && (
+          <button 
+            className="action-btn"
+            onClick={onShowButtonStudio}
+            title="Button Studio"
+          >
+            <Palette size={16} />
+          </button>
+        )}
         {onClearStorage && (
           <button 
             className="action-btn danger"

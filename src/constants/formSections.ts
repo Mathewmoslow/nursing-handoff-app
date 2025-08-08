@@ -3,7 +3,8 @@ import {
   Brain, Wind, Heart, Package, Shield, Activity, 
   TestTube, Target, Phone, AlertTriangle, Monitor,
   User, Eye, Droplet, Thermometer, Gauge, Bed,
-  Clock, Pill, Syringe, Home, Bug, Users, MapPin
+  Clock, Pill, Syringe, Home, Bug, Users, MapPin,
+  Navigation, Car, Ambulance, Building2
 } from 'lucide-react';
 import { FormSection } from '../types';
 
@@ -478,6 +479,18 @@ export const formSections: Record<string, FormSection> = {
         options: ['None', 'RRT', 'Code Blue', 'Fall', 'Med Error'],
         hasInput: true,
         inputType: 'text'
+      },
+      'Admission Route': {
+        mainButton: 'Admission Route',
+        icon: Navigation,
+        category: 'situation',
+        section: 'admission',
+        options: [
+          'ED', 'Direct Admit', 'Transfer Floor', 'Transfer Hospital', 
+          'OR/PACU', 'Clinic', 'Self/Walk-in', 'EMS', 'Police',
+          'With Spouse', 'With Family', 'With Friend', 'Alone',
+          'From SNF', 'From Rehab', 'From Home', 'From Group Home'
+        ]
       }
     }
   }

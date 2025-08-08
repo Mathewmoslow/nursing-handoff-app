@@ -4,6 +4,8 @@ import { PatientTabs } from './components/PatientTabs/PatientTabs';
 import { NeuralMapModal } from './components/NeuralMapModal/NeuralMapModal';
 import { PrintView } from './components/PrintView/PrintView';
 import { PatientStoryDrawer } from './components/PatientStoryDrawer/PatientStoryDrawer';
+import { ButtonStudio } from './components/ButtonStudio/ButtonStudio';
+import { QuickNote } from './components/QuickNote/QuickNote';
 import { 
   Patient, SelectedItem, RelatedItem
 } from './types';
@@ -22,6 +24,19 @@ import {
 } from './utils/smartLogic';
 import './App.css';
 
+// Define the type for CustomButton here to avoid circular dependencies
+interface CustomButton {
+  id: string;
+  mainButton: string;
+  icon: string;
+  category: string;
+  section: string;
+  options: string[];
+  color?: string;
+  createdAt: Date;
+  lastModified: Date;
+}
+
 function App() {
   // State management
   const [darkMode, setDarkMode] = useState(false);
@@ -34,6 +49,14 @@ function App() {
   const [showNeuralMap, setShowNeuralMap] = useState(false);
   const [showPrintView, setShowPrintView] = useState(false);
   const [showPatientStory, setShowPatientStory] = useState(false);
+  const [showButtonStudio, setShowButtonStudio] = useState(false);
+  const [noteModal, setNoteModal] = useState<{
+    isOpen: boolean;
+    buttonKey: string;
+    buttonName: string;
+    existingNote?: string;
+    timestamp?: Date;
+  }>({ isOpen: false, buttonKey: '', buttonName: '' });
   
   const currentPatient = patients[activePatient] || patients[0];
 
@@ -104,11 +127,11 @@ function App() {
     setUserBehaviorHistory(trackUserBehavior(behavior, userBehaviorHistory));
   };
 
-  // Item selection
-  const toggleItemSelection = (category: string, section: string, item: string) => {
+  // Item selection with note support
+  const toggleItemSelection = (category: string, section: string, item: string, note?: string) => {
     const key = `${category}-${section}-${item}`;
     
-    if (selectedItems[key]) {
+    if (selectedItems[key] && !note) {
       // Remove
       const { [key]: removed, ...rest } = selectedItems;
       setSelectedItems(rest);
@@ -124,18 +147,21 @@ function App() {
       setPatients(updatedPatients);
       
     } else {
-      // Add
+      // Add or update
       const newSelectedItems = {
         ...selectedItems,
         [key]: {
           category,
           section,
           item,
-          timestamp: new Date()
+          timestamp: selectedItems[key]?.timestamp || new Date(),
+          note: note || selectedItems[key]?.note
         }
       };
       setSelectedItems(newSelectedItems);
-      trackBehavior('select', item);
+      if (!selectedItems[key]) {
+        trackBehavior('select', item);
+      }
       
       // Check for abnormal values that trigger immediate actions
       if (category === 'vitals' || category === 'labs') {
@@ -281,8 +307,16 @@ function App() {
 
   // Clear all storage (end of day cleaning)
   const handleClearStorage = () => {
+    // Preserve custom buttons before clearing
+    const customButtons = localStorage.getItem('customButtons');
+    
     // Clear localStorage
     localStorage.clear();
+    
+    // Restore custom buttons
+    if (customButtons) {
+      localStorage.setItem('customButtons', customButtons);
+    }
     
     // Reset to initial state
     setPatients([createNewPatient('', '')]);
@@ -295,6 +329,48 @@ function App() {
     
     // Reload the page to ensure complete reset
     window.location.reload();
+  };
+  
+  // Handle custom button save
+  const handleSaveCustomButton = (button: CustomButton) => {
+    // The button is already saved to localStorage by ButtonStudio
+    // Just close the modal and reload to show the new button
+    setShowButtonStudio(false);
+    // Force a re-render to show the new button
+    window.location.reload();
+  };
+
+  // Handle opening note modal for a button
+  const openNoteModal = (category: string, section: string, item: string) => {
+    const key = `${category}-${section}-${item}`;
+    const existing = selectedItems[key];
+    
+    setNoteModal({
+      isOpen: true,
+      buttonKey: key,
+      buttonName: item,
+      existingNote: existing?.note,
+      timestamp: existing?.timestamp
+    });
+  };
+
+  // Handle saving note
+  const handleSaveNote = (note: string) => {
+    if (noteModal.buttonKey) {
+      const [category, section, item] = noteModal.buttonKey.split('-');
+      toggleItemSelection(category, section, item, note);
+    }
+    setNoteModal({ isOpen: false, buttonKey: '', buttonName: '' });
+  };
+
+  // Enhanced item selection that prompts for note
+  const toggleItemSelectionWithNote = (category: string, section: string, item: string, requestNote: boolean = false) => {
+    if (requestNote && !selectedItems[`${category}-${section}-${item}`]) {
+      // Open note modal for new selection
+      openNoteModal(category, section, item);
+    } else {
+      toggleItemSelection(category, section, item);
+    }
   };
 
   return (
@@ -311,6 +387,7 @@ function App() {
         onPrint={() => setShowPrintView(true)}
         onExport={handleExportReport}
         onClearStorage={handleClearStorage}
+        onShowButtonStudio={() => setShowButtonStudio(true)}
       />
 
       <FormLayout
@@ -318,11 +395,12 @@ function App() {
         selectedItems={selectedItems}
         relatedItems={relatedItems}
         dismissedSuggestions={dismissedSuggestions}
-        onItemSelect={toggleItemSelection}
+        onItemSelect={toggleItemSelectionWithNote}
         onDismissSuggestion={dismissSuggestion}
         onPatientUpdate={(patient: Patient) => updatePatient(activePatient, patient)}
         onClearSelections={clearAllSelections}
         darkMode={darkMode}
+        onRequestNote={openNoteModal}
       />
 
       {showNeuralMap && (
@@ -351,6 +429,36 @@ function App() {
         onClose={() => setShowPatientStory(!showPatientStory)}
         patient={currentPatient}
         selectedItems={selectedItems}
+      />
+
+      {showButtonStudio && (
+        <ButtonStudio
+          isOpen={showButtonStudio}
+          onClose={() => setShowButtonStudio(false)}
+          onSaveButton={handleSaveCustomButton}
+          sectionColors={{
+            neuro: '#8b5cf6',
+            respiratory: '#06b6d4',
+            cardiac: '#ef4444',
+            gi: '#f59e0b',
+            gu: '#10b981',
+            skin: '#f97316',
+            safety: '#6366f1',
+            lines: '#ec4899',
+            history: '#a855f7',
+            admission: '#9333ea',
+            custom: '#6b7280'
+          }}
+        />
+      )}
+
+      <QuickNote
+        isOpen={noteModal.isOpen}
+        onClose={() => setNoteModal({ isOpen: false, buttonKey: '', buttonName: '' })}
+        onSave={handleSaveNote}
+        buttonName={noteModal.buttonName}
+        existingNote={noteModal.existingNote}
+        timestamp={noteModal.timestamp}
       />
     </div>
   );

@@ -144,6 +144,35 @@
   transform: scale(1.1);
 }
 
+/* Note indicator */
+.note-icon {
+  color: #fbbf24;
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+
+.sbar-button.has-note {
+  position: relative;
+}
+
+.sbar-button.has-note::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 8px;
+  height: 8px;
+  background: #fbbf24;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dark .sbar-button.has-note::after {
+  border-color: #1f2937;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .sbar-button {
