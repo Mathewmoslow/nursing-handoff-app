@@ -5,6 +5,7 @@ import { NeuralMapModal } from './components/NeuralMapModal/NeuralMapModal';
 import { PrintView } from './components/PrintView/PrintView';
 import { PatientStoryDrawer } from './components/PatientStoryDrawer/PatientStoryDrawer';
 import { ButtonStudio } from './components/ButtonStudio/ButtonStudio';
+import { QuickNote } from './components/QuickNote/QuickNote';
 import { 
   Patient, SelectedItem, RelatedItem
 } from './types';
@@ -49,6 +50,13 @@ function App() {
   const [showPrintView, setShowPrintView] = useState(false);
   const [showPatientStory, setShowPatientStory] = useState(false);
   const [showButtonStudio, setShowButtonStudio] = useState(false);
+  const [noteModal, setNoteModal] = useState<{
+    isOpen: boolean;
+    buttonKey: string;
+    buttonName: string;
+    existingNote?: string;
+    timestamp?: Date;
+  }>({ isOpen: false, buttonKey: '', buttonName: '' });
   
   const currentPatient = patients[activePatient] || patients[0];
 
@@ -119,11 +127,11 @@ function App() {
     setUserBehaviorHistory(trackUserBehavior(behavior, userBehaviorHistory));
   };
 
-  // Item selection
-  const toggleItemSelection = (category: string, section: string, item: string) => {
+  // Item selection with note support
+  const toggleItemSelection = (category: string, section: string, item: string, note?: string) => {
     const key = `${category}-${section}-${item}`;
     
-    if (selectedItems[key]) {
+    if (selectedItems[key] && !note) {
       // Remove
       const { [key]: removed, ...rest } = selectedItems;
       setSelectedItems(rest);
@@ -139,18 +147,21 @@ function App() {
       setPatients(updatedPatients);
       
     } else {
-      // Add
+      // Add or update
       const newSelectedItems = {
         ...selectedItems,
         [key]: {
           category,
           section,
           item,
-          timestamp: new Date()
+          timestamp: selectedItems[key]?.timestamp || new Date(),
+          note: note || selectedItems[key]?.note
         }
       };
       setSelectedItems(newSelectedItems);
-      trackBehavior('select', item);
+      if (!selectedItems[key]) {
+        trackBehavior('select', item);
+      }
       
       // Check for abnormal values that trigger immediate actions
       if (category === 'vitals' || category === 'labs') {
@@ -329,6 +340,39 @@ function App() {
     window.location.reload();
   };
 
+  // Handle opening note modal for a button
+  const openNoteModal = (category: string, section: string, item: string) => {
+    const key = `${category}-${section}-${item}`;
+    const existing = selectedItems[key];
+    
+    setNoteModal({
+      isOpen: true,
+      buttonKey: key,
+      buttonName: item,
+      existingNote: existing?.note,
+      timestamp: existing?.timestamp
+    });
+  };
+
+  // Handle saving note
+  const handleSaveNote = (note: string) => {
+    if (noteModal.buttonKey) {
+      const [category, section, item] = noteModal.buttonKey.split('-');
+      toggleItemSelection(category, section, item, note);
+    }
+    setNoteModal({ isOpen: false, buttonKey: '', buttonName: '' });
+  };
+
+  // Enhanced item selection that prompts for note
+  const toggleItemSelectionWithNote = (category: string, section: string, item: string, requestNote: boolean = false) => {
+    if (requestNote && !selectedItems[`${category}-${section}-${item}`]) {
+      // Open note modal for new selection
+      openNoteModal(category, section, item);
+    } else {
+      toggleItemSelection(category, section, item);
+    }
+  };
+
   return (
     <div className={`app ${darkMode ? 'dark' : ''}`}>
       <PatientTabs
@@ -351,11 +395,12 @@ function App() {
         selectedItems={selectedItems}
         relatedItems={relatedItems}
         dismissedSuggestions={dismissedSuggestions}
-        onItemSelect={toggleItemSelection}
+        onItemSelect={toggleItemSelectionWithNote}
         onDismissSuggestion={dismissSuggestion}
         onPatientUpdate={(patient: Patient) => updatePatient(activePatient, patient)}
         onClearSelections={clearAllSelections}
         darkMode={darkMode}
+        onRequestNote={openNoteModal}
       />
 
       {showNeuralMap && (
@@ -406,6 +451,15 @@ function App() {
           }}
         />
       )}
+
+      <QuickNote
+        isOpen={noteModal.isOpen}
+        onClose={() => setNoteModal({ isOpen: false, buttonKey: '', buttonName: '' })}
+        onSave={handleSaveNote}
+        buttonName={noteModal.buttonName}
+        existingNote={noteModal.existingNote}
+        timestamp={noteModal.timestamp}
+      />
     </div>
   );
 }

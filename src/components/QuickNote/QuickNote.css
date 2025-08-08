@@ -1,0 +1,271 @@
+.quick-note-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.quick-note-modal {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.dark .quick-note-modal {
+  background: #1f2937;
+  color: #f3f4f6;
+}
+
+.quick-note-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dark .quick-note-header {
+  border-bottom-color: #374151;
+}
+
+.quick-note-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.dark .quick-note-title {
+  color: #f9fafb;
+}
+
+.quick-note-title svg {
+  color: #6b7280;
+}
+
+.dark .quick-note-title svg {
+  color: #9ca3af;
+}
+
+.quick-note-close {
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: #6b7280;
+  transition: all 0.2s;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quick-note-close:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.dark .quick-note-close:hover {
+  background: #374151;
+  color: #f9fafb;
+}
+
+.quick-note-content {
+  padding: 20px;
+}
+
+.quick-note-timestamp {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.dark .quick-note-timestamp {
+  color: #9ca3af;
+}
+
+.quick-note-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 120px;
+  background: white;
+  color: #111827;
+  transition: all 0.2s;
+}
+
+.dark .quick-note-input {
+  background: #111827;
+  border-color: #374151;
+  color: #f3f4f6;
+}
+
+.quick-note-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.quick-note-input::placeholder {
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.dark .quick-note-input::placeholder {
+  color: #6b7280;
+}
+
+.quick-note-tips {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.dark .quick-note-tips {
+  color: #9ca3af;
+}
+
+.quick-note-tips kbd {
+  padding: 2px 4px;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 10px;
+}
+
+.dark .quick-note-tips kbd {
+  background: #374151;
+  border-color: #4b5563;
+}
+
+.quick-note-footer {
+  padding: 16px 20px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.dark .quick-note-footer {
+  border-top-color: #374151;
+}
+
+.quick-note-cancel,
+.quick-note-save {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quick-note-cancel {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.quick-note-cancel:hover {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.dark .quick-note-cancel {
+  background: #374151;
+  color: #9ca3af;
+}
+
+.dark .quick-note-cancel:hover {
+  background: #4b5563;
+  color: #f3f4f6;
+}
+
+.quick-note-save {
+  background: #3b82f6;
+  color: white;
+}
+
+.quick-note-save:hover {
+  background: #2563eb;
+}
+
+/* Note indicator on buttons */
+.has-note::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 8px;
+  height: 8px;
+  background: #fbbf24;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.dark .has-note::after {
+  border-color: #1f2937;
+}
+
+/* Inline note display */
+.button-note {
+  font-size: 11px;
+  color: #6b7280;
+  font-style: italic;
+  margin-top: 4px;
+  padding: 4px 8px;
+  background: rgba(251, 191, 36, 0.1);
+  border-left: 2px solid #fbbf24;
+  border-radius: 4px;
+}
+
+.dark .button-note {
+  color: #9ca3af;
+  background: rgba(251, 191, 36, 0.05);
+}

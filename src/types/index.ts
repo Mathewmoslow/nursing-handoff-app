@@ -34,6 +34,8 @@ export interface SelectedItem {
   section: string;
   item: string;
   timestamp: Date;
+  note?: string;
+  subOptions?: string[];
 }
 
 export interface RelatedItem {

@@ -96,12 +96,27 @@ export const PatientStoryDrawer: React.FC<PatientStoryDrawerProps> = ({
               </h3>
               <div className="timeline-content">
                 {recentUpdates.length > 0 ? (
-                  recentUpdates.map((event, index) => (
-                    <div key={event.id} className="timeline-item">
-                      <span className="time">{formatTime(event.timestamp)}</span>
-                      <span className="action">{event.action}</span>
-                    </div>
-                  ))
+                  recentUpdates.map((event, index) => {
+                    // Find the corresponding selected item to get its note
+                    const itemKey = Object.keys(selectedItems).find(key => {
+                      const item = selectedItems[key];
+                      return item.item === event.item && 
+                             item.category === event.category;
+                    });
+                    const note = itemKey ? selectedItems[itemKey].note : undefined;
+                    
+                    return (
+                      <div key={event.id} className="timeline-item">
+                        <span className="time">{formatTime(event.timestamp)}</span>
+                        <span className="action">{event.action}</span>
+                        {note && (
+                          <div className="timeline-note">
+                            📝 {note}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
                 ) : (
                   <div className="empty-timeline">No updates yet</div>
                 )}

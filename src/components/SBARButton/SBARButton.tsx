@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Sparkles } from 'lucide-react';
+import { X, Sparkles, Edit3 } from 'lucide-react';
 import { CategoryItem } from '../../types';
 import './SBARButton.css';
 
@@ -12,8 +12,10 @@ interface SBARButtonProps {
   categoryColor: string;
   onClick: () => void;
   onDismiss?: (e: React.MouseEvent) => void;
+  onRightClick?: (e: React.MouseEvent) => void;
   priority?: string;
   tooltip?: string;
+  hasNote?: boolean;
 }
 
 export const SBARButton: React.FC<SBARButtonProps> = ({
@@ -25,8 +27,10 @@ export const SBARButton: React.FC<SBARButtonProps> = ({
   categoryColor,
   onClick,
   onDismiss,
+  onRightClick,
   priority,
-  tooltip
+  tooltip,
+  hasNote
 }) => {
   const Icon = itemData.icon;
   
@@ -37,6 +41,7 @@ export const SBARButton: React.FC<SBARButtonProps> = ({
     if (isDimmed) classes.push('dimmed');
     if (priority === 'critical') classes.push('critical');
     if (priority === 'high') classes.push('high');
+    if (hasNote) classes.push('has-note');
     return classes.join(' ');
   };
   
@@ -63,12 +68,21 @@ export const SBARButton: React.FC<SBARButtonProps> = ({
         className={getClassName()}
         style={getStyles()}
         onClick={onClick}
-        title={tooltip}
+        onContextMenu={(e) => {
+          if (onRightClick) {
+            e.preventDefault();
+            onRightClick(e);
+          }
+        }}
+        title={tooltip || (hasNote ? 'Has note attached' : '')}
       >
         {Icon && <Icon size={16} />}
         <span>{itemKey}</span>
         {isRelated && (
           <Sparkles size={12} className="sparkle-icon" />
+        )}
+        {hasNote && isSelected && (
+          <Edit3 size={12} className="note-icon" />
         )}
       </button>
       {isRelated && onDismiss && (
