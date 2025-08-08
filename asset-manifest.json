@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/nursing-handoff-app/static/css/main.a4ab67dd.css",
-    "main.js": "/nursing-handoff-app/static/js/main.8b2f4f1e.js",
+    "main.css": "/nursing-handoff-app/static/css/main.ab6c02ca.css",
+    "main.js": "/nursing-handoff-app/static/js/main.31af67fa.js",
     "index.html": "/nursing-handoff-app/index.html",
-    "main.a4ab67dd.css.map": "/nursing-handoff-app/static/css/main.a4ab67dd.css.map",
-    "main.8b2f4f1e.js.map": "/nursing-handoff-app/static/js/main.8b2f4f1e.js.map"
+    "main.ab6c02ca.css.map": "/nursing-handoff-app/static/css/main.ab6c02ca.css.map",
+    "main.31af67fa.js.map": "/nursing-handoff-app/static/js/main.31af67fa.js.map"
   },
   "entrypoints": [
-    "static/css/main.a4ab67dd.css",
-    "static/js/main.8b2f4f1e.js"
+    "static/css/main.ab6c02ca.css",
+    "static/js/main.31af67fa.js"
   ]
 }
