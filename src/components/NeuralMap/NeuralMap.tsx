@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Brain, Network, Sparkles } from 'lucide-react';
 import { SelectedItem, RelatedItem, Category } from '../../types';
 import { relationshipMap } from '../../constants/relationships';
@@ -14,6 +14,27 @@ interface NeuralMapProps {
   onDismissSuggestion: (key: string, e: React.MouseEvent) => void;
 }
 
+interface Node {
+  id: string;
+  x?: number;
+  y?: number;
+  z?: number;
+  fx?: number | null;
+  fy?: number | null;
+  type: 'selected' | 'suggested' | 'stat';
+  label: string;
+  category?: string;
+  color?: string;
+  key: string;
+}
+
+interface Link {
+  source: string | Node;
+  target: string | Node;
+  strength: number;
+  type: 'connection' | 'suggestion';
+}
+
 export const NeuralMap: React.FC<NeuralMapProps> = ({
   selectedItems,
   relatedItems,
@@ -24,105 +45,224 @@ export const NeuralMap: React.FC<NeuralMapProps> = ({
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const networkRef = useRef<HTMLDivElement>(null);
+  const [nodes, setNodes] = useState<Node[]>([]);
+  const [links, setLinks] = useState<Link[]>([]);
+  const simulationRef = useRef<d3.Simulation<Node, Link> | null>(null);
 
   const getCategoryColor = (category: string): string => {
     return sbarCategories[category]?.color || '#6b7280';
   };
 
-
   useEffect(() => {
-    if (selectedItems && Object.keys(selectedItems).length > 0 && svgRef.current && networkRef.current) {
-      // Small delay to ensure DOM is ready
-      setTimeout(() => {
-        drawConnections();
-      }, 100);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedItems, relatedItems]);
+    // Build nodes and links from selected and related items
+    const newNodes: Node[] = [];
+    const newLinks: Link[] = [];
+    const nodeMap = new Map<string, Node>();
 
-  const drawConnections = () => {
-    const svg = d3.select(svgRef.current);
-    svg.selectAll('line').remove();
-    svg.selectAll('path').remove();
+    // Add selected items as nodes
+    Object.entries(selectedItems).forEach(([key, item]) => {
+      const node: Node = {
+        id: key,
+        type: 'selected',
+        label: item.item,
+        category: item.category,
+        color: getCategoryColor(item.category),
+        key: key
+      };
+      newNodes.push(node);
+      nodeMap.set(key, node);
+    });
 
-    if (!networkRef.current || !svgRef.current) return;
+    // Add suggested items as nodes
+    Object.entries(relatedItems).forEach(([key, relation]) => {
+      if (!dismissedSuggestions[key]) {
+        const node: Node = {
+          id: key,
+          type: relation.score > 0.8 ? 'stat' : 'suggested',
+          label: relation.item,
+          color: '#f59e0b',
+          key: key
+        };
+        newNodes.push(node);
+        nodeMap.set(key, node);
+      }
+    });
 
-    // Draw simple connections using the absolute positions we set
-    const selectedKeys = Object.keys(selectedItems);
-    const svgRect = svgRef.current.getBoundingClientRect();
-    
-    // Draw connections between selected items
-    selectedKeys.forEach((key1, i) => {
-      const node1 = networkRef.current?.querySelector(`[data-key="${key1}"]`);
-      if (!node1) return;
-      
-      selectedKeys.slice(i + 1).forEach(key2 => {
-        const node2 = networkRef.current?.querySelector(`[data-key="${key2}"]`);
-        if (!node2) return;
-        
-        const item1 = selectedItems[key1].item;
-        const item2 = selectedItems[key2].item;
-        
-        // Check if these items are related
-        const score = relationshipMap[item1]?.[item2] || relationshipMap[item2]?.[item1] || 0;
-        if (score > 0.3) {
-          const rect1 = node1.getBoundingClientRect();
-          const rect2 = node2.getBoundingClientRect();
-          
-          const x1 = rect1.left + rect1.width / 2 - svgRect.left;
-          const y1 = rect1.top + rect1.height / 2 - svgRect.top;
-          const x2 = rect2.left + rect2.width / 2 - svgRect.left;
-          const y2 = rect2.top + rect2.height / 2 - svgRect.top;
-          
-          svg.append('line')
-            .attr('x1', x1)
-            .attr('y1', y1)
-            .attr('x2', x2)
-            .attr('y2', y2)
-            .attr('stroke', '#3b82f6')
-            .attr('stroke-width', Math.max(1, score * 3))
-            .attr('opacity', Math.max(0.3, score * 0.8));
+    // Create links between related nodes
+    newNodes.forEach((node1, i) => {
+      newNodes.slice(i + 1).forEach(node2 => {
+        if (node1.type === 'selected' && node2.type === 'selected') {
+          const item1 = selectedItems[node1.key]?.item;
+          const item2 = selectedItems[node2.key]?.item;
+          if (item1 && item2) {
+            const score = relationshipMap[item1]?.[item2] || relationshipMap[item2]?.[item1] || 0;
+            if (score > 0.3) {
+              newLinks.push({
+                source: node1.id,
+                target: node2.id,
+                strength: score,
+                type: 'connection'
+              });
+            }
+          }
         }
       });
     });
-    
-    // Draw connections from selected to suggested
+
+    // Add links from selected to suggested
     Object.entries(relatedItems).forEach(([targetKey, relation]) => {
-      if (dismissedSuggestions[targetKey]) return;
-      
-      const targetNode = networkRef.current?.querySelector(`[data-key="${targetKey}"]`) as Element | null;
-      if (!targetNode) return;
-      
-      // Find source node
-      let sourceNode: Element | null = null;
-      for (const [key, item] of Object.entries(selectedItems)) {
-        if (item.item === relation.source) {
-          sourceNode = networkRef.current?.querySelector(`[data-key="${key}"]`) || null;
-          break;
+      if (!dismissedSuggestions[targetKey]) {
+        // Find source node
+        const sourceNode = newNodes.find(n => {
+          const item = selectedItems[n.key];
+          return item && item.item === relation.source;
+        });
+        
+        if (sourceNode) {
+          newLinks.push({
+            source: sourceNode.id,
+            target: targetKey,
+            strength: relation.score,
+            type: 'suggestion'
+          });
         }
       }
-      
-      if (sourceNode && targetNode) {
-        const sourceRect = (sourceNode as Element).getBoundingClientRect();
-        const targetRect = (targetNode as Element).getBoundingClientRect();
-        
-        const x1 = sourceRect.left + sourceRect.width / 2 - svgRect.left;
-        const y1 = sourceRect.top + sourceRect.height / 2 - svgRect.top;
-        const x2 = targetRect.left + targetRect.width / 2 - svgRect.left;
-        const y2 = targetRect.top + targetRect.height / 2 - svgRect.top;
-        
-        svg.append('line')
-          .attr('x1', x1)
-          .attr('y1', y1)
-          .attr('x2', x2)
-          .attr('y2', y2)
-          .attr('stroke', '#f59e0b')
-          .attr('stroke-width', 2)
-          .attr('stroke-dasharray', '5,5')
-          .attr('opacity', 0.6);
-      }
     });
-  };
+
+    setNodes(newNodes);
+    setLinks(newLinks);
+  }, [selectedItems, relatedItems, dismissedSuggestions, sbarCategories]);
+
+  useEffect(() => {
+    if (!svgRef.current || nodes.length === 0) return;
+
+    const width = 800;
+    const height = 600;
+    const centerX = width / 2;
+    const centerY = height / 2;
+
+    // Clear previous visualization
+    d3.select(svgRef.current).selectAll('*').remove();
+
+    const svg = d3.select(svgRef.current)
+      .attr('width', width)
+      .attr('height', height);
+
+    // Create force simulation with 3D-like behavior
+    const simulation = d3.forceSimulation<Node>(nodes)
+      .force('link', d3.forceLink<Node, Link>(links)
+        .id(d => d.id)
+        .distance(d => 100 / (d.strength || 1))
+        .strength(d => d.strength || 0.5))
+      .force('charge', d3.forceManyBody()
+        .strength(d => d.type === 'selected' ? -300 : -150))
+      .force('center', d3.forceCenter(centerX, centerY))
+      .force('collision', d3.forceCollide()
+        .radius(d => d.type === 'selected' ? 40 : 30))
+      .force('x', d3.forceX(centerX).strength(0.05))
+      .force('y', d3.forceY(centerY).strength(0.05));
+
+    // Store simulation reference
+    simulationRef.current = simulation;
+
+    // Create link elements
+    const link = svg.append('g')
+      .attr('class', 'links')
+      .selectAll('line')
+      .data(links)
+      .enter().append('line')
+      .attr('stroke', d => d.type === 'suggestion' ? '#f59e0b' : '#3b82f6')
+      .attr('stroke-opacity', d => Math.max(0.3, d.strength * 0.8))
+      .attr('stroke-width', d => Math.max(1, d.strength * 3))
+      .attr('stroke-dasharray', d => d.type === 'suggestion' ? '5,5' : 'none');
+
+    // Create node container
+    const node = svg.append('g')
+      .attr('class', 'nodes')
+      .selectAll('g')
+      .data(nodes)
+      .enter().append('g')
+      .attr('class', d => `node-group ${d.type}`)
+      .call(d3.drag<SVGGElement, Node>()
+        .on('start', dragStarted)
+        .on('drag', dragged)
+        .on('end', dragEnded));
+
+    // Add circles for nodes
+    node.append('circle')
+      .attr('r', d => d.type === 'selected' ? 25 : 20)
+      .attr('fill', d => d.color || '#6b7280')
+      .attr('stroke', '#fff')
+      .attr('stroke-width', 2)
+      .style('cursor', 'pointer');
+
+    // Add labels
+    node.append('text')
+      .text(d => d.label)
+      .attr('x', 0)
+      .attr('y', 5)
+      .attr('text-anchor', 'middle')
+      .attr('fill', '#fff')
+      .style('font-size', '10px')
+      .style('font-weight', '600')
+      .style('pointer-events', 'none');
+
+    // Add category labels for selected nodes
+    node.filter(d => d.type === 'selected')
+      .append('text')
+      .text(d => d.category || '')
+      .attr('x', 0)
+      .attr('y', -30)
+      .attr('text-anchor', 'middle')
+      .attr('fill', d => d.color || '#666')
+      .style('font-size', '8px')
+      .style('text-transform', 'uppercase')
+      .style('pointer-events', 'none');
+
+    // Update positions on simulation tick
+    simulation.on('tick', () => {
+      link
+        .attr('x1', d => (d.source as Node).x || 0)
+        .attr('y1', d => (d.source as Node).y || 0)
+        .attr('x2', d => (d.target as Node).x || 0)
+        .attr('y2', d => (d.target as Node).y || 0);
+
+      node
+        .attr('transform', d => `translate(${d.x || 0},${d.y || 0})`);
+    });
+
+    // Drag functions
+    function dragStarted(event: d3.D3DragEvent<SVGGElement, Node, Node>) {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      event.subject.fx = event.subject.x;
+      event.subject.fy = event.subject.y;
+    }
+
+    function dragged(event: d3.D3DragEvent<SVGGElement, Node, Node>) {
+      event.subject.fx = event.x;
+      event.subject.fy = event.y;
+    }
+
+    function dragEnded(event: d3.D3DragEvent<SVGGElement, Node, Node>) {
+      if (!event.active) simulation.alphaTarget(0);
+      event.subject.fx = null;
+      event.subject.fy = null;
+    }
+
+    // Handle node clicks for suggested items
+    node.filter(d => d.type === 'suggested' || d.type === 'stat')
+      .on('click', function(event, d) {
+        const [cat, sec, itemName] = d.key.split('-');
+        if (cat && sec && itemName) {
+          onItemSelect(cat, sec, itemName);
+        }
+      });
+
+    // Cleanup
+    return () => {
+      simulation.stop();
+    };
+  }, [nodes, links, onItemSelect]);
 
   return (
     <div className="neural-map">
@@ -151,7 +291,7 @@ export const NeuralMap: React.FC<NeuralMapProps> = ({
         </div>
       </div>
       
-      {Object.keys(selectedItems).length === 0 ? (
+      {nodes.length === 0 ? (
         <div className="empty-map">
           <Brain size={48} />
           <h3>No connections yet</h3>
@@ -159,7 +299,7 @@ export const NeuralMap: React.FC<NeuralMapProps> = ({
         </div>
       ) : (
         <div className="neural-network" ref={networkRef}>
-          <svg className="connections-svg" width="100%" height="100%" ref={svgRef}>
+          <svg className="connections-svg" ref={svgRef}>
             <defs>
               <marker
                 id="arrowhead"
@@ -176,89 +316,7 @@ export const NeuralMap: React.FC<NeuralMapProps> = ({
                 />
               </marker>
             </defs>
-            {/* Connection lines would be drawn here with D3.js or similar */}
           </svg>
-          
-          <div className="neural-nodes">
-            {/* Primary selected nodes */}
-            {Object.entries(selectedItems).map(([key, item], index) => {
-              const totalItems = Object.keys(selectedItems).length;
-              const angle = (index * 2 * Math.PI) / totalItems - Math.PI / 2; // Start from top
-              const radius = Math.min(180, 400 / Math.max(3, totalItems)); // Dynamic radius
-              const centerX = 300; // Center of container
-              const centerY = 250;
-              const x = Math.cos(angle) * radius + centerX;
-              const y = Math.sin(angle) * radius + centerY;
-              
-              return (
-                <div 
-                  key={key} 
-                  className="primary-node"
-                  data-key={key}
-                  style={{ 
-                    '--node-color': getCategoryColor(item.category),
-                    position: 'absolute',
-                    left: `${x}px`,
-                    top: `${y}px`,
-                    transform: 'translate(-50%, -50%)'
-                  } as React.CSSProperties}
-                >
-                  <div className="node-content">
-                    <span className="node-category">{item.category}</span>
-                    <span className="node-item">{item.item}</span>
-                  </div>
-                </div>
-              );
-            })}
-            
-            {/* Suggested nodes */}
-            {Object.entries(relatedItems).map(([key, relation], index) => {
-              if (dismissedSuggestions[key]) return null;
-              
-              const activeRelated = Object.keys(relatedItems).filter(k => !dismissedSuggestions[k]);
-              const actualIndex = activeRelated.indexOf(key);
-              const totalItems = activeRelated.length;
-              const angle = (actualIndex * 2 * Math.PI) / totalItems - Math.PI / 2;
-              const radius = Math.min(280, 500 / Math.max(3, totalItems));
-              const centerX = 300;
-              const centerY = 250;
-              const x = Math.cos(angle) * radius + centerX;
-              const y = Math.sin(angle) * radius + centerY;
-              
-              return (
-                <div
-                  key={key}
-                  className="suggested-node"
-                  data-key={key}
-                  style={{
-                    position: 'absolute',
-                    left: `${x}px`,
-                    top: `${y}px`,
-                    transform: 'translate(-50%, -50%)'
-                  }}
-                  onClick={() => {
-                    // Find the item in formSections to get its category and section
-                    const [cat, sec, itemName] = key.split('-');
-                    if (cat && sec && itemName) {
-                      onItemSelect(cat, sec, itemName);
-                    }
-                  }}
-                >
-                  <span className="node-item">{relation.item}</span>
-                  <Sparkles size={10} className="sparkle-icon" />
-                  <button
-                    className="dismiss-node"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onDismissSuggestion(key, e);
-                    }}
-                  >
-                    ×
-                  </button>
-                </div>
-              );
-            })}
-          </div>
         </div>
       )}
     </div>
