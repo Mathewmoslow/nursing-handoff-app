@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(git cherry-pick:*)",
-      "Bash(npm run deploy:*)"
+      "Bash(npm run deploy:*)",
+      "Bash(npx gh-pages:*)"
     ],
     "deny": []
   }

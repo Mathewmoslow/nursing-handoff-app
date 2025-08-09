@@ -34,6 +34,7 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
 }) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const [selectedPrimaryItems, setSelectedPrimaryItems] = useState<string[]>([]);
+  const [selectedSuggestions, setSelectedSuggestions] = useState<string[]>([]);
   const [dynamicSuggestions, setDynamicSuggestions] = useState<string[]>([]);
   const [adjustedPosition, setAdjustedPosition] = useState({ x: position.x, y: position.y });
   
@@ -302,20 +303,33 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
             const x = Math.cos(angle) * suggestionRadius;
             const y = Math.sin(angle) * suggestionRadius;
             
+            // Check if this suggestion is already selected
+            const isSuggestionSelected = selectedSuggestions.includes(suggestion) || 
+              Object.values(selectedItems).some(item => item.item === suggestion);
+            
             return (
               <button
                 key={`suggestion-${suggestion}-${index}`}
-                className="radial-item suggestion"
+                className={`radial-item suggestion ${isSuggestionSelected ? 'selected' : ''}`}
                 style={{
                   left: `${250 + x}px`,
                   top: `${250 + y}px`,
                   transform: 'translate(-50%, -50%)',
-                  borderColor: '#f59e0b',
+                  borderColor: isSuggestionSelected ? '#10b981' : '#f59e0b',
+                  backgroundColor: isSuggestionSelected ? '#10b981' : '',
+                  color: isSuggestionSelected ? 'white' : '',
                   animationDelay: `${index * 0.05}s`
                 }}
-                onClick={() => onSelect(suggestion)}
+                onClick={() => {
+                  if (isSuggestionSelected) {
+                    setSelectedSuggestions(prev => prev.filter(s => s !== suggestion));
+                  } else {
+                    setSelectedSuggestions(prev => [...prev, suggestion]);
+                  }
+                  onSelect(suggestion);
+                }}
               >
-                <Sparkles size={12} />
+                {isSuggestionSelected ? '✓' : <Sparkles size={12} />}
                 {suggestion}
               </button>
             );

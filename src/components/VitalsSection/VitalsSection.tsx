@@ -14,6 +14,7 @@ export const VitalsSection: React.FC<VitalsSectionProps> = ({
   patient,
   onPatientUpdate
 }) => {
+  const [activeKeypad, setActiveKeypad] = React.useState<string | null>(null);
   const handleVitalChange = (key: string, value: string) => {
     onPatientUpdate({
       ...patient,
@@ -35,7 +36,7 @@ export const VitalsSection: React.FC<VitalsSectionProps> = ({
   const timeSlots = ['0600', '0800', '1000', '1200', '1400', '1600', '1800', '2000'];
 
   return (
-    <div className="vitals-section">
+    <div className={`vitals-section ${activeKeypad ? 'keypad-active' : ''}`}>
       <div className="section-header">
         <Activity size={16} />
         <h3>Vitals</h3>
@@ -56,15 +57,21 @@ export const VitalsSection: React.FC<VitalsSectionProps> = ({
             {timeSlots.map(time => (
               <tr key={time}>
                 <td className="time-cell">{time}</td>
-                {vitalFields.map(field => (
-                  <td key={`${time}-${field.key}`} className="vital-cell">
-                    <VitalLabCell
-                      value={patient.vitals[`${time}-${field.key}`] || ''}
-                      onChange={(value) => handleVitalChange(`${time}-${field.key}`, value)}
-                      type="vital"
-                    />
-                  </td>
-                ))}
+                {vitalFields.map(field => {
+                  const cellKey = `${time}-${field.key}`;
+                  return (
+                    <td key={cellKey} className="vital-cell">
+                      <VitalLabCell
+                        value={patient.vitals[cellKey] || ''}
+                        onChange={(value) => handleVitalChange(cellKey, value)}
+                        type="vital"
+                        itemKey={cellKey}
+                        isActive={activeKeypad === cellKey}
+                        onActiveChange={(active) => setActiveKeypad(active ? cellKey : null)}
+                      />
+                    </td>
+                  );
+                })}
               </tr>
             ))}
           </tbody>

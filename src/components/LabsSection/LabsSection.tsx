@@ -14,6 +14,7 @@ export const LabsSection: React.FC<LabsSectionProps> = ({
   patient,
   onPatientUpdate
 }) => {
+  const [activeKeypad, setActiveKeypad] = React.useState<string | null>(null);
   const handleLabChange = (key: string, value: string) => {
     onPatientUpdate({
       ...patient,
@@ -36,7 +37,7 @@ export const LabsSection: React.FC<LabsSectionProps> = ({
   const timeSlots = ['AM', 'PM'];
 
   return (
-    <div className="labs-section">
+    <div className={`labs-section ${activeKeypad ? 'keypad-active' : ''}`}>
       <div className="section-header">
         <TestTube size={16} />
         <h3>Labs</h3>
@@ -57,15 +58,21 @@ export const LabsSection: React.FC<LabsSectionProps> = ({
             {timeSlots.map(time => (
               <tr key={time}>
                 <td className="time-cell">{time}</td>
-                {labFields.map(field => (
-                  <td key={`${time}-${field.key}`} className="lab-cell">
-                    <VitalLabCell
-                      value={patient.labs[`${time}-${field.key}`] || ''}
-                      onChange={(value) => handleLabChange(`${time}-${field.key}`, value)}
-                      type="lab"
-                    />
-                  </td>
-                ))}
+                {labFields.map(field => {
+                  const cellKey = `${time}-${field.key}`;
+                  return (
+                    <td key={cellKey} className="lab-cell">
+                      <VitalLabCell
+                        value={patient.labs[cellKey] || ''}
+                        onChange={(value) => handleLabChange(cellKey, value)}
+                        type="lab"
+                        itemKey={cellKey}
+                        isActive={activeKeypad === cellKey}
+                        onActiveChange={(active) => setActiveKeypad(active ? cellKey : null)}
+                      />
+                    </td>
+                  );
+                })}
               </tr>
             ))}
           </tbody>

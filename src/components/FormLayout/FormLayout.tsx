@@ -40,6 +40,7 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
       <SuggestionsBar
         relatedItems={relatedItems}
         dismissedSuggestions={dismissedSuggestions}
+        selectedItems={selectedItems}
         onItemSelect={onItemSelect}
         onDismissSuggestion={onDismissSuggestion}
         darkMode={darkMode}

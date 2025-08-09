@@ -208,6 +208,13 @@
   animation: pulse 1s ease-in-out infinite;
 }
 
+.radial-item.suggestion.selected {
+  background: #10b981 !important;
+  color: white !important;
+  border-color: #10b981 !important;
+  font-weight: 600;
+}
+
 @keyframes pulse {
   0%, 100% {
     transform: scale(1);

@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: var(--z-modal-backdrop);
+  z-index: var(--z-keypad-backdrop, 350);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,6 +20,8 @@
   width: 280px;
   padding: 16px;
   animation: slideIn 0.2s ease-out;
+  position: relative;
+  z-index: var(--z-keypad-content, 351);
 }
 
 .dark .simple-keypad {
