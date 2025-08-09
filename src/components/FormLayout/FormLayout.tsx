@@ -54,6 +54,7 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
         onItemSelect={onItemSelect}
         onDismissSuggestion={onDismissSuggestion}
         onPatientUpdate={onPatientUpdate}
+        onRequestNote={onRequestNote}
       />
     </div>
   );

@@ -176,7 +176,32 @@ export const relationshipMap: Record<string, Record<string, number>> = {
   'R Subclavian': { 'Central Line': 0.9, 'Subclavian': 0.9, 'Long-term Access': 0.8 },
   'L Subclavian': { 'Central Line': 0.9, 'Subclavian': 0.9, 'Long-term Access': 0.8 },
   'PICC R': { 'PICC Line': 0.9, 'Right Arm': 0.9, 'Home Infusion': 0.8, 'Long-term Antibiotics': 0.7 },
-  'PICC L': { 'PICC Line': 0.9, 'Left Arm': 0.9, 'Home Infusion': 0.8, 'Long-term Antibiotics': 0.7 }
+  'PICC L': { 'PICC Line': 0.9, 'Left Arm': 0.9, 'Home Infusion': 0.8, 'Long-term Antibiotics': 0.7 },
+  
+  // Lab abnormalities -> Interventions/Monitoring
+  'Elevated Troponin': { 'EKG': 0.95, 'Cardiology Consult': 0.9, 'Aspirin': 0.85, 'Heparin': 0.8, 'Cardiac Cath': 0.75 },
+  'Low Hemoglobin': { 'Type & Cross': 0.9, 'Blood Transfusion': 0.85, 'Iron Studies': 0.7, 'GI Consult': 0.65, 'Bleeding Assessment': 0.8 },
+  'High Creatinine': { 'Fluid Management': 0.85, 'Renal Consult': 0.8, 'Dialysis': 0.7, 'Foley Catheter': 0.6, 'Hold Nephrotoxins': 0.9 },
+  'Low Platelets': { 'Bleeding Precautions': 0.9, 'Platelet Transfusion': 0.8, 'No IM Injections': 0.85, 'Hematology Consult': 0.7 },
+  'High K': { 'Kayexalate': 0.9, 'Insulin/D50': 0.85, 'Calcium Gluconate': 0.8, 'Cardiac Monitor': 0.95, 'Dialysis': 0.7, 'EKG': 0.9 },
+  'Low K': { 'KCl Replacement': 0.95, 'Cardiac Monitor': 0.9, 'Mg Level': 0.8, 'Telemetry': 0.85, 'EKG': 0.8 },
+  'High Glucose': { 'Insulin': 0.95, 'Frequent Glucose Checks': 0.9, 'Ketone Check': 0.8, 'Endocrine Consult': 0.7, 'Diabetic Diet': 0.8 },
+  'Low Glucose': { 'D50': 0.95, 'Glucagon': 0.9, 'Frequent Glucose Checks': 0.9, 'Snack': 0.85, 'Check Insulin Dose': 0.8 },
+  'High INR': { 'Vitamin K': 0.9, 'FFP': 0.85, 'Hold Anticoagulation': 0.95, 'Bleeding Precautions': 0.9, 'GI Prophylaxis': 0.7 },
+  'High Lactate': { 'Fluid Resuscitation': 0.95, 'Blood Cultures': 0.9, 'Antibiotics': 0.9, 'Sepsis Protocol': 0.85, 'ICU Evaluation': 0.8 },
+  'Low Na': { 'Fluid Restriction': 0.9, 'Hypertonic Saline': 0.8, 'Seizure Precautions': 0.85, 'Neuro Checks': 0.8, 'Serial Na Levels': 0.9 },
+  'High Na': { 'D5W': 0.9, 'Free Water': 0.85, 'Fluid Replacement': 0.8, 'Neuro Checks': 0.7, 'Serial Na Levels': 0.9 },
+  'High WBC': { 'Blood Cultures': 0.9, 'Antibiotics': 0.85, 'CBC with Diff': 0.8, 'Infection Source': 0.9, 'Fever Protocol': 0.8 },
+  'Low WBC': { 'Neutropenic Precautions': 0.95, 'Reverse Isolation': 0.9, 'Hold Chemo': 0.8, 'Growth Factor': 0.7, 'Oncology Consult': 0.8 },
+  
+  // Vital sign abnormalities -> Interventions  
+  'Hypotension': { 'Fluid Bolus': 0.95, 'Vasopressors': 0.8, 'Trendelenburg': 0.7, 'Cardiac Monitor': 0.9, 'Hold BP Meds': 0.95 },
+  'Hypertension': { 'Antihypertensives': 0.9, 'Cardiac Monitor': 0.85, 'Neuro Checks': 0.8, 'Pain Assessment': 0.7, 'Hold Visitors': 0.6 },
+  'Bradycardia': { 'Atropine': 0.85, 'Pacing': 0.7, 'Cardiac Monitor': 0.95, 'EKG': 0.9, 'Hold Beta Blockers': 0.95 },
+  'Tachycardia': { 'Beta Blockers': 0.8, 'Cardiac Monitor': 0.95, 'EKG': 0.9, 'Fluid Bolus': 0.7, 'Pain Assessment': 0.8 },
+  'Hypoxia': { 'Oxygen': 0.95, 'Respiratory Assessment': 0.9, 'ABG': 0.85, 'Chest X-ray': 0.8, 'RT Consult': 0.85 },
+  'Fever': { 'Tylenol': 0.95, 'Cooling Measures': 0.8, 'Blood Cultures': 0.85, 'Antibiotics': 0.8, 'Fluid Replacement': 0.7 },
+  'Hypothermia': { 'Warming Blanket': 0.95, 'Warm Fluids': 0.9, 'Thyroid Panel': 0.6, 'Core Temp Monitoring': 0.8 }
 };
 
 // Secondary relationships (items that trigger when main item is selected)
@@ -234,28 +259,87 @@ export const vitalThresholds: Record<string, Threshold> = {
   'Accucheck': { low: 70, high: 110, critical_low: 60, critical_high: 250 }
 };
 
-// Lab value thresholds for abnormal detection
+// Lab value thresholds for abnormal detection with intervention triggers
 export const labThresholds: Record<string, Threshold> = {
-  'WBC': { min: 4.5, max: 11 },
-  'Hgb': { min: 12, max: 16 },
-  'Hct': { min: 36, max: 46 },
-  'Plt': { min: 150, max: 400 },
-  'Na': { min: 136, max: 145 },
-  'K': { min: 3.5, max: 5.0 },
+  'WBC': { 
+    min: 4.5, 
+    max: 11,
+    triggers_low: ['Blood Cultures', 'Antibiotics', 'Neutropenic Precautions'],
+    triggers_high: ['Blood Cultures', 'Antibiotics', 'CBC with Diff']
+  },
+  'Hgb': { 
+    min: 12, 
+    max: 16,
+    critical_low: 7,
+    triggers_low: ['Type & Cross', 'Blood Transfusion', 'Iron Studies', 'Hemolysis Panel'],
+    triggers_high: ['Phlebotomy', 'Hydration']
+  },
+  'Hct': { 
+    min: 36, 
+    max: 46,
+    critical_low: 21,
+    triggers_low: ['Type & Cross', 'Blood Transfusion', 'GI Bleed Protocol'],
+    triggers_high: ['Phlebotomy', 'Hydration']
+  },
+  'Plt': { 
+    min: 150, 
+    max: 400,
+    critical_low: 50,
+    triggers_low: ['Platelet Transfusion', 'Bleeding Precautions', 'No IM Injections'],
+    triggers_high: ['Aspirin', 'Hydration']
+  },
+  'Na': { 
+    min: 136, 
+    max: 145,
+    critical_low: 125,
+    critical_high: 155,
+    triggers_low: ['Fluid Restriction', 'Hypertonic Saline', 'Seizure Precautions'],
+    triggers_high: ['D5W', 'Free Water', 'Fluid Replacement']
+  },
+  'K': { 
+    min: 3.5, 
+    max: 5.0,
+    critical_low: 2.5,
+    critical_high: 6.0,
+    triggers_low: ['KCl Replacement', 'Cardiac Monitor', 'Mg Level'],
+    triggers_high: ['Kayexalate', 'Insulin/D50', 'Calcium Gluconate', 'Cardiac Monitor', 'Dialysis']
   'Cl': { min: 98, max: 106 },
   'CO2': { min: 22, max: 28 },
   'BUN': { min: 7, max: 20 },
-  'Cr': { min: 0.6, max: 1.2 },
-  'Glucose': { min: 70, max: 110 },
+  'Cr': { 
+    min: 0.6, 
+    max: 1.2,
+    critical_high: 3.0,
+    triggers_high: ['Fluid Management', 'Renal Consult', 'Dialysis', 'Hold Nephrotoxins']
+  },
+  'Glucose': { 
+    min: 70, 
+    max: 110,
+    critical_low: 60,
+    critical_high: 400,
+    triggers_low: ['D50', 'Glucagon', 'Frequent Glucose Checks'],
+    triggers_high: ['Insulin', 'Frequent Glucose Checks', 'Ketone Check']
+  },
   'Ca': { min: 8.5, max: 10.5 },
   'Mg': { min: 1.7, max: 2.2 },
   'Phos': { min: 2.5, max: 4.5 },
-  'Troponin': { max: 0.04 },
-  'BNP': { max: 100 },
+  'Troponin': { 
+    max: 0.04,
+    triggers_high: ['EKG', 'Cardiology Consult', 'Aspirin', 'Nitroglycerin', 'Heparin']
+  },
+  'BNP': { 
+    max: 100,
+    triggers_high: ['Lasix', 'Fluid Restriction', 'Daily Weights', 'I&O Monitoring']
+  },
   'CK': { min: 30, max: 200 },
   'CK-MB': { max: 6.3 },
   'PT': { min: 11, max: 13 },
-  'INR': { min: 0.8, max: 1.2 },
+  'INR': { 
+    min: 0.8, 
+    max: 1.2,
+    critical_high: 3.5,
+    triggers_high: ['Vitamin K', 'FFP', 'Hold Anticoagulation', 'Bleeding Precautions']
+  },
   'PTT': { min: 25, max: 35 },
   'Fibrinogen': { min: 200, max: 400 },
   'pH': { min: 7.35, max: 7.45 },
@@ -268,7 +352,11 @@ export const labThresholds: Record<string, Threshold> = {
   'Alk Phos': { min: 44, max: 147 },
   'T Bili': { min: 0.1, max: 1.2 },
   'Albumin': { min: 3.5, max: 5.0 },
-  'Lactate': { max: 2 },
+  'Lactate': { 
+    max: 2,
+    critical_high: 4,
+    triggers_high: ['Fluid Resuscitation', 'Blood Cultures', 'Antibiotics', 'Sepsis Protocol']
+  },
   'Ammonia': { min: 15, max: 45 },
   'TSH': { min: 0.4, max: 4.0 },
   'A1C': { max: 5.7 },

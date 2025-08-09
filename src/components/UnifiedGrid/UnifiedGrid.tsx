@@ -16,6 +16,7 @@ interface UnifiedGridProps {
   onItemSelect: (category: string, section: string, item: string) => void;
   onDismissSuggestion: (key: string, e: React.MouseEvent) => void;
   onPatientUpdate: (patient: Patient) => void;
+  onRequestNote?: (category: string, section: string, item: string) => void;
 }
 
 export const UnifiedGrid: React.FC<UnifiedGridProps> = ({
@@ -25,7 +26,8 @@ export const UnifiedGrid: React.FC<UnifiedGridProps> = ({
   dismissedSuggestions,
   onItemSelect,
   onDismissSuggestion,
-  onPatientUpdate
+  onPatientUpdate,
+  onRequestNote
 }) => {
   // Order sections - vitals and labs will span multiple cells
   const orderedSections = [
@@ -69,6 +71,7 @@ export const UnifiedGrid: React.FC<UnifiedGridProps> = ({
             onItemSelect={onItemSelect}
             onDismissSuggestion={onDismissSuggestion}
             onPatientUpdate={onPatientUpdate}
+            onRequestNote={onRequestNote}
           />
         </div>
       ))}

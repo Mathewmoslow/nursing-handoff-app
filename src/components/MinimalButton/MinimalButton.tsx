@@ -11,6 +11,7 @@ interface MinimalButtonProps {
   relatedItems: string[];
   color: string;
   onItemSelect: (category: string, section: string, item: string) => void;
+  onRequestNote?: (category: string, section: string, item: string) => void;
 }
 
 export const MinimalButton: React.FC<MinimalButtonProps> = ({
@@ -19,7 +20,8 @@ export const MinimalButton: React.FC<MinimalButtonProps> = ({
   selectedItems,
   relatedItems,
   color,
-  onItemSelect
+  onItemSelect,
+  onRequestNote
 }) => {
   const [showRadial, setShowRadial] = useState(false);
   const [radialPosition, setRadialPosition] = useState({ x: 0, y: 0 });
@@ -95,6 +97,7 @@ export const MinimalButton: React.FC<MinimalButtonProps> = ({
           onSelect={handleItemSelect}
           position={radialPosition}
           color={color}
+          onRequestNote={onRequestNote}
         />,
         document.body
       )}

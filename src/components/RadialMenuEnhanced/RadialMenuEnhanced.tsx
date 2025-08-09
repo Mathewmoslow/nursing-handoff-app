@@ -226,6 +226,25 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
             <Icon size={24} />
             <span className="center-label">{centerItem.label}</span>
           </button>
+          {centerItem.isSelected && onRequestNote && (
+            <button 
+              className="center-note-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                // Find the full key for the center item
+                const fullKey = Object.keys(selectedItems).find(k => k.includes(centerItem.label));
+                if (fullKey && onRequestNote) {
+                  const parts = fullKey.split('-');
+                  if (parts.length >= 3) {
+                    onRequestNote(parts[0], parts[1], parts.slice(2).join('-'));
+                  }
+                }
+              }}
+              title="Add note"
+            >
+              <StickyNote size={14} />
+            </button>
+          )}
           <button className="close-button" onClick={onClose}>×</button>
         </div>
 
@@ -329,8 +348,35 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
                   onSelect(suggestion);
                 }}
               >
-                {isSuggestionSelected ? '✓' : <Sparkles size={12} />}
-                {suggestion}
+                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  {isSuggestionSelected ? '✓' : <Sparkles size={12} />}
+                  {suggestion}
+                  {isSuggestionSelected && onRequestNote && (
+                    <button
+                      className="suggestion-note-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Try to find where this suggestion belongs
+                        const fullKey = Object.keys(selectedItems).find(k => {
+                          const item = selectedItems[k];
+                          return item && item.item === suggestion;
+                        });
+                        if (fullKey && onRequestNote) {
+                          const parts = fullKey.split('-');
+                          if (parts.length >= 3) {
+                            onRequestNote(parts[0], parts[1], parts.slice(2).join('-'));
+                          }
+                        } else if (onRequestNote) {
+                          // Fallback - use generic assessment category
+                          onRequestNote('assessment', 'general', suggestion);
+                        }
+                      }}
+                      title="Add note"
+                    >
+                      <StickyNote size={10} />
+                    </button>
+                  )}
+                </span>
               </button>
             );
           });
