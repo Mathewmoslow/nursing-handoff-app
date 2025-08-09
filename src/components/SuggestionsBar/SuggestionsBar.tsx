@@ -26,13 +26,15 @@ export const SuggestionsBar: React.FC<SuggestionsBarProps> = ({
     .filter(([key]) => !dismissedSuggestions[key])
     .sort(([, a], [, b]) => b.score - a.score);
 
-  if (activeSuggestions.length === 0) return null;
-
   return (
-    <div className="suggestions-bar">
+    <div className={`suggestions-bar ${activeSuggestions.length === 0 ? 'empty-state' : ''}`}>
       <div className="suggestions-header">
         <Lightbulb size={16} />
-        <span>Suggested items based on your selections:</span>
+        <span>
+          {activeSuggestions.length > 0 
+            ? 'Suggested items based on your selections:' 
+            : 'Start selecting items to see smart suggestions'}
+        </span>
       </div>
       <div className="suggestions-list">
         {activeSuggestions.map(([key, suggestion]) => {

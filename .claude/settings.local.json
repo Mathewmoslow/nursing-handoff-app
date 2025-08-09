@@ -3,7 +3,8 @@
     "allow": [
       "Bash(git cherry-pick:*)",
       "Bash(npm run deploy:*)",
-      "Bash(npx gh-pages:*)"
+      "Bash(npx gh-pages:*)",
+      "Bash(npm run build:*)"
     ],
     "deny": []
   }

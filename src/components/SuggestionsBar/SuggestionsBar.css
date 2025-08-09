@@ -16,8 +16,23 @@
   z-index: 100;
 }
 
-.suggestions-bar.empty {
-  display: none;
+.suggestions-bar.empty-state {
+  opacity: 0.8;
+  background: #f3f4f6;
+  border-color: #e5e7eb;
+}
+
+.dark .suggestions-bar.empty-state {
+  background: var(--color-gray-800);
+  border-color: var(--color-gray-700);
+}
+
+.suggestions-bar.empty-state .suggestions-header {
+  color: #6b7280;
+}
+
+.dark .suggestions-bar.empty-state .suggestions-header {
+  color: var(--color-gray-400);
 }
 
 .dark .suggestions-bar {

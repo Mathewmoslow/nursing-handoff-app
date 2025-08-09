@@ -1,7 +1,7 @@
 .radial-menu-enhanced-overlay {
   position: fixed;
-  width: 500px;
-  height: 500px;
+  width: 450px;
+  height: 450px;
   transform: translate(-50%, -50%);
   z-index: var(--z-radial-overlay);
   pointer-events: none;
@@ -15,6 +15,33 @@
   align-items: center;
   justify-content: center;
   pointer-events: auto;
+}
+
+/* Structured bucket layout specific styles */
+.radial-menu-enhanced.structured .radial-item {
+  animation: bucketAppear 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+.radial-menu-enhanced.structured .radial-item.primary {
+  min-width: 70px;
+  padding: 8px 12px;
+}
+
+.radial-menu-enhanced.structured .radial-item.suggestion {
+  min-width: 80px;
+  padding: 6px 10px;
+}
+
+@keyframes bucketAppear {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 /* Connection lines SVG */
@@ -245,6 +272,38 @@
   opacity: 0;
   animation: fadeIn 0.3s ease-out forwards;
   transition: all 0.3s ease;
+}
+
+/* Structured layout specific overrides */
+.radial-menu-enhanced.structured .radial-item.primary {
+  font-size: 12px;
+  font-weight: 500;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.radial-menu-enhanced.structured .radial-item.suggestion {
+  font-size: 11px;
+  height: 32px;
+}
+
+.radial-menu-enhanced.structured .suggestion-content {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.radial-menu-enhanced.structured .suggestion-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
 }
 
 .dark .radial-item.suggestion {
