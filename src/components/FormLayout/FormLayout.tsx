@@ -28,7 +28,8 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
   onItemSelect,
   onDismissSuggestion,
   onPatientUpdate,
-  onClearSelections
+  onClearSelections,
+  onRequestNote
 }) => {
   return (
     <div className="form-layout">

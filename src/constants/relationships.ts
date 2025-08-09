@@ -303,6 +303,7 @@ export const labThresholds: Record<string, Threshold> = {
     critical_high: 6.0,
     triggers_low: ['KCl Replacement', 'Cardiac Monitor', 'Mg Level'],
     triggers_high: ['Kayexalate', 'Insulin/D50', 'Calcium Gluconate', 'Cardiac Monitor', 'Dialysis']
+  },
   'Cl': { min: 98, max: 106 },
   'CO2': { min: 22, max: 28 },
   'BUN': { min: 7, max: 20 },

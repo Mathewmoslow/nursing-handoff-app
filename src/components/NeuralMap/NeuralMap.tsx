@@ -154,10 +154,10 @@ export const NeuralMap: React.FC<NeuralMapProps> = ({
         .id(d => d.id)
         .distance(d => 100 / (d.strength || 1))
         .strength(d => d.strength || 0.5))
-      .force('charge', d3.forceManyBody()
+      .force('charge', d3.forceManyBody<Node>()
         .strength(d => d.type === 'selected' ? -300 : -150))
       .force('center', d3.forceCenter(centerX, centerY))
-      .force('collision', d3.forceCollide()
+      .force('collision', d3.forceCollide<Node>()
         .radius(d => d.type === 'selected' ? 40 : 30))
       .force('x', d3.forceX(centerX).strength(0.05))
       .force('y', d3.forceY(centerY).strength(0.05));
