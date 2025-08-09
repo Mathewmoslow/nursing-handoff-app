@@ -145,8 +145,6 @@ export const relationshipMap: Record<string, Record<string, number>> = {
   // Bidirectional relationships - Symptoms <-> Interventions
   'Chest Pain': { 'EKG': 0.9, 'Troponin': 0.9, 'Aspirin': 0.8, 'Nitroglycerin': 0.7, 'Morphine': 0.6, 'Cards Consult': 0.8 },
   'SOB': { 'O2': 0.9, 'CXR': 0.8, 'ABG': 0.7, 'Nebulizer': 0.7, 'Diuretics': 0.6, 'BiPAP': 0.6 },
-  'Fever': { 'Blood Cultures': 0.9, 'UA': 0.8, 'CXR': 0.7, 'Antibiotics': 0.8, 'Tylenol': 0.9, 'Cooling': 0.7 },
-  'Hypotension': { 'Fluids': 0.9, 'Trendelenburg': 0.7, 'Pressors': 0.8, 'Call MD': 0.9, 'ICU': 0.6 },
   'Altered MS': { 'Glucose Check': 0.9, 'CT Head': 0.8, 'UA': 0.7, 'Drug Screen': 0.6, 'Narcan': 0.5, 'Neuro Consult': 0.7 },
   'Abdominal Pain': { 'NPO': 0.8, 'CT Abdomen': 0.8, 'CBC': 0.9, 'Lipase': 0.7, 'Surgery Consult': 0.6 },
   
