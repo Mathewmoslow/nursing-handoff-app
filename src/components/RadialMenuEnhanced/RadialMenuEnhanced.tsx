@@ -120,14 +120,14 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
   const primaryBucketCount = calculateBucketConfig(primaryOptions.length);
   const suggestionBucketCount = calculateBucketConfig(dynamicSuggestions.length);
   
-  // Calculate positions with structured buckets
-  const innerRadius = 120; // First ring radius
-  const outerRadius = 200; // Second ring radius
+  // Calculate positions with structured buckets - increased spacing
+  const innerRadius = 140; // First ring radius - increased for more spacing
+  const outerRadius = 240; // Second ring radius - increased for more spacing
   const Icon = centerItem.icon;
 
   // Adjust position to keep menu within viewport
   useEffect(() => {
-    const menuSize = 450;
+    const menuSize = 550; // Increased to match CSS
     const padding = 20;
     
     let newX = position.x;
@@ -184,11 +184,14 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
   if (!isOpen) return null;
 
   // Create bucket positions for primary ring
+  const centerX = 275; // Center of 550px container
+  const centerY = 275;
+  
   const primaryBuckets = Array.from({ length: primaryBucketCount }, (_, i) => {
     const angle = (i * 2 * Math.PI / primaryBucketCount) - (Math.PI / 2);
     return {
-      x: Math.cos(angle) * innerRadius + 225,
-      y: Math.sin(angle) * innerRadius + 225,
+      x: Math.cos(angle) * innerRadius + centerX,
+      y: Math.sin(angle) * innerRadius + centerY,
       angle
     };
   });
@@ -197,8 +200,8 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
   const suggestionBuckets = Array.from({ length: suggestionBucketCount }, (_, i) => {
     const angle = (i * 2 * Math.PI / suggestionBucketCount) - (Math.PI / 2);
     return {
-      x: Math.cos(angle) * outerRadius + 225,
-      y: Math.sin(angle) * outerRadius + 225,
+      x: Math.cos(angle) * outerRadius + centerX,
+      y: Math.sin(angle) * outerRadius + centerY,
       angle
     };
   });
@@ -215,7 +218,7 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
       >
         <div className="radial-menu-enhanced structured" ref={menuRef}>
           {/* SVG for connection lines and bucket guides */}
-          <svg className="connection-lines" width="450" height="450">
+          <svg className="connection-lines" width="550" height="550">
             {/* Draw bucket segments for primary ring */}
             {primaryBuckets.map((bucket, index) => {
               const nextIndex = (index + 1) % primaryBucketCount;
@@ -226,8 +229,8 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
                 <g key={`primary-bucket-${index}`}>
                   {/* Radial line from center */}
                   <line
-                    x1="225"
-                    y1="225"
+                    x1={centerX}
+                    y1={centerY}
                     x2={bucket.x}
                     y2={bucket.y}
                     stroke={color}
@@ -236,9 +239,9 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
                   />
                   {/* Arc segment (visual guide) */}
                   <path
-                    d={`M ${225 + Math.cos(angleStart) * (innerRadius - 30)} ${225 + Math.sin(angleStart) * (innerRadius - 30)}
+                    d={`M ${centerX + Math.cos(angleStart) * (innerRadius - 30)} ${centerY + Math.sin(angleStart) * (innerRadius - 30)}
                         A ${innerRadius - 30} ${innerRadius - 30} 0 0 1 
-                        ${225 + Math.cos(angleEnd) * (innerRadius - 30)} ${225 + Math.sin(angleEnd) * (innerRadius - 30)}`}
+                        ${centerX + Math.cos(angleEnd) * (innerRadius - 30)} ${centerY + Math.sin(angleEnd) * (innerRadius - 30)}`}
                     fill="none"
                     stroke={color}
                     strokeWidth="1"
@@ -257,8 +260,8 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
                 <g key={`suggestion-bucket-${index}`}>
                   {/* Radial line from center */}
                   <line
-                    x1="225"
-                    y1="225"
+                    x1={centerX}
+                    y1={centerY}
                     x2={bucket.x}
                     y2={bucket.y}
                     stroke="#f59e0b"
@@ -268,9 +271,9 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
                   />
                   {/* Arc segment */}
                   <path
-                    d={`M ${225 + Math.cos(angleStart) * (outerRadius - 30)} ${225 + Math.sin(angleStart) * (outerRadius - 30)}
+                    d={`M ${centerX + Math.cos(angleStart) * (outerRadius - 30)} ${centerY + Math.sin(angleStart) * (outerRadius - 30)}
                         A ${outerRadius - 30} ${outerRadius - 30} 0 0 1 
-                        ${225 + Math.cos(angleEnd) * (outerRadius - 30)} ${225 + Math.sin(angleEnd) * (outerRadius - 30)}`}
+                        ${centerX + Math.cos(angleEnd) * (outerRadius - 30)} ${centerY + Math.sin(angleEnd) * (outerRadius - 30)}`}
                     fill="none"
                     stroke="#f59e0b"
                     strokeWidth="1"
@@ -282,8 +285,8 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
             
             {/* Draw circles for the rings */}
             <circle
-              cx="225"
-              cy="225"
+              cx={centerX}
+              cy={centerY}
               r={innerRadius}
               fill="none"
               stroke={color}
@@ -292,8 +295,8 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
             />
             {dynamicSuggestions.length > 0 && (
               <circle
-                cx="225"
-                cy="225"
+                cx={centerX}
+                cy={centerY}
                 r={outerRadius}
                 fill="none"
                 stroke="#f59e0b"

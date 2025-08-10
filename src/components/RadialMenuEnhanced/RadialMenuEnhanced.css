@@ -1,7 +1,7 @@
 .radial-menu-enhanced-overlay {
   position: fixed;
-  width: 450px;
-  height: 450px;
+  width: 550px;
+  height: 550px;
   transform: translate(-50%, -50%);
   z-index: var(--z-radial-overlay);
   pointer-events: none;
