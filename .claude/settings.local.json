@@ -5,7 +5,9 @@
       "Bash(npm run deploy:*)",
       "Bash(npx gh-pages:*)",
       "Bash(npm run build:*)",
-      "Bash(npm i:*)"
+      "Bash(npm i:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)"
     ],
     "deny": []
   }

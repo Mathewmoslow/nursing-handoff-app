@@ -22,37 +22,40 @@ interface RadialWedgeMenuProps {
 
 // Sound effects helper
 const playSound = (type: 'open' | 'close' | 'select' | 'hover') => {
-  // In production, load actual sound files
-  if ('AudioContext' in window) {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    // Different frequencies for different actions
+  // Use custom WAV files for open, close, and hover
+  if (type === 'open' || type === 'close' || type === 'hover') {
+    const audio = new Audio();
     switch(type) {
       case 'open':
-        oscillator.frequency.value = 440; // A4
-        gainNode.gain.value = 0.1;
+        audio.src = '/sounds/open.wav';
         break;
       case 'close':
-        oscillator.frequency.value = 330; // E4
-        gainNode.gain.value = 0.08;
-        break;
-      case 'select':
-        oscillator.frequency.value = 523; // C5
-        gainNode.gain.value = 0.12;
+        audio.src = '/sounds/close.wav';
         break;
       case 'hover':
-        oscillator.frequency.value = 660; // E5
-        gainNode.gain.value = 0.05;
+        audio.src = '/sounds/hover.wav';
         break;
     }
-    
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + 0.1);
+    audio.volume = 0.3; // Adjust volume as needed
+    audio.play().catch(err => {
+      console.warn('Could not play sound:', err);
+    });
+  } else if (type === 'select') {
+    // Keep the synthesized sound for selection
+    if ('AudioContext' in window) {
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = 523; // C5
+      gainNode.gain.value = 0.12;
+      
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 0.1);
+    }
   }
 };
 
