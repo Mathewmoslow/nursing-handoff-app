@@ -52,6 +52,8 @@ function App() {
   const [relatedItems, setRelatedItems] = useState<Record<string, RelatedItem>>({});
   const [dismissedSuggestions, setDismissedSuggestions] = useState<Record<string, boolean>>({});
   const [userBehaviorHistory, setUserBehaviorHistory] = useState<UserBehavior[]>([]);
+  const [recentItems, setRecentItems] = useState<string[]>([]);
+  const [frequentItems, setFrequentItems] = useState<Record<string, number>>({});
   const [showNeuralMap, setShowNeuralMap] = useState(false);
   const [showPrintView, setShowPrintView] = useState(false);
   const [showPatientStory, setShowPatientStory] = useState(false);
@@ -207,6 +209,18 @@ function App() {
       setSelectedItems(newSelectedItems);
       if (!selectedItems[key]) {
         trackBehavior('select', item);
+        
+        // Track recent items
+        setRecentItems(prev => {
+          const updated = [item, ...prev.filter(i => i !== item)];
+          return updated.slice(0, 20); // Keep last 20 items
+        });
+        
+        // Track frequent items
+        setFrequentItems(prev => ({
+          ...prev,
+          [item]: (prev[item] || 0) + 1
+        }));
       }
       
       // Check for abnormal values that trigger immediate actions
@@ -465,6 +479,8 @@ function App() {
         onClearSelections={clearAllSelections}
         darkMode={darkMode}
         onRequestNote={openNoteModal}
+        recentItems={recentItems}
+        frequentItems={frequentItems}
       />
 
       {showNeuralMap && (

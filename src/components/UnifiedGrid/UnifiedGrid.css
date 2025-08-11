@@ -4,7 +4,8 @@
   display: grid;
   gap: 8px;
   padding: 8px;
-  height: calc(100vh - 120px);
+  margin-top: 100px; /* Space for fixed PatientInfoBar and SuggestionsBar */
+  height: calc(100vh - 220px); /* Adjusted for both fixed bars */
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
@@ -24,6 +25,11 @@
     grid-auto-rows: minmax(180px, 1fr);
     gap: 12px;
     padding: 12px;
+  }
+  
+  .grid-item-quick-access {
+    grid-column: span 2;
+    min-height: 180px;
   }
   
   .grid-item-admission,
@@ -62,6 +68,11 @@
     padding: 10px;
   }
   
+  .grid-item-quick-access {
+    grid-column: span 2;
+    min-height: 160px;
+  }
+  
   .grid-item-admission,
   .grid-item-neuro,
   .grid-item-cardiac,
@@ -92,7 +103,7 @@
     grid-auto-rows: minmax(140px, 1fr);
     gap: 8px;
     padding: 8px;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 200px); /* Adjusted for fixed bars */
   }
   
   .grid-item-admission,
@@ -133,7 +144,7 @@
     grid-auto-rows: minmax(100px, 1fr);
     gap: 6px;
     padding: 6px;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 180px); /* Adjusted for fixed bars */
   }
   
   .grid-item-admission,
@@ -169,7 +180,7 @@
     grid-auto-rows: auto;
     gap: 6px;
     padding: 6px;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 200px); /* Adjusted for fixed bars */
     overflow-y: scroll;
   }
   
@@ -235,8 +246,8 @@
 /* Fix for iOS Safari */
 @supports (-webkit-touch-callout: none) {
   .unified-grid {
-    height: calc(100vh - 120px);
-    height: calc(100vh - 120px - env(safe-area-inset-bottom));
+    height: calc(100vh - 220px); /* Adjusted for fixed bars */
+    height: calc(100vh - 220px - env(safe-area-inset-bottom));
   }
 }
 

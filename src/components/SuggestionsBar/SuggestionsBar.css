@@ -11,9 +11,11 @@
   gap: 12px;
   min-height: 50px;
   animation: slideDown 0.3s ease-out;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  position: fixed;
+  top: 160px; /* Below PatientInfoBar which is at 120px */
+  left: 0;
+  right: 0;
+  z-index: 85; /* Below PatientInfoBar's z-index of 90 */
 }
 
 .suggestions-bar.empty-state {

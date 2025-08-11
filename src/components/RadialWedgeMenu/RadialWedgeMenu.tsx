@@ -21,10 +21,12 @@ interface RadialWedgeMenuProps {
 }
 
 // Sound effects helper
-const playSound = (type: 'open' | 'close' | 'select' | 'hover') => {
-  // Use custom WAV files for open, close, and hover
-  if (type === 'open' || type === 'close' || type === 'hover') {
+const playSound = (type: 'open' | 'close' | 'select' | 'hover' | 'deselect') => {
+  // Use custom WAV files for open, close, hover, and deselect
+  if (type === 'open' || type === 'close' || type === 'hover' || type === 'deselect') {
     const audio = new Audio();
+    let playbackRate = 2.0; // Default 2x speed
+    
     switch(type) {
       case 'open':
         audio.src = '/sounds/open.wav';
@@ -35,8 +37,13 @@ const playSound = (type: 'open' | 'close' | 'select' | 'hover') => {
       case 'hover':
         audio.src = '/sounds/hover.wav';
         break;
+      case 'deselect':
+        audio.src = '/sounds/close.wav'; // Use close sound for deselect
+        playbackRate = 3.0; // Play at 3x speed for deselect
+        break;
     }
     audio.volume = 0.3; // Adjust volume as needed
+    audio.playbackRate = playbackRate;
     audio.play().catch(err => {
       console.warn('Could not play sound:', err);
     });
@@ -272,24 +279,29 @@ export const RadialWedgeMenu: React.FC<RadialWedgeMenuProps> = ({
   };
 
   const handleWedgeClick = (item: string, isPrimary: boolean) => {
-    playSound('select');
-    triggerHaptic('light');
+    let isDeselecting = false;
     
     if (isPrimary) {
-      if (selectedPrimaryItems.includes(item)) {
+      isDeselecting = selectedPrimaryItems.includes(item);
+      if (isDeselecting) {
         setSelectedPrimaryItems(prev => prev.filter(i => i !== item));
       } else {
         setSelectedPrimaryItems(prev => [...prev, item]);
       }
       onSelect(`${centerItem.label}:${item}`);
     } else {
-      if (selectedSuggestions.includes(item)) {
+      isDeselecting = selectedSuggestions.includes(item);
+      if (isDeselecting) {
         setSelectedSuggestions(prev => prev.filter(i => i !== item));
       } else {
         setSelectedSuggestions(prev => [...prev, item]);
       }
       onSelect(item);
     }
+    
+    // Play appropriate sound based on selection state
+    playSound(isDeselecting ? 'deselect' : 'select');
+    triggerHaptic('light');
   };
 
   const handleWedgeHover = (item: string | null) => {

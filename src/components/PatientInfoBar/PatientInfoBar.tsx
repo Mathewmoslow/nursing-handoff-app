@@ -62,21 +62,6 @@ export const PatientInfoBar: React.FC<PatientInfoBarProps> = ({
         </div>
 
         <div className="info-group">
-          <span className="info-label">MRN:</span>
-          {editing ? (
-            <input
-              type="text"
-              value={editedPatient.mrn}
-              onChange={(e) => setEditedPatient({ ...editedPatient, mrn: e.target.value })}
-              className="edit-input"
-              placeholder="MRN"
-            />
-          ) : (
-            <span className="info-value">{patient.mrn || '—'}</span>
-          )}
-        </div>
-
-        <div className="info-group">
           <span className="info-label">Age:</span>
           {editing ? (
             <input
