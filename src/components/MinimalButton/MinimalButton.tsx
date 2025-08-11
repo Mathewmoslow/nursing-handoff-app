@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { FormButton, SelectedItem } from '../../types';
-import { RadialMenuEnhanced } from '../RadialMenuEnhanced/RadialMenuEnhanced';
+import { RadialWedgeMenu } from '../RadialWedgeMenu/RadialWedgeMenu';
 import './MinimalButton.css';
 
 interface MinimalButtonProps {
@@ -83,7 +83,7 @@ export const MinimalButton: React.FC<MinimalButtonProps> = ({
       </button>
 
       {showRadial && ReactDOM.createPortal(
-        <RadialMenuEnhanced
+        <RadialWedgeMenu
           centerItem={{
             label: button.mainButton,
             icon: Icon,
