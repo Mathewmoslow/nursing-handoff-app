@@ -20,6 +20,10 @@
   --z-radial-center: 302;
   --z-radial-items: 303;
   
+  /* Keypad layers (higher than radial menu) */
+  --z-keypad-backdrop: 350;
+  --z-keypad-content: 351;
+  
   /* Toast/notification layers */
   --z-toast: 400;
   

@@ -17,6 +17,8 @@ interface FormLayoutProps {
   onPatientUpdate: (patient: Patient) => void;
   onClearSelections: () => void;
   onRequestNote?: (category: string, section: string, item: string) => void;
+  recentItems?: string[];
+  frequentItems?: Record<string, number>;
 }
 
 export const FormLayout: React.FC<FormLayoutProps> = ({
@@ -28,7 +30,10 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
   onItemSelect,
   onDismissSuggestion,
   onPatientUpdate,
-  onClearSelections
+  onClearSelections,
+  onRequestNote,
+  recentItems = [],
+  frequentItems = {}
 }) => {
   return (
     <div className="form-layout">
@@ -40,6 +45,7 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
       <SuggestionsBar
         relatedItems={relatedItems}
         dismissedSuggestions={dismissedSuggestions}
+        selectedItems={selectedItems}
         onItemSelect={onItemSelect}
         onDismissSuggestion={onDismissSuggestion}
         darkMode={darkMode}
@@ -53,6 +59,9 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
         onItemSelect={onItemSelect}
         onDismissSuggestion={onDismissSuggestion}
         onPatientUpdate={onPatientUpdate}
+        onRequestNote={onRequestNote}
+        recentItems={recentItems}
+        frequentItems={frequentItems}
       />
     </div>
   );

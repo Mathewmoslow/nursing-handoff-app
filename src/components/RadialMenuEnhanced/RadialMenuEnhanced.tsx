@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { LucideIcon, Sparkles, Edit3, StickyNote } from 'lucide-react';
+import { LucideIcon, Sparkles, StickyNote } from 'lucide-react';
 import { relationshipMap } from '../../constants/relationships';
 import './RadialMenuEnhanced.css';
 
@@ -20,6 +20,41 @@ interface RadialMenuEnhancedProps {
   onRequestNote?: (category: string, section: string, item: string) => void;
 }
 
+// Calculate optimal bucket configuration for a given number of items
+const calculateBucketConfig = (itemCount: number) => {
+  // Predefined bucket configurations for optimal visual balance
+  // Max 20 for first ring, much more for second ring
+  const configs = {
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4,
+    5: 5,
+    6: 6,
+    7: 7,
+    8: 8,
+    9: 9,
+    10: 10,
+    11: 12, // Round up to 12 for better distribution
+    12: 12,
+    13: 14,
+    14: 14,
+    15: 16,
+    16: 16,
+    17: 18,
+    18: 18,
+    19: 20,
+    20: 20
+  };
+  
+  // For items over 20, use multiples of 4 for even distribution
+  if (itemCount > 20) {
+    return Math.ceil(itemCount / 4) * 4;
+  }
+  
+  return configs[itemCount as keyof typeof configs] || itemCount;
+};
+
 export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
   centerItem,
   primaryOptions,
@@ -34,12 +69,13 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
 }) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const [selectedPrimaryItems, setSelectedPrimaryItems] = useState<string[]>([]);
+  const [selectedSuggestions, setSelectedSuggestions] = useState<string[]>([]);
   const [dynamicSuggestions, setDynamicSuggestions] = useState<string[]>([]);
+  const [adjustedPosition, setAdjustedPosition] = useState({ x: position.x, y: position.y });
   
   // Initialize selected items from props
   useEffect(() => {
     const selected = primaryOptions.filter(option => {
-      // Check for items that match this pattern
       const optionKey = `${centerItem.label}:${option}`;
       return Object.keys(selectedItems).some(k => k.endsWith(optionKey));
     });
@@ -80,12 +116,41 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
     }
   }, [selectedPrimaryItems, relatedSuggestions, centerItem.isSelected, centerItem.label]);
 
+  // Calculate bucket configurations
+  const primaryBucketCount = calculateBucketConfig(primaryOptions.length);
+  const suggestionBucketCount = calculateBucketConfig(dynamicSuggestions.length);
   
-  // Calculate positions for items - increased radius for better spacing
-  const innerRadius = 130; // Increased for better spacing
-  const suggestionRadius = 220; // Much farther out to prevent overlap
+  // Calculate positions with structured buckets - increased spacing
+  const innerRadius = 140; // First ring radius - increased for more spacing
+  const outerRadius = 240; // Second ring radius - increased for more spacing
   const Icon = centerItem.icon;
 
+  // Adjust position to keep menu within viewport
+  useEffect(() => {
+    const menuSize = 550; // Increased to match CSS
+    const padding = 20;
+    
+    let newX = position.x;
+    let newY = position.y;
+    
+    // Check boundaries
+    if (newX + menuSize/2 > window.innerWidth - padding) {
+      newX = window.innerWidth - menuSize/2 - padding;
+    }
+    if (newX - menuSize/2 < padding) {
+      newX = menuSize/2 + padding;
+    }
+    if (newY + menuSize/2 > window.innerHeight - padding) {
+      newY = window.innerHeight - menuSize/2 - padding;
+    }
+    if (newY - menuSize/2 < padding) {
+      newY = menuSize/2 + padding;
+    }
+    
+    setAdjustedPosition({ x: newX, y: newY });
+  }, [position.x, position.y]);
+
+  // Handle click outside and escape key
   useEffect(() => {
     if (!isOpen) return;
 
@@ -104,7 +169,6 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
       }
     };
 
-    // Use a ref to track the timeout
     const timeoutId = setTimeout(() => {
       document.addEventListener('mousedown', handleClickOutside);
       document.addEventListener('keydown', handleEscKey);
@@ -119,8 +183,28 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
 
   if (!isOpen) return null;
 
-  // Arrange primary options in inner circle (360 degrees divided evenly)
-  const primaryAngleStep = primaryOptions.length > 0 ? (2 * Math.PI) / primaryOptions.length : 0;
+  // Create bucket positions for primary ring
+  const centerX = 275; // Center of 550px container
+  const centerY = 275;
+  
+  const primaryBuckets = Array.from({ length: primaryBucketCount }, (_, i) => {
+    const angle = (i * 2 * Math.PI / primaryBucketCount) - (Math.PI / 2);
+    return {
+      x: Math.cos(angle) * innerRadius + centerX,
+      y: Math.sin(angle) * innerRadius + centerY,
+      angle
+    };
+  });
+
+  // Create bucket positions for suggestion ring
+  const suggestionBuckets = Array.from({ length: suggestionBucketCount }, (_, i) => {
+    const angle = (i * 2 * Math.PI / suggestionBucketCount) - (Math.PI / 2);
+    return {
+      x: Math.cos(angle) * outerRadius + centerX,
+      y: Math.sin(angle) * outerRadius + centerY,
+      angle
+    };
+  });
 
   return (
     <>
@@ -130,184 +214,258 @@ export const RadialMenuEnhanced: React.FC<RadialMenuEnhancedProps> = ({
       }} />
       <div 
         className="radial-menu-enhanced-overlay"
-        style={{ left: position.x, top: position.y }}
+        style={{ left: adjustedPosition.x, top: adjustedPosition.y }}
       >
-        <div className="radial-menu-enhanced" ref={menuRef}>
-        {/* Connection lines */}
-        <svg className="connection-lines" width="500" height="500">
-          {/* Lines from center to primary options */}
-          {primaryOptions.map((_, index) => {
-            const angle = (index * primaryAngleStep) - (Math.PI / 2);
-            const x = Math.cos(angle) * (innerRadius - 20) + 250;
-            const y = Math.sin(angle) * (innerRadius - 20) + 250;
-            
-            return (
-              <line
-                key={`primary-${index}`}
-                x1="250"
-                y1="250"
-                x2={x}
-                y2={y}
-                stroke={color}
-                strokeWidth="2"
-                opacity="0.3"
-              />
-            );
-          })}
-          
-          {/* Lines from center to suggestions */}
-          {(() => {
-            if (dynamicSuggestions.length === 0) return null;
-            
-            const suggestionAngleStep = (2 * Math.PI) / dynamicSuggestions.length;
-            
-            return dynamicSuggestions.map((suggestion, index) => {
-              const angle = (index * suggestionAngleStep) - (Math.PI / 2);
-              const x = Math.cos(angle) * (suggestionRadius - 25) + 250;
-              const y = Math.sin(angle) * (suggestionRadius - 25) + 250;
+        <div className="radial-menu-enhanced structured" ref={menuRef}>
+          {/* SVG for connection lines and bucket guides */}
+          <svg className="connection-lines" width="550" height="550">
+            {/* Draw bucket segments for primary ring */}
+            {primaryBuckets.map((bucket, index) => {
+              const nextIndex = (index + 1) % primaryBucketCount;
+              const angleStart = bucket.angle - (Math.PI / primaryBucketCount);
+              const angleEnd = bucket.angle + (Math.PI / primaryBucketCount);
               
               return (
-                <line
-                  key={`line-${suggestion}-${index}`}
-                  x1="250"
-                  y1="250"
-                  x2={x}
-                  y2={y}
-                  stroke="#f59e0b"
-                  strokeWidth="1.5"
-                  opacity="0.6"
-                  strokeDasharray="5,5"
-                />
+                <g key={`primary-bucket-${index}`}>
+                  {/* Radial line from center */}
+                  <line
+                    x1={centerX}
+                    y1={centerY}
+                    x2={bucket.x}
+                    y2={bucket.y}
+                    stroke={color}
+                    strokeWidth="1"
+                    opacity="0.2"
+                  />
+                  {/* Arc segment (visual guide) */}
+                  <path
+                    d={`M ${centerX + Math.cos(angleStart) * (innerRadius - 30)} ${centerY + Math.sin(angleStart) * (innerRadius - 30)}
+                        A ${innerRadius - 30} ${innerRadius - 30} 0 0 1 
+                        ${centerX + Math.cos(angleEnd) * (innerRadius - 30)} ${centerY + Math.sin(angleEnd) * (innerRadius - 30)}`}
+                    fill="none"
+                    stroke={color}
+                    strokeWidth="1"
+                    opacity="0.1"
+                  />
+                </g>
               );
-            });
-          })()}
-        </svg>
+            })}
+            
+            {/* Draw bucket segments for suggestion ring */}
+            {dynamicSuggestions.length > 0 && suggestionBuckets.map((bucket, index) => {
+              const angleStart = bucket.angle - (Math.PI / suggestionBucketCount);
+              const angleEnd = bucket.angle + (Math.PI / suggestionBucketCount);
+              
+              return (
+                <g key={`suggestion-bucket-${index}`}>
+                  {/* Radial line from center */}
+                  <line
+                    x1={centerX}
+                    y1={centerY}
+                    x2={bucket.x}
+                    y2={bucket.y}
+                    stroke="#f59e0b"
+                    strokeWidth="1"
+                    opacity="0.15"
+                    strokeDasharray="3,3"
+                  />
+                  {/* Arc segment */}
+                  <path
+                    d={`M ${centerX + Math.cos(angleStart) * (outerRadius - 30)} ${centerY + Math.sin(angleStart) * (outerRadius - 30)}
+                        A ${outerRadius - 30} ${outerRadius - 30} 0 0 1 
+                        ${centerX + Math.cos(angleEnd) * (outerRadius - 30)} ${centerY + Math.sin(angleEnd) * (outerRadius - 30)}`}
+                    fill="none"
+                    stroke="#f59e0b"
+                    strokeWidth="1"
+                    opacity="0.1"
+                  />
+                </g>
+              );
+            })}
+            
+            {/* Draw circles for the rings */}
+            <circle
+              cx={centerX}
+              cy={centerY}
+              r={innerRadius}
+              fill="none"
+              stroke={color}
+              strokeWidth="1"
+              opacity="0.1"
+            />
+            {dynamicSuggestions.length > 0 && (
+              <circle
+                cx={centerX}
+                cy={centerY}
+                r={outerRadius}
+                fill="none"
+                stroke="#f59e0b"
+                strokeWidth="1"
+                opacity="0.1"
+              />
+            )}
+          </svg>
 
-        {/* Center node */}
-        <div 
-          className={`radial-center-enhanced ${centerItem.isSelected ? 'selected' : ''}`}
-          style={{ borderColor: color }}
-        >
-          <button 
-            className="center-button-enhanced"
-            onClick={() => onSelect(centerItem.label)}
-            style={{ backgroundColor: centerItem.isSelected ? color : 'white' }}
+          {/* Center node */}
+          <div 
+            className={`radial-center-enhanced ${centerItem.isSelected ? 'selected' : ''}`}
+            style={{ borderColor: color }}
           >
-            <Icon size={24} />
-            <span className="center-label">{centerItem.label}</span>
-          </button>
-          <button className="close-button" onClick={onClose}>×</button>
-        </div>
-
-        {/* Primary options - inner circle */}
-        {primaryOptions.map((option, index) => {
-          // Start from top and go clockwise
-          const angle = (index * primaryAngleStep) - (Math.PI / 2);
-          const x = Math.cos(angle) * innerRadius;
-          const y = Math.sin(angle) * innerRadius;
-          // Check if this option is selected - look for keys ending with this pattern
-          const optionKey = `${centerItem.label}:${option}`;
-          const isSelected = Object.keys(selectedItems).some(k => k.endsWith(optionKey));
-          
-          return (
-            <button
-              key={option}
-              className={`radial-item primary ${isSelected ? 'selected' : ''}`}
-              style={{
-                left: `${250 + x}px`,
-                top: `${250 + y}px`,
-                transform: 'translate(-50%, -50%)',
-                backgroundColor: isSelected ? color : 'white',
-                borderColor: color
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
-                // Toggle local selection state
-                if (selectedPrimaryItems.includes(option)) {
-                  setSelectedPrimaryItems(prev => prev.filter(item => item !== option));
-                } else {
-                  setSelectedPrimaryItems(prev => [...prev, option]);
-                }
-                // Always call onSelect to toggle the global state
-                onSelect(`${centerItem.label}:${option}`);
-              }}
+            <button 
+              className="center-button-enhanced"
+              onClick={() => onSelect(centerItem.label)}
+              style={{ backgroundColor: centerItem.isSelected ? color : 'white' }}
             >
-              {option}
-              {isSelected && onRequestNote && (
-                <button
-                  className="radial-note-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    // Find the full key for this selection
-                    const fullKey = Object.keys(selectedItems).find(k => k.endsWith(optionKey));
-                    if (fullKey && onRequestNote) {
-                      const parts = fullKey.split('-');
-                      if (parts.length >= 3) {
-                        const cat = parts[0];
-                        const sec = parts[1];
-                        const itemName = parts.slice(2).join('-');
-                        onRequestNote(cat, sec, itemName);
-                      }
-                    }
-                  }}
-                  title="Add note"
-                >
-                  <StickyNote size={12} />
-                </button>
-              )}
+              <Icon size={24} />
+              <span className="center-label">{centerItem.label}</span>
             </button>
-          );
-        })}
+            {centerItem.isSelected && onRequestNote && (
+              <button 
+                className="center-note-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const fullKey = Object.keys(selectedItems).find(k => k.includes(centerItem.label));
+                  if (fullKey && onRequestNote) {
+                    const parts = fullKey.split('-');
+                    if (parts.length >= 3) {
+                      onRequestNote(parts[0], parts[1], parts.slice(2).join('-'));
+                    }
+                  }
+                }}
+                title="Add note"
+              >
+                <StickyNote size={14} />
+              </button>
+            )}
+            <button className="close-button" onClick={onClose}>×</button>
+          </div>
 
-        {/* Related suggestions - positioned like clock numbers */}
-        {(() => {
-          // Use dynamicSuggestions which includes all relevant suggestions
-          if (dynamicSuggestions.length === 0) return null;
-          
-          // Position each suggestion evenly around the circle
-          const suggestionAngleStep = (2 * Math.PI) / dynamicSuggestions.length;
-          
-          return dynamicSuggestions.map((suggestion, index) => {
-            // Start from top (12 o'clock) and go clockwise
-            const angle = (index * suggestionAngleStep) - (Math.PI / 2);
-            const x = Math.cos(angle) * suggestionRadius;
-            const y = Math.sin(angle) * suggestionRadius;
+          {/* Primary options - placed in buckets */}
+          {primaryOptions.map((option, index) => {
+            const bucket = primaryBuckets[index];
+            const optionKey = `${centerItem.label}:${option}`;
+            const isSelected = Object.keys(selectedItems).some(k => k.endsWith(optionKey));
+            
+            return (
+              <button
+                key={option}
+                className={`radial-item primary structured ${isSelected ? 'selected' : ''}`}
+                style={{
+                  left: `${bucket.x}px`,
+                  top: `${bucket.y}px`,
+                  transform: 'translate(-50%, -50%)',
+                  backgroundColor: isSelected ? color : 'white',
+                  borderColor: color,
+                  animationDelay: `${index * 0.03}s`
+                }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (selectedPrimaryItems.includes(option)) {
+                    setSelectedPrimaryItems(prev => prev.filter(item => item !== option));
+                  } else {
+                    setSelectedPrimaryItems(prev => [...prev, option]);
+                  }
+                  onSelect(`${centerItem.label}:${option}`);
+                }}
+              >
+                <span className="item-text">{option}</span>
+                {isSelected && onRequestNote && (
+                  <button
+                    className="radial-note-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const fullKey = Object.keys(selectedItems).find(k => k.endsWith(optionKey));
+                      if (fullKey && onRequestNote) {
+                        const parts = fullKey.split('-');
+                        if (parts.length >= 3) {
+                          onRequestNote(parts[0], parts[1], parts.slice(2).join('-'));
+                        }
+                      }
+                    }}
+                    title="Add note"
+                  >
+                    <StickyNote size={12} />
+                  </button>
+                )}
+              </button>
+            );
+          })}
+
+          {/* Suggestions - placed in outer buckets */}
+          {dynamicSuggestions.map((suggestion, index) => {
+            const bucket = suggestionBuckets[index];
+            const isSuggestionSelected = selectedSuggestions.includes(suggestion) || 
+              Object.values(selectedItems).some(item => item.item === suggestion);
             
             return (
               <button
                 key={`suggestion-${suggestion}-${index}`}
-                className="radial-item suggestion"
+                className={`radial-item suggestion structured ${isSuggestionSelected ? 'selected' : ''}`}
                 style={{
-                  left: `${250 + x}px`,
-                  top: `${250 + y}px`,
+                  left: `${bucket.x}px`,
+                  top: `${bucket.y}px`,
                   transform: 'translate(-50%, -50%)',
-                  borderColor: '#f59e0b',
-                  animationDelay: `${index * 0.05}s`
+                  borderColor: isSuggestionSelected ? '#10b981' : '#f59e0b',
+                  backgroundColor: isSuggestionSelected ? '#10b981' : '#fffbeb',
+                  color: isSuggestionSelected ? 'white' : '#92400e',
+                  animationDelay: `${index * 0.03}s`
                 }}
-                onClick={() => onSelect(suggestion)}
+                onClick={() => {
+                  if (isSuggestionSelected) {
+                    setSelectedSuggestions(prev => prev.filter(s => s !== suggestion));
+                  } else {
+                    setSelectedSuggestions(prev => [...prev, suggestion]);
+                  }
+                  onSelect(suggestion);
+                }}
               >
-                <Sparkles size={12} />
-                {suggestion}
+                <span className="suggestion-content">
+                  {isSuggestionSelected ? '✓' : <Sparkles size={11} />}
+                  <span className="suggestion-text">{suggestion}</span>
+                </span>
+                {isSuggestionSelected && onRequestNote && (
+                  <button
+                    className="suggestion-note-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const fullKey = Object.keys(selectedItems).find(k => {
+                        const item = selectedItems[k];
+                        return item && item.item === suggestion;
+                      });
+                      if (fullKey && onRequestNote) {
+                        const parts = fullKey.split('-');
+                        if (parts.length >= 3) {
+                          onRequestNote(parts[0], parts[1], parts.slice(2).join('-'));
+                        }
+                      } else if (onRequestNote) {
+                        onRequestNote('assessment', 'general', suggestion);
+                      }
+                    }}
+                    title="Add note"
+                  >
+                    <StickyNote size={10} />
+                  </button>
+                )}
               </button>
             );
-          });
-        })()}
-        
-        {/* Help tooltip */}
-        {selectedPrimaryItems.length === 0 && (
-          <div className="radial-help">
-            Click options to select/unselect • ESC or click outside to close
-          </div>
-        )}
-        
-        {/* Selection counter */}
-        {selectedPrimaryItems.length > 0 && (
-          <div className="selection-counter">
-            {selectedPrimaryItems.length} selected
-          </div>
-        )}
+          })}
+          
+          {/* Help tooltip */}
+          {selectedPrimaryItems.length === 0 && primaryOptions.length > 0 && (
+            <div className="radial-help">
+              {primaryOptions.length} option{primaryOptions.length !== 1 ? 's' : ''} • 
+              {dynamicSuggestions.length} suggestion{dynamicSuggestions.length !== 1 ? 's' : ''}
+            </div>
+          )}
+          
+          {/* Selection counter */}
+          {(selectedPrimaryItems.length > 0 || selectedSuggestions.length > 0) && (
+            <div className="selection-counter">
+              {selectedPrimaryItems.length + selectedSuggestions.length} selected
+            </div>
+          )}
+        </div>
       </div>
-    </div>
     </>
   );
 };

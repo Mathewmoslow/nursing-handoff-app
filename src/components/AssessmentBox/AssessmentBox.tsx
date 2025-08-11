@@ -17,6 +17,7 @@ interface AssessmentBoxProps {
   onItemSelect: (category: string, section: string, item: string) => void;
   onDismissSuggestion: (key: string, e: React.MouseEvent) => void;
   onPatientUpdate: (patient: Patient) => void;
+  onRequestNote?: (category: string, section: string, item: string) => void;
 }
 
 export const AssessmentBox: React.FC<AssessmentBoxProps> = ({
@@ -28,7 +29,8 @@ export const AssessmentBox: React.FC<AssessmentBoxProps> = ({
   patient,
   onItemSelect,
   onDismissSuggestion,
-  onPatientUpdate
+  onPatientUpdate,
+  onRequestNote
 }) => {
   return (
     <Card elevation="medium">
@@ -99,6 +101,7 @@ export const AssessmentBox: React.FC<AssessmentBoxProps> = ({
               relatedItems={buttonRelatedItems}
               color={section.color}
               onItemSelect={onItemSelect}
+              onRequestNote={onRequestNote}
             />
           );
         })}

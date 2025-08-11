@@ -69,3 +69,4 @@ ai-logs/
 # AI Service logs
 ai-logs/
 *.log
+.vercel

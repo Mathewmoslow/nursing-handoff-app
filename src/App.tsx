@@ -6,6 +6,7 @@ import { PrintView } from './components/PrintView/PrintView';
 import { PatientStoryDrawer } from './components/PatientStoryDrawer/PatientStoryDrawer';
 import { ButtonStudio } from './components/ButtonStudio/ButtonStudio';
 import { QuickNote } from './components/QuickNote/QuickNote';
+import { LoginScreen } from './components/LoginScreen/LoginScreen';
 import { 
   Patient, SelectedItem, RelatedItem
 } from './types';
@@ -22,6 +23,7 @@ import {
   ClinicalContext,
   getContextualSuggestions, trackUserBehavior, UserBehavior
 } from './utils/smartLogic';
+import { EncryptionService } from './utils/encryption';
 import './App.css';
 
 // Define the type for CustomButton here to avoid circular dependencies
@@ -38,6 +40,10 @@ interface CustomButton {
 }
 
 function App() {
+  // Authentication state
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentUser, setCurrentUser] = useState<string>('');
+  
   // State management
   const [darkMode, setDarkMode] = useState(false);
   const [activePatient, setActivePatient] = useState(0);
@@ -46,6 +52,8 @@ function App() {
   const [relatedItems, setRelatedItems] = useState<Record<string, RelatedItem>>({});
   const [dismissedSuggestions, setDismissedSuggestions] = useState<Record<string, boolean>>({});
   const [userBehaviorHistory, setUserBehaviorHistory] = useState<UserBehavior[]>([]);
+  const [recentItems, setRecentItems] = useState<string[]>([]);
+  const [frequentItems, setFrequentItems] = useState<Record<string, number>>({});
   const [showNeuralMap, setShowNeuralMap] = useState(false);
   const [showPrintView, setShowPrintView] = useState(false);
   const [showPatientStory, setShowPatientStory] = useState(false);
@@ -61,17 +69,47 @@ function App() {
   const currentPatient = patients[activePatient] || patients[0];
 
   // Load data from localStorage on mount
-  useEffect(() => {
-    const savedData = getFromLocalStorage();
-    if (savedData) {
-      setPatients(savedData.patients || [createNewPatient('', '')]);
-      setActivePatient(savedData.activePatient || 0);
-      setDarkMode(savedData.darkMode || false);
-      setSelectedItems(savedData.selectedItems || {});
-      setRelatedItems(savedData.relatedItems || {});
-      setDismissedSuggestions(savedData.dismissedSuggestions || {});
-    }
+  // Handle login
+  const handleLogin = useCallback((credentials: { username: string; password: string }) => {
+    setIsAuthenticated(true);
+    setCurrentUser(credentials.username);
+    EncryptionService.logAccess('LOGIN', { username: credentials.username });
+    
+    // Initialize session timeout (15 minutes)
+    EncryptionService.initSessionTimeout(() => {
+      handleLogout();
+      alert('Session expired due to inactivity. Please log in again.');
+    });
   }, []);
+
+  const handleLogout = useCallback(() => {
+    setIsAuthenticated(false);
+    setCurrentUser('');
+    EncryptionService.logAccess('LOGOUT', { username: currentUser });
+    
+    // Optional: Clear sensitive data on logout
+    if (window.confirm('Clear all patient data for security?')) {
+      EncryptionService.clearAllData();
+      setPatients([createNewPatient('', '')]);
+      setSelectedItems({});
+      setRelatedItems({});
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const savedData = getFromLocalStorage();
+      if (savedData) {
+        setPatients(savedData.patients || [createNewPatient('', '')]);
+        setActivePatient(savedData.activePatient || 0);
+        setDarkMode(savedData.darkMode || false);
+        setSelectedItems(savedData.selectedItems || {});
+        setRelatedItems(savedData.relatedItems || {});
+        setDismissedSuggestions(savedData.dismissedSuggestions || {});
+      }
+      EncryptionService.logAccess('DATA_LOAD', { patientCount: savedData?.patients?.length || 0 });
+    }
+  }, [isAuthenticated]);
 
   // Auto-save data
   useAutoSave({
@@ -171,6 +209,18 @@ function App() {
       setSelectedItems(newSelectedItems);
       if (!selectedItems[key]) {
         trackBehavior('select', item);
+        
+        // Track recent items
+        setRecentItems(prev => {
+          const updated = [item, ...prev.filter(i => i !== item)];
+          return updated.slice(0, 20); // Keep last 20 items
+        });
+        
+        // Track frequent items
+        setFrequentItems(prev => ({
+          ...prev,
+          [item]: (prev[item] || 0) + 1
+        }));
       }
       
       // Check for abnormal values that trigger immediate actions
@@ -396,6 +446,11 @@ function App() {
     }
   };
 
+  // Show login screen if not authenticated
+  if (!isAuthenticated) {
+    return <LoginScreen onLogin={handleLogin} />;
+  }
+
   return (
     <div className={`app ${darkMode ? 'dark' : ''}`}>
       <PatientTabs
@@ -424,6 +479,8 @@ function App() {
         onClearSelections={clearAllSelections}
         darkMode={darkMode}
         onRequestNote={openNoteModal}
+        recentItems={recentItems}
+        frequentItems={frequentItems}
       />
 
       {showNeuralMap && (

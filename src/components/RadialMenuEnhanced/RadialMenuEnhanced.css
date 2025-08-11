@@ -1,7 +1,7 @@
 .radial-menu-enhanced-overlay {
   position: fixed;
-  width: 500px;
-  height: 500px;
+  width: 550px;
+  height: 550px;
   transform: translate(-50%, -50%);
   z-index: var(--z-radial-overlay);
   pointer-events: none;
@@ -15,6 +15,33 @@
   align-items: center;
   justify-content: center;
   pointer-events: auto;
+}
+
+/* Structured bucket layout specific styles */
+.radial-menu-enhanced.structured .radial-item {
+  animation: bucketAppear 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+.radial-menu-enhanced.structured .radial-item.primary {
+  min-width: 70px;
+  padding: 8px 12px;
+}
+
+.radial-menu-enhanced.structured .radial-item.suggestion {
+  min-width: 80px;
+  padding: 6px 10px;
+}
+
+@keyframes bucketAppear {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 /* Connection lines SVG */
@@ -169,6 +196,62 @@
   margin-left: 4px;
 }
 
+/* Center note button */
+.center-note-btn {
+  position: absolute;
+  bottom: -10px;
+  right: 50%;
+  transform: translateX(50%);
+  padding: 2px 4px;
+  background: #fbbf24;
+  border: 2px solid white;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.center-note-btn:hover {
+  background: #f59e0b;
+  transform: translateX(50%) scale(1.1);
+}
+
+.center-note-btn svg {
+  color: white;
+}
+
+/* Suggestion note button */
+.suggestion-note-btn {
+  padding: 1px 3px;
+  background: rgba(251, 191, 36, 0.3);
+  border: 1px solid #fbbf24;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 2px;
+}
+
+.suggestion-note-btn:hover {
+  background: #fbbf24;
+  transform: scale(1.1);
+}
+
+.suggestion-note-btn svg {
+  color: #92400e;
+}
+
+.suggestion-note-btn:hover svg {
+  color: white;
+}
+
 .radial-note-btn:hover {
   background: #fbbf24;
   transform: scale(1.1);
@@ -191,6 +274,38 @@
   transition: all 0.3s ease;
 }
 
+/* Structured layout specific overrides */
+.radial-menu-enhanced.structured .radial-item.primary {
+  font-size: 12px;
+  font-weight: 500;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.radial-menu-enhanced.structured .radial-item.suggestion {
+  font-size: 11px;
+  height: 32px;
+}
+
+.radial-menu-enhanced.structured .suggestion-content {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.radial-menu-enhanced.structured .suggestion-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+
 .dark .radial-item.suggestion {
   background: rgba(245, 158, 11, 0.2);
   color: #fbbf24;
@@ -206,6 +321,13 @@
 
 .radial-item.suggestion.highlighted {
   animation: pulse 1s ease-in-out infinite;
+}
+
+.radial-item.suggestion.selected {
+  background: #10b981 !important;
+  color: white !important;
+  border-color: #10b981 !important;
+  font-weight: 600;
 }
 
 @keyframes pulse {

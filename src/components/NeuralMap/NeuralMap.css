@@ -97,16 +97,52 @@
   position: relative;
   overflow: auto;
   padding: var(--spacing-xl);
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .connections-svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.dark .connections-svg {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* D3 node styles */
+.node-group {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.node-group:hover circle {
+  filter: drop-shadow(0 0 10px currentColor);
+}
+
+.node-group.selected circle {
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+.node-group.suggested circle {
+  animation: pulse 2s infinite;
+}
+
+.node-group.stat circle {
+  animation: pulse 1s infinite;
+  filter: drop-shadow(0 0 15px #ef4444);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 .neural-nodes {

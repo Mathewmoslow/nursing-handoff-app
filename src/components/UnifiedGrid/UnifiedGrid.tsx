@@ -4,6 +4,7 @@ import { AssessmentBox } from '../AssessmentBox/AssessmentBox';
 import { VitalsSection } from '../VitalsSection/VitalsSection';
 import { LabsSection } from '../LabsSection/LabsSection';
 import { NotesSection } from '../NotesSection/NotesSection';
+import { QuickAccessPanel } from '../QuickAccessPanel/QuickAccessPanel';
 import { formSections } from '../../constants/formSections';
 import { Patient, SelectedItem, RelatedItem, FormSection } from '../../types';
 import './UnifiedGrid.css';
@@ -16,6 +17,9 @@ interface UnifiedGridProps {
   onItemSelect: (category: string, section: string, item: string) => void;
   onDismissSuggestion: (key: string, e: React.MouseEvent) => void;
   onPatientUpdate: (patient: Patient) => void;
+  onRequestNote?: (category: string, section: string, item: string) => void;
+  recentItems?: string[];
+  frequentItems?: Record<string, number>;
 }
 
 export const UnifiedGrid: React.FC<UnifiedGridProps> = ({
@@ -25,7 +29,10 @@ export const UnifiedGrid: React.FC<UnifiedGridProps> = ({
   dismissedSuggestions,
   onItemSelect,
   onDismissSuggestion,
-  onPatientUpdate
+  onPatientUpdate,
+  onRequestNote,
+  recentItems = [],
+  frequentItems = {}
 }) => {
   // Order sections - vitals and labs will span multiple cells
   const orderedSections = [
@@ -52,6 +59,16 @@ export const UnifiedGrid: React.FC<UnifiedGridProps> = ({
 
   return (
     <div className="unified-grid">
+      {/* Quick Access Panel - spans 2 columns */}
+      <div className="grid-item grid-item-quick-access" data-section="quick-access">
+        <QuickAccessPanel
+          onItemSelect={onItemSelect}
+          selectedItems={selectedItems}
+          recentItems={recentItems}
+          frequentItems={frequentItems}
+        />
+      </div>
+      
       {/* Assessment boxes */}
       {sectionEntries.map(([key, section]) => (
         <div 
@@ -69,6 +86,7 @@ export const UnifiedGrid: React.FC<UnifiedGridProps> = ({
             onItemSelect={onItemSelect}
             onDismissSuggestion={onDismissSuggestion}
             onPatientUpdate={onPatientUpdate}
+            onRequestNote={onRequestNote}
           />
         </div>
       ))}
