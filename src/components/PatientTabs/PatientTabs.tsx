@@ -1,6 +1,6 @@
 // src/components/PatientTabs/PatientTabs.tsx
 import React from 'react';
-import { Plus, X, Moon, Sun, Network, Printer, Download, Trash2, Palette } from 'lucide-react';
+import { Plus, X, Moon, Sun, Network, Printer, Download, Trash2, Palette, AlertCircle } from 'lucide-react';
 import { Patient } from '../../types';
 import './PatientTabs.css';
 
@@ -17,6 +17,7 @@ interface PatientTabsProps {
   onExport: () => void;
   onClearStorage?: () => void;
   onShowButtonStudio?: () => void;
+  onPatientUpdate?: (patient: Patient) => void;
 }
 
 export const PatientTabs: React.FC<PatientTabsProps> = ({
@@ -31,8 +32,11 @@ export const PatientTabs: React.FC<PatientTabsProps> = ({
   onPrint,
   onExport,
   onClearStorage,
-  onShowButtonStudio
+  onShowButtonStudio,
+  onPatientUpdate
 }) => {
+  const currentPatient = patients[activePatient];
+  
   return (
     <div className="patient-tabs-container">
       <div className="tabs-section">
@@ -42,8 +46,23 @@ export const PatientTabs: React.FC<PatientTabsProps> = ({
             className={`patient-tab ${activePatient === index ? 'active' : ''}`}
             onClick={() => onPatientChange(index)}
           >
-            <span className="tab-room">{patient.room}</span>
-            <span className="tab-name">{patient.name}</span>
+            <div className="tab-content">
+              <span className="tab-room">{patient.room}</span>
+              <span className="tab-name">{patient.name}</span>
+              {/* Show expanded info for active tab */}
+              {activePatient === index && (
+                <div className="tab-patient-info">
+                  <span className="tab-age">{patient.age || '—'}</span>
+                  <span className={`tab-code ${patient.code === 'DNR' || patient.code === 'DNI' ? 'dnr' : ''}`}>
+                    {patient.code}
+                  </span>
+                  <span className="tab-allergies">
+                    <AlertCircle size={12} />
+                    {patient.allergies.length > 0 ? patient.allergies.join(', ') : 'NKDA'}
+                  </span>
+                </div>
+              )}
+            </div>
             {patients.length > 1 && (
               <button
                 className="tab-close"

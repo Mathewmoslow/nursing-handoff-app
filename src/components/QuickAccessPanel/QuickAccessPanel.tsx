@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Brain, Heart, Wind, Utensils, Shield, Syringe, 
+  Brain, Heart, Wind, Shield, Syringe, 
   AlertTriangle, Activity, Droplets, Package,
-  Zap, Clock, TrendingUp
+  Zap
 } from 'lucide-react';
 import './QuickAccessPanel.css';
 

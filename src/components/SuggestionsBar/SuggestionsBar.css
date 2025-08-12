@@ -5,17 +5,22 @@
   border: 1px solid #ffeaa7;
   border-radius: 8px;
   padding: 12px 20px;
-  margin: 12px;
+  margin: 0 12px 12px 12px;
   display: flex;
   align-items: center;
   gap: 12px;
   min-height: 50px;
   animation: slideDown 0.3s ease-out;
-  position: fixed;
-  top: 160px; /* Below PatientInfoBar which is at 120px */
-  left: 0;
-  right: 0;
-  z-index: 85; /* Below PatientInfoBar's z-index of 90 */
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.suggestions-bar.collapsed {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .suggestions-bar.empty-state {

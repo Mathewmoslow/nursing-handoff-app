@@ -1,6 +1,5 @@
 // src/components/FormLayout/FormLayout.tsx
 import React from 'react';
-import { PatientInfoBar } from '../PatientInfoBar/PatientInfoBar';
 import { UnifiedGrid } from '../UnifiedGrid/UnifiedGrid';
 import { SuggestionsBar } from '../SuggestionsBar/SuggestionsBar';
 import { Patient, SelectedItem, RelatedItem } from '../../types';
@@ -37,11 +36,6 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
 }) => {
   return (
     <div className="form-layout">
-      <PatientInfoBar
-        patient={patient}
-        onPatientUpdate={onPatientUpdate}
-      />
-
       <SuggestionsBar
         relatedItems={relatedItems}
         dismissedSuggestions={dismissedSuggestions}
