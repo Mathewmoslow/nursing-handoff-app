@@ -1,0 +1,209 @@
+{
+  "systems": {
+    "neuro": {
+      "title": "NEURO",
+      "color": "#8b5cf6",
+      "items": {
+        "orientation": {
+          "label": "A&O",
+          "icon": "brain",
+          "options": ["A&O x3", "A&O x2", "A&O x1", "Confused", "Unresponsive"]
+        },
+        "pupils": {
+          "label": "Pupils",
+          "icon": "eye",
+          "options": ["PERRL", "Sluggish", "Fixed", "Dilated", "Pinpoint"]
+        },
+        "movement": {
+          "label": "Movement",
+          "icon": "figure.walk",
+          "options": ["MAE", "Weakness L", "Weakness R", "Paralysis", "Tremor"]
+        },
+        "behavior": {
+          "label": "Behavior",
+          "icon": "person.2",
+          "options": ["Appropriate", "Agitated", "Combative", "Withdrawn", "Sedated"]
+        },
+        "mood": {
+          "label": "Mood",
+          "icon": "face.smiling",
+          "options": ["Stable", "Anxious", "Depressed", "Flat", "Labile"]
+        }
+      }
+    },
+    "cardiac": {
+      "title": "CARDIAC",
+      "color": "#ef4444",
+      "items": {
+        "rhythm": {
+          "label": "Tele",
+          "icon": "waveform.path.ecg",
+          "options": ["SR", "ST", "AFib", "AFlutter", "VTach", "PVC", "PAC"]
+        },
+        "edema": {
+          "label": "Edema",
+          "icon": "drop.triangle",
+          "options": ["None", "+1", "+2", "+3", "+4", "Pitting"]
+        },
+        "cp": {
+          "label": "CP",
+          "icon": "heart",
+          "options": ["No CP", "Chest Pain", "Pressure", "SOB", "Palpitations"]
+        }
+      }
+    },
+    "respiratory": {
+      "title": "RESP",
+      "color": "#06b6d4",
+      "items": {
+        "o2": {
+          "label": "O2",
+          "icon": "wind",
+          "options": ["RA", "NC 2L", "NC 4L", "NC 6L", "Mask", "BiPAP", "Vent"]
+        },
+        "lungs": {
+          "label": "Lungs",
+          "icon": "lungs",
+          "options": ["Clear", "Diminished", "Crackles", "Wheezes", "Rhonchi", "Absent"]
+        },
+        "cough": {
+          "label": "Cough",
+          "icon": "mouth",
+          "options": ["None", "Dry", "Productive", "Hemoptysis"]
+        }
+      }
+    },
+    "gi": {
+      "title": "GI",
+      "color": "#f59e0b",
+      "items": {
+        "diet": {
+          "label": "Diet",
+          "icon": "fork.knife",
+          "options": ["Regular", "Cardiac", "Diabetic", "Puree", "NPO", "TPN"]
+        },
+        "abdomen": {
+          "label": "Abdomen",
+          "icon": "circle",
+          "options": ["Soft", "Firm", "Distended", "Tender", "Rigid", "BS+", "BS-"]
+        },
+        "bm": {
+          "label": "BM",
+          "icon": "toilet",
+          "options": ["Normal", "Constipated", "Diarrhea", "Melena", "None"]
+        },
+        "nv": {
+          "label": "N/V",
+          "icon": "face.smiling.inverse",
+          "options": ["None", "Nausea", "Vomiting", "Dry Heaves"]
+        }
+      }
+    },
+    "gu": {
+      "title": "GU",
+      "color": "#10b981",
+      "items": {
+        "urine": {
+          "label": "Urine",
+          "icon": "drop",
+          "options": ["Continent", "Incontinent", "Retention", "Frequency", "Urgency"]
+        },
+        "foley": {
+          "label": "Foley",
+          "icon": "circle.slash",
+          "options": ["No Foley", "Foley", "Condom Cath", "Straight Cath", "Suprapubic"]
+        },
+        "output": {
+          "label": "Output",
+          "icon": "chart.bar",
+          "options": ["Adequate", "Low", "High", "Anuric", "Oliguric"]
+        }
+      }
+    },
+    "skin": {
+      "title": "SKIN/WOUNDS",
+      "color": "#ec4899",
+      "items": {
+        "skin": {
+          "label": "Skin",
+          "icon": "bandage",
+          "options": ["Intact", "Dry", "Moist", "Breakdown", "Rash", "Bruising"]
+        },
+        "wounds": {
+          "label": "Wounds",
+          "icon": "cross.case",
+          "options": ["None", "Surgical", "Pressure", "Trauma", "Diabetic", "Venous", "Arterial"]
+        },
+        "braden": {
+          "label": "Braden",
+          "icon": "shield",
+          "options": ["Low Risk", "Moderate Risk", "High Risk", "Very High Risk"]
+        }
+      }
+    }
+  },
+  "additional": {
+    "pain": {
+      "title": "PAIN",
+      "items": {
+        "scale": ["0", "1-3", "4-6", "7-10"],
+        "location": ["None", "Chest", "Abdomen", "Back", "Head", "Extremity"],
+        "meds": ["None", "PRN", "Scheduled", "PCA", "Epidural"]
+      }
+    },
+    "precautions": {
+      "title": "PRECAUTIONS",
+      "items": {
+        "isolation": ["Standard", "Contact", "Droplet", "Airborne", "Neutropenic"],
+        "safety": ["None", "Fall Risk", "Seizure", "Aspiration", "Suicide"],
+        "activity": ["Ad Lib", "Bed Rest", "Chair", "Assist x1", "Assist x2", "Hoyer"]
+      }
+    },
+    "iv": {
+      "title": "IV",
+      "items": {
+        "fluids": ["None", "NS", "LR", "D5W", "D5NS", "Bolus"],
+        "meds": ["None", "Antibiotics", "Cardiac", "Pain", "Sedation", "Pressors"],
+        "access": ["PIV", "Central", "PICC", "Port", "Midline", "IO"],
+        "location": ["RFA", "LFA", "RH", "LH", "RIJ", "LIJ", "RSC", "LSC"]
+      }
+    },
+    "devices": {
+      "title": "DRAINS/DEVICES",
+      "items": {
+        "drains": ["None", "JP", "Hemovac", "Blake", "Penrose", "Chest Tube"],
+        "devices": ["None", "Pacemaker", "AICD", "VAD", "IABP", "ECMO"],
+        "tubes": ["None", "NG", "OG", "PEG", "G-tube", "J-tube", "Trach", "ETT"]
+      }
+    }
+  },
+  "vitals": {
+    "parameters": ["HR", "BP", "RR", "O2", "Temp"],
+    "times": ["0600", "0800", "1000", "1200", "1400", "1600", "1800", "2000"]
+  },
+  "labs": {
+    "basic": ["Na", "K", "Cl", "CO2", "BUN", "Cr", "Glucose"],
+    "cbc": ["WBC", "Hgb", "Hct", "Plt"],
+    "cardiac": ["Troponin", "BNP", "CK-MB"],
+    "coags": ["PT", "INR", "PTT"],
+    "liver": ["AST", "ALT", "Bili", "Alk Phos"],
+    "other": ["Lactate", "Mg", "Phos", "Ca"]
+  },
+  "quickAccess": [
+    {"label": "A&O x3", "category": "neuro"},
+    {"label": "SR", "category": "cardiac"},
+    {"label": "Clear", "category": "respiratory"},
+    {"label": "Soft", "category": "gi"},
+    {"label": "Continent", "category": "gu"},
+    {"label": "Intact", "category": "skin"},
+    {"label": "Full Code", "category": "precautions"},
+    {"label": "PIV", "category": "iv"},
+    {"label": "Foley", "category": "gu"},
+    {"label": "Fall Risk", "category": "precautions"},
+    {"label": "NPO", "category": "gi"},
+    {"label": "Pain 0", "category": "pain"},
+    {"label": "Ad Lib", "category": "precautions"},
+    {"label": "No Edema", "category": "cardiac"},
+    {"label": "RA", "category": "respiratory"}
+  ]
+}
