@@ -18,221 +18,288 @@
   display: flex;
   width: 100%;
   height: 100%;
+  position: relative;
+}
+
+/* Fixed aspect ratio for panels - they scale proportionally */
+.grid-item:not(.grid-item-quick-access) {
+  aspect-ratio: 1;
+}
+
+/* Quick Access Panel - fixed proportions (2:1 ratio) */
+.grid-item-quick-access {
+  aspect-ratio: 2 / 0.5;
+  z-index: 5;
+  max-height: 120px;
 }
 
 /* Desktop - 1440px and up */
 @media (min-width: 1440px) {
   .unified-grid {
-    grid-template-columns: repeat(6, 1fr);
-    grid-auto-rows: minmax(180px, 1fr);
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-auto-rows: minmax(0, auto);
     gap: 12px;
     padding: 12px;
   }
   
   .grid-item-quick-access {
     grid-column: span 2;
-    min-height: 180px;
+    grid-row: span 1;
   }
   
+  /* Single column assessment boxes */
   .grid-item-admission,
+  .grid-item-history,
   .grid-item-neuro,
   .grid-item-cardiac,
   .grid-item-resp,
   .grid-item-gi,
   .grid-item-gu,
-  .grid-item-skin {
+  .grid-item-skin,
+  .grid-item-devices,
+  .grid-item-mobility,
+  .grid-item-pain,
+  .grid-item-precautions,
+  .grid-item-tests,
+  .grid-item-planning,
+  .grid-item-iv {
     grid-column: span 1;
-    aspect-ratio: 1;
   }
   
   .grid-item-vitals {
     grid-column: span 3;
-    min-height: 200px;
+    aspect-ratio: 3 / 1;
   }
   
   .grid-item-labs {
     grid-column: span 3;
-    min-height: 200px;
+    aspect-ratio: 3 / 1;
   }
   
   .grid-item-notes {
     grid-column: span 2;
-    min-height: 180px;
+    aspect-ratio: 2 / 1;
   }
 }
 
 /* Laptop - 1024px to 1439px */
 @media (min-width: 1024px) and (max-width: 1439px) {
   .unified-grid {
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: minmax(160px, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: minmax(0, auto);
     gap: 10px;
     padding: 10px;
   }
   
   .grid-item-quick-access {
     grid-column: span 2;
-    min-height: 160px;
+    grid-row: span 1;
   }
   
   .grid-item-admission,
+  .grid-item-history,
   .grid-item-neuro,
   .grid-item-cardiac,
   .grid-item-resp,
   .grid-item-gi,
   .grid-item-gu,
-  .grid-item-skin {
+  .grid-item-skin,
+  .grid-item-devices,
+  .grid-item-mobility,
+  .grid-item-pain,
+  .grid-item-precautions,
+  .grid-item-tests,
+  .grid-item-planning,
+  .grid-item-iv {
     grid-column: span 1;
-    aspect-ratio: 1;
   }
   
   .grid-item-vitals,
   .grid-item-labs {
     grid-column: span 2;
-    min-height: 180px;
+    aspect-ratio: 2 / 1;
   }
   
   .grid-item-notes {
     grid-column: span 4;
-    min-height: 150px;
+    aspect-ratio: 4 / 1;
   }
 }
 
 /* Tablet Portrait - 768px to 1023px (iPad) */
 @media (min-width: 768px) and (max-width: 1023px) {
   .unified-grid {
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: minmax(140px, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: minmax(0, auto);
     gap: 8px;
     padding: 8px;
   }
   
+  .grid-item-quick-access {
+    grid-column: span 3;
+    grid-row: span 1;
+    aspect-ratio: 3 / 0.5;
+  }
+  
   .grid-item-admission,
+  .grid-item-history,
   .grid-item-neuro,
   .grid-item-cardiac,
   .grid-item-resp,
   .grid-item-gi,
   .grid-item-gu,
-  .grid-item-skin {
+  .grid-item-skin,
+  .grid-item-devices,
+  .grid-item-mobility,
+  .grid-item-pain,
+  .grid-item-precautions,
+  .grid-item-tests,
+  .grid-item-planning,
+  .grid-item-iv {
     grid-column: span 1;
-    aspect-ratio: 1;
-    max-height: 180px;
   }
   
   .grid-item-vitals {
     grid-column: span 3;
-    min-height: 160px;
-    max-height: 200px;
+    aspect-ratio: 3 / 1;
   }
   
   .grid-item-labs {
     grid-column: span 3;
-    min-height: 160px;
-    max-height: 200px;
+    aspect-ratio: 3 / 1;
   }
   
   .grid-item-notes {
     grid-column: span 3;
-    min-height: 120px;
-    max-height: 150px;
+    aspect-ratio: 3 / 0.75;
   }
 }
 
 /* Mobile Landscape - 568px to 767px */
 @media (min-width: 568px) and (max-width: 767px) and (orientation: landscape) {
   .unified-grid {
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: minmax(100px, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: minmax(0, auto);
     gap: 6px;
     padding: 6px;
   }
   
+  .grid-item-quick-access {
+    grid-column: span 3;
+    grid-row: span 1;
+    aspect-ratio: 3 / 0.5;
+  }
+  
   .grid-item-admission,
+  .grid-item-history,
   .grid-item-neuro,
   .grid-item-cardiac,
   .grid-item-resp,
   .grid-item-gi,
   .grid-item-gu,
-  .grid-item-skin {
+  .grid-item-skin,
+  .grid-item-devices,
+  .grid-item-mobility,
+  .grid-item-pain,
+  .grid-item-precautions,
+  .grid-item-tests,
+  .grid-item-planning,
+  .grid-item-iv {
     grid-column: span 1;
-    aspect-ratio: 1;
-    max-height: 120px;
   }
   
   .grid-item-vitals,
   .grid-item-labs {
     grid-column: span 3;
-    min-height: 100px;
-    max-height: 120px;
+    aspect-ratio: 3 / 1;
   }
   
   .grid-item-notes {
     grid-column: span 3;
-    min-height: 80px;
-    max-height: 100px;
+    aspect-ratio: 3 / 0.75;
   }
 }
 
 /* Mobile Portrait - iPhone (below 568px) */
 @media (max-width: 567px) {
   .unified-grid {
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(0, auto);
     gap: 6px;
     padding: 6px;
     overflow-y: scroll;
   }
   
+  .grid-item-quick-access {
+    grid-column: span 2;
+    grid-row: span 1;
+    aspect-ratio: 2 / 0.5;
+  }
+  
   .grid-item-admission,
+  .grid-item-history,
   .grid-item-neuro,
   .grid-item-cardiac,
   .grid-item-resp,
   .grid-item-gi,
   .grid-item-gu,
-  .grid-item-skin {
+  .grid-item-skin,
+  .grid-item-devices,
+  .grid-item-mobility,
+  .grid-item-pain,
+  .grid-item-precautions,
+  .grid-item-tests,
+  .grid-item-planning,
+  .grid-item-iv {
     grid-column: span 1;
-    height: 120px;
-    min-height: 120px;
-    max-height: 120px;
   }
   
   .grid-item-vitals,
   .grid-item-labs,
   .grid-item-notes {
     grid-column: span 2;
-    height: 140px;
-    min-height: 140px;
-    max-height: 140px;
+    aspect-ratio: 2 / 1;
   }
 }
 
 /* iPhone SE and smaller */
 @media (max-width: 375px) {
   .unified-grid {
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(0, auto);
     gap: 4px;
     padding: 4px;
   }
   
+  .grid-item-quick-access {
+    grid-column: span 2;
+    grid-row: span 1;
+    aspect-ratio: 2 / 0.5;
+  }
+  
   .grid-item-admission,
+  .grid-item-history,
   .grid-item-neuro,
   .grid-item-cardiac,
   .grid-item-resp,
   .grid-item-gi,
   .grid-item-gu,
-  .grid-item-skin {
-    height: 100px;
-    min-height: 100px;
-    max-height: 100px;
+  .grid-item-skin,
+  .grid-item-devices,
+  .grid-item-mobility,
+  .grid-item-pain,
+  .grid-item-precautions,
+  .grid-item-tests,
+  .grid-item-planning,
+  .grid-item-iv {
+    grid-column: span 1;
   }
   
   .grid-item-vitals,
   .grid-item-labs,
   .grid-item-notes {
-    height: 120px;
-    min-height: 120px;
-    max-height: 120px;
+    grid-column: span 2;
+    aspect-ratio: 2 / 0.75;
   }
 }
 
@@ -247,12 +314,6 @@
   .unified-grid {
     padding-bottom: env(safe-area-inset-bottom);
   }
-}
-
-/* Prevent overlap on all devices */
-.grid-item {
-  position: relative;
-  z-index: 1;
 }
 
 /* Scrollbar styling */

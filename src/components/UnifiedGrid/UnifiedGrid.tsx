@@ -59,7 +59,7 @@ export const UnifiedGrid: React.FC<UnifiedGridProps> = ({
 
   return (
     <div className="unified-grid">
-      {/* Quick Access Panel - spans 2 columns */}
+      {/* Quick Access Panel - fixed size, spans 2 columns */}
       <div className="grid-item grid-item-quick-access" data-section="quick-access">
         <QuickAccessPanel
           onItemSelect={onItemSelect}

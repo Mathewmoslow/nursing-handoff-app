@@ -2,17 +2,20 @@
 
 .patient-info-bar {
   background: white;
-  border-bottom: 2px solid var(--color-gray-200);
+  border: 2px solid #22c55e;
+  border-radius: 8px;
   padding: 8px 16px;
   display: flex;
   align-items: center;
   gap: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  position: relative; /* Changed back to relative */
+  position: relative;
   z-index: 10;
   overflow: hidden;
-  min-height: 40px;
+  min-height: 50px;
   flex-shrink: 0;
+  width: 100%;
+  margin: 8px;
 }
 
 /* Mobile adjustments */

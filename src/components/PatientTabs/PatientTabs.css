@@ -11,7 +11,9 @@
   align-items: center;
   padding: 0 var(--spacing-lg);
   box-shadow: var(--shadow-sm);
-  overflow-x: hidden;
+  overflow: visible;
+  position: relative;
+  z-index: 100;
 }
 
 .dark .patient-tabs-container {
@@ -25,22 +27,34 @@
   flex: 1;
   align-items: center;
   height: 100%;
+  position: relative;
 }
 
+/* Tab wrapper for drawer functionality */
+.patient-tab-wrapper {
+  position: relative;
+  height: calc(100% - 4px);
+  margin-top: 2px;
+}
+
+.patient-tab-wrapper.expanded {
+  z-index: 150;
+}
+
+/* Individual tab */
 .patient-tab {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-lg);
+  gap: 6px;
+  padding: 8px 12px;
   background: var(--color-gray-50);
   border: 2px solid transparent;
   border-radius: var(--radius-md) var(--radius-md) 0 0;
   cursor: pointer;
   transition: all var(--transition-fast);
   position: relative;
-  height: calc(100% - 2px);
-  margin-top: 2px;
-  min-width: 120px;
+  height: 100%;
+  min-width: 80px;
 }
 
 .patient-tab:hover {
@@ -51,141 +65,281 @@
   background: var(--color-primary);
   color: white;
   border-color: var(--color-primary);
-  min-width: 280px; /* Expand when active to show patient info */
-}
-
-.tab-content {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  flex: 1;
-}
-
-.tab-patient-info {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-  margin-left: var(--spacing-md);
-  padding-left: var(--spacing-md);
-  border-left: 1px solid rgba(255, 255, 255, 0.3);
-  font-size: var(--font-sm);
-}
-
-.tab-age {
-  font-weight: 500;
-}
-
-.tab-code {
-  padding: 2px 6px;
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.2);
-  font-weight: 600;
-  font-size: 11px;
-}
-
-.tab-code.dnr {
-  background: var(--color-danger);
-}
-
-.tab-allergies {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-weight: 500;
-}
-
-.tab-allergies svg {
-  color: var(--color-warning);
-}
-
-/* Mobile responsive styles */
-@media (max-width: 768px) {
-  .patient-tab.active {
-    min-width: auto;
-    flex: 1;
-  }
-  
-  .tab-patient-info {
-    display: none; /* Hide on mobile to save space */
-  }
-  
-  /* Show patient info below tabs on mobile */
-  .patient-tab.active .tab-patient-info {
-    display: flex;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: var(--color-primary);
-    padding: 8px 12px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    z-index: 10;
-  }
-}
-
-@media (max-width: 480px) {
-  .tabs-section {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  .patient-tab {
-    min-width: 100px;
-  }
-  
-  .tab-name {
-    display: none; /* Only show room number on very small screens */
-  }
-  
-  .tabs-actions {
-    gap: 4px;
-  }
-  
-  .action-btn {
-    padding: 8px;
-  }
-}
-
-.dark .patient-tab {
-  background: var(--color-gray-700);
-}
-
-.dark .patient-tab:hover {
-  background: var(--color-gray-600);
-}
-
-.dark .patient-tab.active {
-  background: var(--color-primary);
-  color: white;
 }
 
 .tab-room {
   font-weight: 600;
-  font-size: var(--font-sm);
+  font-size: 14px;
 }
 
-.tab-name {
-  font-size: var(--font-sm);
-  opacity: 0.8;
+/* Status indicators */
+.tab-indicators {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  margin: 0 4px;
 }
 
-.tab-close {
+.code-indicator,
+.allergy-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+
+/* Code status indicators */
+.code-indicator.full-code {
+  background: #10b981;
+}
+
+.code-indicator.dnr {
+  background: #ef4444;
+}
+
+.code-indicator.mixed-code {
+  background: linear-gradient(90deg, #10b981 50%, #ef4444 50%);
+}
+
+/* Allergy indicators */
+.allergy-indicator.has-allergies {
+  background: #ef4444;
+  animation: pulse 2s infinite;
+}
+
+.allergy-indicator.no-allergies {
+  background: #6b7280;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Tab toggle chevron */
+.tab-toggle {
+  margin-left: auto;
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  border-radius: var(--radius-sm);
-  margin-left: var(--spacing-xs);
-  opacity: 0.6;
-  transition: all var(--transition-fast);
+  opacity: 0.7;
+  transition: transform 0.3s;
 }
 
-.tab-close:hover {
-  background: rgba(255, 255, 255, 0.2);
-  opacity: 1;
+.patient-tab.active .tab-toggle {
+  color: white;
 }
 
+/* Patient drawer */
+.patient-drawer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 2px solid var(--color-primary);
+  border-top: none;
+  border-radius: 0 8px 8px 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 320px;
+  max-width: 400px;
+  animation: slideDown 0.3s ease-out;
+  transform-origin: top left;
+  z-index: 200;
+}
+
+.dark .patient-drawer {
+  background: var(--color-gray-800);
+  border-color: var(--color-gray-600);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scaleY(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+.drawer-content {
+  padding: 12px;
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.dark .drawer-header {
+  border-color: var(--color-gray-700);
+}
+
+.drawer-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-gray-900);
+  margin: 0;
+}
+
+.dark .drawer-header h3 {
+  color: var(--color-gray-100);
+}
+
+.drawer-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.drawer-actions button {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.edit-btn {
+  background: #3b82f6;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #2563eb;
+}
+
+.save-btn {
+  background: #10b981;
+  color: white;
+}
+
+.save-btn:hover {
+  background: #059669;
+}
+
+.cancel-btn {
+  background: #6b7280;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background: #4b5563;
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+}
+
+/* Drawer info rows */
+.drawer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.info-row label {
+  font-weight: 500;
+  color: var(--color-gray-600);
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dark .info-row label {
+  color: var(--color-gray-400);
+}
+
+.info-row span {
+  color: var(--color-gray-900);
+}
+
+.dark .info-row span {
+  color: var(--color-gray-100);
+}
+
+/* Edit inputs */
+.edit-input,
+.edit-select {
+  flex: 1;
+  padding: 4px 8px;
+  border: 1px solid var(--color-gray-300);
+  border-radius: 4px;
+  font-size: 13px;
+  background: white;
+}
+
+.dark .edit-input,
+.dark .edit-select {
+  background: var(--color-gray-700);
+  border-color: var(--color-gray-600);
+  color: white;
+}
+
+.edit-input.small {
+  max-width: 100px;
+}
+
+/* Code value styling */
+.code-value {
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #10b981;
+  color: white;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.code-value.dnr {
+  background: #ef4444;
+}
+
+/* Allergy row */
+.allergies-row {
+  align-items: flex-start;
+}
+
+.allergies-row label svg {
+  color: #f59e0b;
+}
+
+.allergy-value {
+  font-weight: 500;
+}
+
+.allergy-value.has-allergies {
+  color: #ef4444;
+}
+
+.allergy-value.nkda {
+  color: #10b981;
+}
+
+/* Add patient button */
 .add-patient-tab {
   display: flex;
   align-items: center;
@@ -193,70 +347,94 @@
   width: 32px;
   height: 32px;
   background: var(--color-gray-100);
+  border: 2px solid var(--color-gray-300);
   border-radius: var(--radius-md);
+  cursor: pointer;
   transition: all var(--transition-fast);
+  color: var(--color-gray-600);
 }
 
 .add-patient-tab:hover {
   background: var(--color-primary);
+  border-color: var(--color-primary);
   color: white;
+  transform: scale(1.05);
 }
 
-.dark .add-patient-tab {
-  background: var(--color-gray-700);
-}
-
-.dark .add-patient-tab:hover {
-  background: var(--color-primary);
-}
-
+/* Action buttons */
 .tabs-actions {
   display: flex;
   gap: var(--spacing-sm);
+  align-items: center;
 }
 
 .action-btn {
+  padding: var(--spacing-sm);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: var(--color-gray-600);
   display: flex;
   align-items: center;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-xs) var(--spacing-md);
-  background: var(--color-gray-100);
-  border-radius: var(--radius-md);
-  font-size: var(--font-sm);
-  font-weight: 500;
-  transition: all var(--transition-fast);
+  justify-content: center;
 }
 
 .action-btn:hover {
-  background: var(--color-gray-200);
-  transform: translateY(-1px);
-}
-
-.dark .action-btn {
-  background: var(--color-gray-700);
-  color: var(--color-gray-200);
-}
-
-.dark .action-btn:hover {
-  background: var(--color-gray-600);
-}
-
-.action-btn.danger {
-  background: var(--color-error-100);
-  color: var(--color-error);
+  background: var(--color-gray-100);
+  color: var(--color-primary);
 }
 
 .action-btn.danger:hover {
-  background: var(--color-error);
-  color: white;
+  background: #fef2f2;
+  color: var(--color-danger);
 }
 
-.dark .action-btn.danger {
-  background: rgba(239, 68, 68, 0.2);
-  color: #ef4444;
+.dark .action-btn {
+  color: var(--color-gray-400);
 }
 
-.dark .action-btn.danger:hover {
-  background: #ef4444;
-  color: white;
+.dark .action-btn:hover {
+  background: var(--color-gray-700);
+  color: var(--color-primary);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .patient-tabs-container {
+    padding: 0 8px;
+  }
+  
+  .patient-tab {
+    min-width: 60px;
+    padding: 6px 8px;
+  }
+  
+  .patient-drawer {
+    min-width: 280px;
+    max-width: calc(100vw - 40px);
+  }
+  
+  .tab-room {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tabs-actions {
+    gap: 4px;
+  }
+  
+  .action-btn {
+    padding: 6px;
+  }
+  
+  .patient-drawer {
+    position: fixed;
+    top: var(--header-height);
+    left: 10px;
+    right: 10px;
+    max-width: none;
+  }
 }
