@@ -7,7 +7,15 @@
       "Bash(npm run build:*)",
       "Bash(npm i:*)",
       "Bash(mkdir:*)",
-      "Bash(cp:*)"
+      "Bash(cp:*)",
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(npm start)",
+      "Bash(lsof:*)",
+      "Bash(git commit:*)",
+      "Bash(gh pr list:*)",
+      "Bash(open .)",
+      "Bash(git checkout:*)"
     ],
     "deny": []
   }

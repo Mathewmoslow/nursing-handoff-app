@@ -12,6 +12,7 @@
   -webkit-overflow-scrolling: touch;
   flex: 1;
   position: relative;
+  grid-auto-flow: dense; /* Pack items efficiently like Tetris */
 }
 
 .grid-item {
@@ -21,33 +22,56 @@
   position: relative;
 }
 
-/* Fixed aspect ratio for panels - they scale proportionally */
-.grid-item:not(.grid-item-quick-access) {
-  aspect-ratio: 1;
+/* All assessment boxes are perfect squares */
+.grid-item-admission,
+.grid-item-history,
+.grid-item-neuro,
+.grid-item-cardiac,
+.grid-item-resp,
+.grid-item-gi,
+.grid-item-gu,
+.grid-item-skin,
+.grid-item-devices,
+.grid-item-mobility,
+.grid-item-pain,
+.grid-item-precautions,
+.grid-item-tests,
+.grid-item-planning,
+.grid-item-iv {
+  aspect-ratio: 1 / 1 !important; /* Force square */
 }
 
-/* Quick Access Panel - fixed proportions (2:1 ratio) */
+/* QuickAccessPanel - exactly 2 squares wide, 0.5 square tall */
 .grid-item-quick-access {
-  aspect-ratio: 2 / 0.5;
+  aspect-ratio: 4 / 1 !important;
   z-index: 5;
-  max-height: 120px;
 }
 
-/* Desktop - 1440px and up */
+/* Vitals and Labs - 3 squares wide, 1 square tall */
+.grid-item-vitals,
+.grid-item-labs {
+  aspect-ratio: 3 / 1 !important;
+}
+
+/* Notes - 2 squares wide, 1 square tall */
+.grid-item-notes {
+  aspect-ratio: 2 / 1 !important;
+}
+
+/* Desktop - 1440px and up - 6 column grid */
 @media (min-width: 1440px) {
   .unified-grid {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    grid-auto-rows: minmax(0, auto);
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 1fr;
     gap: 12px;
     padding: 12px;
   }
   
   .grid-item-quick-access {
     grid-column: span 2;
-    grid-row: span 1;
   }
   
-  /* Single column assessment boxes */
+  /* Single column squares */
   .grid-item-admission,
   .grid-item-history,
   .grid-item-neuro,
@@ -66,34 +90,27 @@
     grid-column: span 1;
   }
   
-  .grid-item-vitals {
-    grid-column: span 3;
-    aspect-ratio: 3 / 1;
-  }
-  
+  .grid-item-vitals,
   .grid-item-labs {
     grid-column: span 3;
-    aspect-ratio: 3 / 1;
   }
   
   .grid-item-notes {
     grid-column: span 2;
-    aspect-ratio: 2 / 1;
   }
 }
 
-/* Laptop - 1024px to 1439px */
+/* Laptop - 1024px to 1439px - 5 column grid */
 @media (min-width: 1024px) and (max-width: 1439px) {
   .unified-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-auto-rows: minmax(0, auto);
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-rows: 1fr;
     gap: 10px;
     padding: 10px;
   }
   
   .grid-item-quick-access {
     grid-column: span 2;
-    grid-row: span 1;
   }
   
   .grid-item-admission,
@@ -116,29 +133,25 @@
   
   .grid-item-vitals,
   .grid-item-labs {
-    grid-column: span 2;
-    aspect-ratio: 2 / 1;
+    grid-column: span 3;
   }
   
   .grid-item-notes {
-    grid-column: span 4;
-    aspect-ratio: 4 / 1;
+    grid-column: span 2;
   }
 }
 
-/* Tablet Portrait - 768px to 1023px (iPad) */
+/* Tablet - 768px to 1023px - 4 column grid */
 @media (min-width: 768px) and (max-width: 1023px) {
   .unified-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-auto-rows: minmax(0, auto);
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 1fr;
     gap: 8px;
     padding: 8px;
   }
   
   .grid-item-quick-access {
-    grid-column: span 3;
-    grid-row: span 1;
-    aspect-ratio: 3 / 0.5;
+    grid-column: span 2;
   }
   
   .grid-item-admission,
@@ -159,35 +172,27 @@
     grid-column: span 1;
   }
   
-  .grid-item-vitals {
-    grid-column: span 3;
-    aspect-ratio: 3 / 1;
-  }
-  
+  .grid-item-vitals,
   .grid-item-labs {
-    grid-column: span 3;
-    aspect-ratio: 3 / 1;
+    grid-column: span 4;
   }
   
   .grid-item-notes {
-    grid-column: span 3;
-    aspect-ratio: 3 / 0.75;
+    grid-column: span 2;
   }
 }
 
-/* Mobile Landscape - 568px to 767px */
-@media (min-width: 568px) and (max-width: 767px) and (orientation: landscape) {
+/* Small Tablet - 600px to 767px - 3 column grid */
+@media (min-width: 600px) and (max-width: 767px) {
   .unified-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-auto-rows: minmax(0, auto);
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 1fr;
     gap: 6px;
     padding: 6px;
   }
   
   .grid-item-quick-access {
     grid-column: span 3;
-    grid-row: span 1;
-    aspect-ratio: 3 / 0.5;
   }
   
   .grid-item-admission,
@@ -211,20 +216,18 @@
   .grid-item-vitals,
   .grid-item-labs {
     grid-column: span 3;
-    aspect-ratio: 3 / 1;
   }
   
   .grid-item-notes {
     grid-column: span 3;
-    aspect-ratio: 3 / 0.75;
   }
 }
 
-/* Mobile Portrait - iPhone (below 568px) */
-@media (max-width: 567px) {
+/* Mobile - below 600px - 2 column grid */
+@media (max-width: 599px) {
   .unified-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: minmax(0, auto);
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 1fr;
     gap: 6px;
     padding: 6px;
     overflow-y: scroll;
@@ -232,8 +235,6 @@
   
   .grid-item-quick-access {
     grid-column: span 2;
-    grid-row: span 1;
-    aspect-ratio: 2 / 0.5;
   }
   
   .grid-item-admission,
@@ -258,48 +259,16 @@
   .grid-item-labs,
   .grid-item-notes {
     grid-column: span 2;
-    aspect-ratio: 2 / 1;
   }
 }
 
-/* iPhone SE and smaller */
+/* iPhone SE and smaller - still 2 column but smaller gaps */
 @media (max-width: 375px) {
   .unified-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: minmax(0, auto);
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 1fr;
     gap: 4px;
     padding: 4px;
-  }
-  
-  .grid-item-quick-access {
-    grid-column: span 2;
-    grid-row: span 1;
-    aspect-ratio: 2 / 0.5;
-  }
-  
-  .grid-item-admission,
-  .grid-item-history,
-  .grid-item-neuro,
-  .grid-item-cardiac,
-  .grid-item-resp,
-  .grid-item-gi,
-  .grid-item-gu,
-  .grid-item-skin,
-  .grid-item-devices,
-  .grid-item-mobility,
-  .grid-item-pain,
-  .grid-item-precautions,
-  .grid-item-tests,
-  .grid-item-planning,
-  .grid-item-iv {
-    grid-column: span 1;
-  }
-  
-  .grid-item-vitals,
-  .grid-item-labs,
-  .grid-item-notes {
-    grid-column: span 2;
-    aspect-ratio: 2 / 0.75;
   }
 }
 

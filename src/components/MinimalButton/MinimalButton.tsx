@@ -75,7 +75,7 @@ export const MinimalButton: React.FC<MinimalButtonProps> = ({
         }}
         title={button.mainButton}
       >
-        <Icon size={20} />
+        <Icon className="button-icon" />
         <span className="button-label">{button.mainButton}</span>
         {selectedSubItems.length > 0 && (
           <span className="selection-indicator">{selectedSubItems.length}</span>
