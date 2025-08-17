@@ -34,7 +34,7 @@
 }
 
 .button-label {
-  font-size: clamp(7px, 3cqw, 11px);
+  font-size: clamp(8px, 4cqw, 12px);
   font-weight: 500;
   text-align: center;
   line-height: 1.1;
@@ -49,34 +49,43 @@
 }
 
 .button-icon {
-  width: clamp(16px, 40%, 28px);
-  height: clamp(16px, 40%, 28px);
+  width: clamp(18px, 45%, 32px);
+  height: clamp(18px, 45%, 32px);
   flex-shrink: 0;
 }
 
 /* Mobile adjustments */
 @media (max-width: 567px) {
   .minimal-button {
-    padding: 2px;
-    gap: 1px;
-    min-height: 30px;
+    padding: 4px;
+    gap: 2px;
     border-radius: 6px;
   }
   
   .button-label {
-    font-size: 9px;
+    font-size: clamp(9px, 5cqw, 11px);
+  }
+  
+  .button-icon {
+    width: clamp(20px, 50%, 28px);
+    height: clamp(20px, 50%, 28px);
   }
   
   .selection-indicator {
-    width: 16px;
-    height: 16px;
-    font-size: 8px;
+    width: 18px;
+    height: 18px;
+    font-size: 9px;
   }
 }
 
 @media (max-width: 375px) {
   .button-label {
-    font-size: 8px;
+    font-size: clamp(9px, 6cqw, 10px);
+  }
+  
+  .button-icon {
+    width: clamp(22px, 55%, 26px);
+    height: clamp(22px, 55%, 26px);
   }
 }
 

@@ -126,8 +126,8 @@
 .quick-item svg {
   margin-bottom: 1px;
   color: #6b7280;
-  width: 12px;
-  height: 12px;
+  width: clamp(14px, 3cqw, 18px);
+  height: clamp(14px, 3cqw, 18px);
 }
 
 .quick-item.selected svg {
@@ -139,7 +139,7 @@
   text-align: center;
   color: #374151;
   line-height: 1;
-  font-size: 9px;
+  font-size: clamp(8px, 2cqw, 10px);
 }
 
 .dark .item-label {

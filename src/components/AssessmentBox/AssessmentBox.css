@@ -28,7 +28,7 @@
 }
 
 .box-header h3 {
-  font-size: clamp(9px, 2.5cqw, 14px);
+  font-size: clamp(10px, 3cqw, 14px);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
