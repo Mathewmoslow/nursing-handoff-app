@@ -226,21 +226,29 @@
 }
 
 .save-btn {
-  background: #10b981;
-  color: white;
+  background: transparent;
+  color: #3b82f6;
+  border: 2px solid #3b82f6;
+  box-shadow: 0 1px 3px rgba(59, 130, 246, 0.2);
 }
 
 .save-btn:hover {
-  background: #059669;
+  background: #3b82f6;
+  color: white;
+  transform: scale(1.05);
 }
 
 .cancel-btn {
-  background: #6b7280;
-  color: white;
+  background: transparent;
+  color: #3b82f6;
+  border: 2px solid #3b82f6;
+  box-shadow: 0 1px 3px rgba(59, 130, 246, 0.2);
 }
 
 .cancel-btn:hover {
-  background: #4b5563;
+  background: #3b82f6;
+  color: white;
+  transform: scale(1.05);
 }
 
 .delete-btn {

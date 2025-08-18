@@ -459,6 +459,7 @@ function App() {
         onPatientChange={setActivePatient}
         onAddPatient={addPatient}
         onRemovePatient={removePatient}
+        onPatientUpdate={(patient: Patient) => updatePatient(activePatient, patient)}
         darkMode={darkMode}
         onToggleDarkMode={() => setDarkMode(!darkMode)}
         onShowNeuralMap={() => setShowNeuralMap(true)}
