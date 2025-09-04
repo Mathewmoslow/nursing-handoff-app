@@ -6,8 +6,10 @@
   height: calc(100vh - var(--header-height));
   width: 100%;
   max-width: 100vw;
-  overflow: hidden;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-y: auto; /* Allow vertical scroll if needed */
   position: relative;
+  contain: layout; /* Prevent layout shifts */
 }
 
 /* Narrative Panel */

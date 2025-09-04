@@ -1,25 +1,45 @@
 /* src/App.css */
 
-/* Layout fixes */
+/* Layout fixes - Prevent horizontal scrolling and box resizing */
 .app {
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   height: 100vh;
   width: 100vw;
   max-width: 100vw;
   display: flex;
   flex-direction: column;
+  contain: layout; /* Prevent layout shifts */
 }
 
-/* Prevent horizontal scroll globally */
-html, body {
+/* Prevent horizontal scroll globally and stabilize layout */
+html {
   overflow-x: hidden;
+  overflow-y: auto;
   max-width: 100%;
   position: relative;
 }
 
-* {
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 100vw;
+}
+
+/* Universal box-sizing to prevent unexpected growth */
+*, *::before, *::after {
   box-sizing: border-box;
+  max-width: 100%; /* Prevent any element from exceeding viewport */
+}
+
+/* Prevent flex items from growing infinitely */
+.app > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 /* CSS Variables */
@@ -75,7 +95,7 @@ html, body {
   --patient-info-height: 80px;
 }
 
-/* Global z-index fixes */
+/* Global z-index fixes - Proper layering hierarchy */
 .compact-dropdown {
   position: absolute;
   top: 100%;
@@ -90,6 +110,7 @@ html, body {
   z-index: 200;
 }
 
+/* Base modal overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -114,23 +135,35 @@ html, body {
   z-index: 1;
 }
 
-/* Ensure modals appear above everything */
+/* Ensure ALL modals and overlays appear above everything */
 .vitals-modal-overlay,
 .labs-modal-overlay,
 .quick-input-modal-overlay,
 .neural-map-modal-overlay,
-.patient-modal-overlay {
+.patient-modal-overlay,
+.patient-drawer-overlay,
+.patient-story-drawer,
+.quick-access-panel {
   z-index: 10000 !important;
 }
 
-/* Fix for modal content */
+/* Fix for modal content - ensure they're above overlays */
 .vitals-modal-content,
 .labs-modal-content,
 .quick-input-modal-content,
 .neural-map-modal-content,
-.patient-modal-content {
+.patient-modal-content,
+.patient-drawer-content,
+.drawer-content {
   z-index: 10001 !important;
   position: relative;
+}
+
+/* Ensure dropdowns in modals are even higher */
+.modal-overlay .compact-dropdown,
+.vitals-modal-content .dropdown,
+.labs-modal-content .dropdown {
+  z-index: 10002 !important;
 }
 
 /* Fix wounds button positioning */

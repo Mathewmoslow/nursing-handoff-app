@@ -10,7 +10,10 @@
   transition: all var(--transition-fast);
   width: 100%;
   height: 100%;
-  container-type: size; /* Enable container queries */
+  min-width: 0; /* Prevent flex item from growing beyond container */
+  max-width: 100%; /* Ensure box doesn't exceed container */
+  container-type: inline-size; /* Use inline-size for better compatibility */
+  contain: layout style; /* Prevent layout shifts */
 }
 
 .assessment-box:hover {
